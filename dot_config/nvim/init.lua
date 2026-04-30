@@ -40,11 +40,9 @@ vim.o.splitbelow = true
 vim.o.swapfile = false
 vim.o.undofile = true
 
-vim.g.mapleader = " "
-vim.g.localleader = "\\"
-
 require("snacks").setup({
     bigfile = { enabled = true },
     picker = { enabled = true },
 })
-vim.keymap.set("n", "<c-p>", Snacks.picker.files)
+
+require("binds")
