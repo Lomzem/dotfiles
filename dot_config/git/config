@@ -1,0 +1,35 @@
+[credential]
+	helper = store
+[user]
+	email = lawjaylee1@icloud.com
+	name = Lawjay Lee
+[init]
+	defaultBranch = main
+[push]
+    autoSetupRemote = true
+    default = current
+[color]
+	ui = auto
+[core]
+	pager = bat
+[alias]
+    a = add
+    amend = commit --amend
+    b = branch
+    c = clone
+    co = checkout
+    d = diff --cached
+    dc = diff --cached
+    df = diff
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    last = log -1 HEAD
+    p = pull
+    ph = push
+    r = restore
+    show = show --ext-diff
+    s = status
+    u = reset HEAD --
+    unstage = reset HEAD --
+[diff]
+    external = difft
+	tool = difftastic
