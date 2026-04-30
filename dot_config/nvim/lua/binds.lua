@@ -33,5 +33,3 @@ vim.keymap.set("n", ">", ">>")
 vim.keymap.set("v", "<", "<gv") -- preserve selection
 vim.keymap.set("v", ">", ">gv") -- preserve selection
 vim.keymap.set("n", "z=", "1z=") --spellcheck
-
-vim.keymap.set("n", "<c-p>", Snacks.picker.files)
