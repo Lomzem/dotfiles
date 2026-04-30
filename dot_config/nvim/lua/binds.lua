@@ -24,6 +24,8 @@ vim.keymap.set("v", "<c-/>", "gc", { remap = true })
 
 vim.keymap.set("n", "<leader>q", "<c-z>") -- suspend
 vim.keymap.set("n", "<a-q>", "<cmd>q<cr>") -- quit
+vim.keymap.set("n", "<c-s>", "<cmd>w<cr>")
+vim.keymap.set("i", "<c-s>", "<esc><cmd>w<cr>")
 vim.keymap.set("n", "Y", "yy")
 vim.keymap.set("n", "D", "dd")
 vim.keymap.set("n", "d%", "v%D")
