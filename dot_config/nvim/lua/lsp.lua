@@ -18,15 +18,15 @@ for _, lsp in ipairs(installed_lsp) do
 end
 
 vim.pack.add({
-    "https://github.com/stevearc/conform.nvim" -- formatter
+	"https://github.com/stevearc/conform.nvim", -- formatter
 })
 require("conform").setup({
-    format_on_save = {
-            timeout_ms = 500,
-    lsp_format = "fallback",
-    async = true,
-    },
-    formatters_by_ft = {
-        lua = {"stylua"},
-    },
+	format_after_save = {
+		timeout_ms = 500,
+		lsp_format = "fallback",
+		async = true,
+	},
+	formatters_by_ft = {
+		lua = { "stylua" },
+	},
 })
