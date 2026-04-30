@@ -1,0 +1,30 @@
+virtual_modifiers:
+  - capslock
+keymap:
+  - name: "Vim Bindings"
+    remap:
+      capslock-h: left
+      capslock-j: down
+      capslock-k: up
+      capslock-l: right
+      # c-leftbrace: esc
+      c-shift-leftbrace: [esc, esc, esc]
+  - name: "Home/End"
+    remap:
+      capslock-a: home
+      capslock-e: end
+  - name: "Code Block"
+    remap:
+      alt-grave:
+        - shift-enter
+        - shift-enter
+        - grave
+        - grave
+        - grave
+        - shift-enter
+        - ctrl-v
+        - shift-enter
+        - grave
+        - grave
+        - grave
+        - shift-enter
