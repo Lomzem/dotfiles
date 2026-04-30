@@ -1,3 +1,5 @@
+vim.pack.add({ "https://github.com/neovim/nvim-lspconfig" })
+
 local installed_lsp = {
 	"basedpyright",
 	"clangd",
@@ -12,13 +14,13 @@ local installed_lsp = {
 	"tombi",
 	"tsgo",
 }
-
 for _, lsp in ipairs(installed_lsp) do
 	vim.lsp.enable(lsp)
 end
 
+-- formatter
 vim.pack.add({
-	"https://github.com/stevearc/conform.nvim", -- formatter
+	"https://github.com/stevearc/conform.nvim",
 })
 require("conform").setup({
 	format_after_save = {
