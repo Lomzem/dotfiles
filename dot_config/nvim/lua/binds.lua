@@ -16,4 +16,8 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>y", function()
 	vim.fn.setreg("+", trimmed)
 end, { silent = true })
 
+vim.keymap.set("n", "Y", "yy")
+vim.keymap.set("n", "D", "dd")
+vim.keymap.set("n", "d%", "v%D")
+
 vim.keymap.set("n", "<c-p>", Snacks.picker.files)
