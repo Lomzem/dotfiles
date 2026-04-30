@@ -8,7 +8,7 @@ vim.cmd("colorscheme catppuccin-mocha")
 -- line numbers
 vim.o.number = false
 vim.o.relativenumber = false
-vim.o.fillchars = { eob = " " }
+vim.opt.fillchars = { eob = " " }
 
 -- tabs and indenting
 vim.o.tabstop = 4
