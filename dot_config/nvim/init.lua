@@ -1,11 +1,14 @@
+require("opts")
+
 vim.pack.add({
     "https://github.com/catppuccin/nvim",
     "https://github.com/folke/snacks.nvim",
+    "https://github.com/neovim/nvim-lspconfig",
 })
 
 vim.cmd("colorscheme catppuccin-mocha")
 
-require("opts")
+require("lsp")
 
 require("snacks").setup({
     bigfile = { enabled = true },
