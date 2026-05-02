@@ -1,5 +1,7 @@
 # This file is not sourced automatically by config.fish
 # Intended to be manually ran **once** to set long-term variables.
+# Usage:
+# On first fish install, run `source $HOME/.config/fish/universal.fish`
 
 fish_add_path $HOME/.local/bin
 
