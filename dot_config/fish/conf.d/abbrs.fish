@@ -1,6 +1,7 @@
 abbr --add cdt cd (mktemp --directory)
 abbr --add cl clear
 abbr --add cls clear
+abbr --add cz chezmoi
 abbr --add fs "kitten choose-fonts --config-file-name=$HOME/.config/kitty/font.conf && python $HOME/.config/kitty/copy_font.py $HOME/.config/kitty/font.conf && touch $HOME/.config/kitty/font.conf"
 abbr --add m make
 abbr --add mdt "nvim (mktemp --suffix=.md) -c 'setlocal autowriteall'"
