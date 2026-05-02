@@ -3,7 +3,7 @@ require("binds")
 
 vim.pack.add({ "https://github.com/catppuccin/nvim" })
 
-vim.cmd("colorscheme catppuccin-mocha")
+vim.pack.add({ "http://github.com/RRethy/base16-nvim" })
 
 require("lsp")
 
