@@ -4,6 +4,7 @@ require("binds")
 vim.pack.add({ "https://github.com/catppuccin/nvim" })
 
 vim.pack.add({ "http://github.com/RRethy/base16-nvim" })
+require("matugen").setup()
 
 require("lsp")
 
