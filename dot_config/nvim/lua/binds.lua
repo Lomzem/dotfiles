@@ -35,3 +35,8 @@ vim.keymap.set("n", ">", ">>")
 vim.keymap.set("v", "<", "<gv") -- preserve selection
 vim.keymap.set("v", ">", ">gv") -- preserve selection
 vim.keymap.set("n", "z=", "1z=") --spellcheck
+
+-- LSP
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "U", vim.lsp.buf.code_action)
+vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
