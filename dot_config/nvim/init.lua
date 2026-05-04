@@ -16,6 +16,7 @@ require("snacks").setup({
 	picker = { enabled = true },
 })
 vim.keymap.set("n", "<c-p>", Snacks.picker.files)
+vim.keymap.set("n", "<leader>ps", Snacks.picker.grep)
 
 vim.pack.add({ "https://github.com/Wansmer/treesj" })
 require("treesj").setup({
