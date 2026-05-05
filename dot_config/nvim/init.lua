@@ -3,7 +3,8 @@ require("binds")
 
 vim.pack.add({ "https://github.com/catppuccin/nvim" })
 
-vim.pack.add({ "http://github.com/RRethy/base16-nvim" })
+vim.pack.add({ "https://github.com/nvim-mini/mini.base16" })
+-- vim.pack.add({ "http://github.com/RRethy/base16-nvim" })
 require("matugen").setup()
 
 require("lsp")
@@ -125,5 +126,12 @@ require("oil").setup({
 		["<C-p>"] = function()
 			Snacks.picker.files()
 		end,
+	},
+})
+
+vim.pack.add({ "https://github.com/supermaven-inc/supermaven-nvim" })
+require("supermaven-nvim").setup({
+	keymaps = {
+		accept_suggestion = "<right>",
 	},
 })

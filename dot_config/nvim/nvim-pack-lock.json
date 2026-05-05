@@ -32,6 +32,10 @@
       "rev": "43eb2074843950a3a25aae56a5f41362ec043bfa",
       "src": "https://github.com/nvim-mini/mini.ai"
     },
+    "mini.base16": {
+      "rev": "800f107b27a00978b0dadd672d6da21a5b12fa9a",
+      "src": "https://github.com/nvim-mini/mini.base16"
+    },
     "mini.move": {
       "rev": "74d140143b1bb905c3d0aebcfc2f216fd237080e",
       "src": "https://github.com/nvim-mini/mini.move"
@@ -63,6 +67,10 @@
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "supermaven-nvim": {
+      "rev": "07d20fce48a5629686aefb0a7cd4b25e33947d50",
+      "src": "https://github.com/supermaven-inc/supermaven-nvim"
     },
     "treesj": {
       "rev": "5fa4e7ba3517f8fe743bb4488f9e9c7ce83330fc",

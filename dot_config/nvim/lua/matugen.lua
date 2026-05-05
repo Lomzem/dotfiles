@@ -1,26 +1,28 @@
 local M = {}
 
 function M.setup()
-	require("base16-colorscheme").setup({
-		-- Background tones
-		base00 = "#141316", -- Default Background
-		base01 = "#211f22", -- Lighter Background (status bars)
-		base02 = "#2b292d", -- Selection Background
-		base03 = "#948f99", -- Comments, Invisibles
-		-- Foreground tones
-		base04 = "#cbc4cf", -- Dark Foreground (status bars)
-		base05 = "#e6e1e6", -- Default Foreground
-		base06 = "#e6e1e6", -- Light Foreground
-		base07 = "#e6e1e6", -- Lightest Foreground
-		-- Accent colors
-		base08 = "#ffb4ab", -- Variables, XML Tags, Errors
-		base09 = "#f0b8c6", -- Integers, Constants
-		base0A = "#ccc2db", -- Classes, Search Background
-		base0B = "#d1bcff", -- Strings, Diff Inserted
-		base0C = "#f0b8c6", -- Regex, Escape Chars
-		base0D = "#d1bcff", -- Functions, Methods
-		base0E = "#ccc2db", -- Keywords, Storage
-		base0F = "#93000a", -- Deprecated, Embedded Tags
+	require("mini.base16").setup({
+		palette = {
+			-- Background tones
+			base00 = "#111415", -- Default Background
+			base01 = "#1d2021", -- Lighter Background (status bars)
+			base02 = "#272a2c", -- Selection Background
+			base03 = "#899296", -- Comments, Invisibles
+			-- Foreground tones
+			base04 = "#bfc8cb", -- Dark Foreground (status bars)
+			base05 = "#e1e3e4", -- Default Foreground
+			base06 = "#e1e3e4", -- Light Foreground
+			base07 = "#e1e3e4", -- Lightest Foreground
+			-- Accent colors
+			base08 = "#ffb4ab", -- Variables, XML Tags, Errors
+			base09 = "#c0c4eb", -- Integers, Constants
+			base0A = "#b2cad3", -- Classes, Search Background
+			base0B = "#58d6f7", -- Strings, Diff Inserted
+			base0C = "#c0c4eb", -- Regex, Escape Chars
+			base0D = "#58d6f7", -- Functions, Methods
+			base0E = "#b2cad3", -- Keywords, Storage
+			base0F = "#93000a", -- Deprecated, Embedded Tags
+		},
 	})
 end
 
