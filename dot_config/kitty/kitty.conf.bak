@@ -1,0 +1,78 @@
+# vim:ft=kitty
+# include $HOME/.config/kitty/color.conf
+include $HOME/.config/kitty/font.conf
+
+tab_bar_edge top
+tab_title_template "{index}"
+
+font_size 17.1
+disable_ligatures all always
+
+cursor_trail 0
+cursor_blink_interval 0
+
+window_padding_width 30 12 0 30
+
+remember_window_size no
+initial_window_width 78c
+initial_window_height 23c
+
+editor .
+
+map ctrl+v paste_from_clipboard
+map ctrl+shift+, load_config_file
+map ctrl+equal increase_font_size
+map ctrl+minus decrease_font_size
+map ctrl+shift+o kitten hints --type path --program "launch --type=overlay nvim"
+
+# Performance
+# input_delay 0
+# repaint_delay 2
+
+# tmux
+enabled_layouts splits
+
+map ctrl+b>1 goto_tab 1
+map ctrl+b>2 goto_tab 2
+map ctrl+b>3 goto_tab 3
+map ctrl+b>4 goto_tab 4
+map ctrl+b>5 goto_tab 5
+map ctrl+b>6 goto_tab 6
+map ctrl+b>7 goto_tab 7
+map ctrl+b>8 goto_tab 8
+map ctrl+b>9 goto_tab 9
+map ctrl+b>0 goto_tab 10
+
+# Pane navigation (Kitty native, vim-style)
+map ctrl+b>h neighboring_window left
+map ctrl+b>j neighboring_window down
+map ctrl+b>k neighboring_window up
+map ctrl+b>l neighboring_window right
+
+# Pane creation (current directory)
+map ctrl+b>" launch --location=hsplit --cwd=current
+map ctrl+b>% launch --location=vsplit --cwd=current
+
+# Tabs
+map ctrl+b>c launch --type=tab --cwd=current
+map ctrl+b>x close_window
+
+# Resize
+map ctrl+b>alt+h resize_window narrower 5
+map ctrl+b>alt+j resize_window shorter 5
+map ctrl+b>alt+k resize_window taller 5
+map ctrl+b>alt+l resize_window wider 5
+
+# Scrollback
+allow_remote_control yes
+listen_on unix:/tmp/kitty
+shell_integration enabled
+
+# kitty-scrollback.nvim Kitten alias
+action_alias kitty_scrollback_nvim kitten '~/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
+# Browse scrollback buffer in nvim
+map ctrl+b>[ kitty_scrollback_nvim
+# Browse output of the last shell command in nvim
+map ctrl+shift+h kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+# Show clicked command output in nvim
+mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output
