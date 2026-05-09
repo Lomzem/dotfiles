@@ -22,10 +22,17 @@ vim.keymap.set("v", "<c-_>", "gc", { remap = true })
 vim.keymap.set("n", "<c-/>", ":let p=getpos('.')<CR>gcc:call setpos('.', p)<CR>", { remap = true })
 vim.keymap.set("v", "<c-/>", "gc", { remap = true })
 
+vim.keymap.set("n", "<c-u>", "<c-u>zz")
+vim.keymap.set("n", "<c-d>", "<c-d>zz")
+
+vim.keymap.set("n", "H", "_")
+vim.keymap.set("n", "L", "$")
+
 vim.keymap.set("n", "<leader>q", "<c-z>") -- suspend
 vim.keymap.set("n", "<a-q>", "<cmd>q<cr>") -- quit
 vim.keymap.set("n", "<c-s>", "<cmd>w<cr>")
 vim.keymap.set("i", "<c-s>", "<esc><cmd>w<cr>")
+vim.keymap.set("i", "<c-c>", "<esc>")
 vim.keymap.set("n", "Y", "yy")
 vim.keymap.set("n", "D", "dd")
 vim.keymap.set("n", "d%", "v%D")
@@ -40,3 +47,9 @@ vim.keymap.set("n", "z=", "1z=") --spellcheck
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "U", vim.lsp.buf.code_action)
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename)
+vim.keymap.set("n", "<m-p>", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end)
+vim.keymap.set("n", "<m-n>", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end)

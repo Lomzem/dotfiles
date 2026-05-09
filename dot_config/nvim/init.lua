@@ -1,11 +1,11 @@
 require("opts")
 require("binds")
 
-vim.pack.add({ "https://github.com/catppuccin/nvim" })
+require("colorschemes")
 
 vim.pack.add({ "https://github.com/nvim-mini/mini.base16" })
 -- vim.pack.add({ "http://github.com/RRethy/base16-nvim" })
-require("matugen").setup()
+-- require("matugen").setup()
 
 require("lsp")
 
@@ -18,6 +18,35 @@ require("snacks").setup({
 })
 vim.keymap.set("n", "<c-p>", Snacks.picker.files)
 vim.keymap.set("n", "<leader>ps", Snacks.picker.grep)
+vim.keymap.set("n", "gm", Snacks.picker.lsp_symbols)
+vim.keymap.set("n", "gM", Snacks.picker.lsp_workspace_symbols)
+vim.keymap.set("n", "gd", Snacks.picker.lsp_definitions)
+vim.keymap.set("n", "gr", Snacks.picker.lsp_references)
+vim.keymap.set("n", "gp", Snacks.picker.diagnostics)
+vim.keymap.set("n", "gh", Snacks.picker.help)
+
+vim.pack.add({ "https://github.com/nvim-treesitter/nvim-treesitter" })
+-- Auto install based on filetype
+vim.api.nvim_create_autocmd({ "Filetype" }, {
+	callback = function(event)
+		local ok, nvim_treesitter = pcall(require, "nvim-treesitter")
+		if not ok then
+			return
+		end
+
+		local parsers = require("nvim-treesitter.parsers")
+		if not parsers[event.match] then
+			return
+		end
+
+		local lang = vim.treesitter.language.get_lang(vim.bo[event.buf].ft)
+		nvim_treesitter.install({ lang }):await(function(err)
+			if not err then
+				pcall(vim.treesitter.start, event.buf)
+			end
+		end)
+	end,
+})
 
 vim.pack.add({ "https://github.com/Wansmer/treesj" })
 require("treesj").setup({
@@ -134,4 +163,95 @@ require("supermaven-nvim").setup({
 	keymaps = {
 		accept_suggestion = "<right>",
 	},
+})
+
+vim.pack.add({ "https://github.com/cbochs/grapple.nvim" })
+do
+	local grapple = require("grapple")
+	---@module "grapple"
+	---@type grapple.settings
+	grapple.setup({
+		scope = "cwd",
+		icons = false,
+		status = true,
+	})
+	-- if vim.v.argv[3] == "." and grapple.exists({ index = 1 }) then
+	-- 	vim.schedule(function()
+	-- 		grapple.select({ index = 1 })
+	-- 	end)
+	-- end
+	vim.keymap.set("n", "<leader>a", "<cmd>Grapple tag<cr>")
+	vim.keymap.set("n", "<c-e>", "<cmd>Grapple toggle_tags<cr>")
+	vim.keymap.set("n", "<leader>A", function()
+		grapple.reset({ notify = false })
+		grapple.tag()
+	end)
+	vim.keymap.set("n", "<a-1>", "<cmd>Grapple select index=1<cr>")
+	vim.keymap.set("n", "<a-2>", "<cmd>Grapple select index=2<cr>")
+	vim.keymap.set("n", "<a-3>", "<cmd>Grapple select index=3<cr>")
+	vim.keymap.set("n", "<a-4>", "<cmd>Grapple select index=4<cr>")
+	vim.keymap.set("n", "<a-5>", "<cmd>Grapple select index=5<cr>")
+	vim.keymap.set("n", "<a-6>", "<cmd>Grapple select index=6<cr>")
+	vim.keymap.set("n", "<a-7>", "<cmd>Grapple select index=7<cr>")
+	vim.keymap.set("n", "<a-8>", "<cmd>Grapple select index=8<cr>")
+	vim.keymap.set("n", "<a-9>", "<cmd>Grapple select index=9<cr>")
+end
+
+vim.pack.add({
+	"https://github.com/nvim-lualine/lualine.nvim",
+	"https://github.com/nvim-tree/nvim-web-devicons",
+})
+require("lualine").setup({
+	options = {
+		icons_enabled = true,
+		theme = "auto",
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
+		disabled_filetypes = {
+			statusline = {},
+			winbar = {},
+		},
+		ignore_focus = {},
+		always_divide_middle = true,
+		always_show_tabline = true,
+		globalstatus = false,
+		refresh = {
+			statusline = 1000,
+			tabline = 1000,
+			winbar = 1000,
+			refresh_time = 16, -- ~60fps
+			events = {
+				"WinEnter",
+				"BufEnter",
+				"BufWritePost",
+				"SessionLoadPost",
+				"FileChangedShellPost",
+				"VimResized",
+				"Filetype",
+				"CursorMoved",
+				"CursorMovedI",
+				"ModeChanged",
+			},
+		},
+	},
+	sections = {
+		lualine_a = { "mode" },
+		lualine_b = { "diagnostics" },
+		lualine_c = { "filename" },
+		lualine_x = {},
+		lualine_y = {},
+		lualine_z = {},
+	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { "filename" },
+		lualine_x = { "location" },
+		lualine_y = {},
+		lualine_z = {},
+	},
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {},
 })
