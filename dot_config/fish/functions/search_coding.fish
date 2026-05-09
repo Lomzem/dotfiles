@@ -1,7 +1,7 @@
 function search_coding
     set choices \
         (fd --format {} -td . "$HOME/coding/" -d 1) \
-        (fd --format {} -td . "$HOME/dotfiles/.config/" -d 1) \
+        (fd --format {} -td . "$HOME/.config/" -d 1) \
         (fd --format {} -td . "$HOME/coding/csci581-ml" -d 1) \
         (fd --format {} -td . "$HOME/coding/csci515-compilers" -d 1) \
         (fd --format {} -td . "$HOME/coding/csci411-alg" -d 1) \
