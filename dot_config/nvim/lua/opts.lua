@@ -23,7 +23,7 @@ vim.o.termguicolors = true
 vim.o.updatetime = 60
 vim.o.laststatus = 0
 vim.o.cmdheight = 0
-vim.o.winborder = "single"
+vim.o.winborder = "none"
 
 -- splits
 vim.o.splitright = true
