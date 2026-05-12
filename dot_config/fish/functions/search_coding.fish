@@ -6,6 +6,7 @@ function search_coding
         (fd --format {} -td . "$HOME/coding/csci515-compilers" -d 1) \
         (fd --format {} -td . "$HOME/coding/csci411-alg" -d 1) \
         "$HOME/.config/nvim" \
+        "$HOME/.config/nvim" \
 
     set selected (
         printf "%s\n" $choices |\
