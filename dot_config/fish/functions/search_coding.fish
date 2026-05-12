@@ -6,9 +6,6 @@ function search_coding
         (fd --format {} -td . "$HOME/coding/csci515-compilers" -d 1) \
         (fd --format {} -td . "$HOME/coding/csci411-alg" -d 1) \
         "$HOME/.config/nvim" \
-        "$HOME/dotfiles/.local/bin/custom-scripts" \
-        "$HOME/dotfiles/.local/bin/custom-scripts/bookmarks" \
-        "$HOME/dotfiles/.local/share/colorschemes"
 
     set selected (
         printf "%s\n" $choices |\
