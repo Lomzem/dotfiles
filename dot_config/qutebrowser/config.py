@@ -41,8 +41,9 @@ config.bind("<alt-l>", "forward")
 config.bind("k", "scroll-px 0 -100")
 config.bind("j", "scroll-px 0 100")
 
-config.bind("u", "scroll-px 0 -1500")
-config.bind("d", "scroll-px 0 1500")
+# half page
+config.bind("u", "scroll-px 0 -1000")
+config.bind("d", "scroll-px 0 1000")
 
 # Colors
 
