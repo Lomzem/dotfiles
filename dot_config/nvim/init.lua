@@ -2,6 +2,7 @@ require("opts")
 require("binds")
 
 require("colorschemes")
+require("autocmds")
 
 -- Source all in `lua/plugins`
 local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
