@@ -10,6 +10,12 @@ c.url.searchengines["DEFAULT"] = "https://unduck.link?q={}"
 c.url.default_page = "file:///home/lomzem/coding/startpage/dist/index.html"
 c.url.start_pages = ["file:///home/lomzem/coding/startpage/dist/index.html"]
 
+# Files Command
+c.fileselect.handler = "external"
+FILE_SELECT_COMMAND = ["kitty", "/home/lomzem/.local/bin/yazi-picker", "{}"]
+c.fileselect.multiple_files.command = FILE_SELECT_COMMAND
+c.fileselect.single_file.command = FILE_SELECT_COMMAND
+
 # Tabs
 c.tabs.position = "right"
 c.tabs.width = "7%"

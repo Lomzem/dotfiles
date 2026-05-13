@@ -7,4 +7,4 @@ vim.pack.add({ "https://github.com/rose-pine/neovim" })
 vim.pack.add({ "https://github.com/vague-theme/vague.nvim" })
 vim.pack.add({ "https://github.com/olivercederborg/poimandres.nvim" })
 
-vim.cmd("colorscheme poimandres")
+vim.cmd("colorscheme rose-pine")
