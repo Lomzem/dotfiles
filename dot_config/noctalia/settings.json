@@ -113,6 +113,12 @@
             ],
             "right": [
                 {
+                    "displayMode": "onhover",
+                    "iconColor": "none",
+                    "id": "Bluetooth",
+                    "textColor": "none"
+                },
+                {
                     "blacklist": [
                     ],
                     "chevronColor": "none",
