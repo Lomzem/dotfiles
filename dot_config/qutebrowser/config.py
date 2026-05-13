@@ -45,12 +45,12 @@ config.bind("<alt-h>", "back")
 config.bind("<alt-l>", "forward")
 
 # Binds: navigation
-config.bind("k", "scroll-px 0 -100")
-config.bind("j", "scroll-px 0 100")
+config.bind("k", "cmd-run-with-count 7 scroll up")
+config.bind("j", "cmd-run-with-count 7 scroll down")
 
 # half page
-config.bind("u", "scroll-px 0 -1000")
-config.bind("d", "scroll-px 0 1000")
+config.bind("u", "cmd-run-with-count 24 scroll up")
+config.bind("d", "cmd-run-with-count 24 scroll down")
 
 # Colors
 
