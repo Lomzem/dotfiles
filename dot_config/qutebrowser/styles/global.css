@@ -1,0 +1,24 @@
+a,
+div,
+span,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+li,
+ul,
+ol {
+    font-family: sans-serif !important;
+}
+
+#highlighted-line-menu-positioner *,
+.diff-table *,
+.cm-editor *,
+code *,
+pre *,
+kbd *,
+samp * {
+    font-family: monospace !important;
+}

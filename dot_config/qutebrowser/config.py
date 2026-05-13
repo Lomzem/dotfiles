@@ -9,6 +9,7 @@ c.colors.webpage.darkmode.enabled = True
 c.url.searchengines["DEFAULT"] = "https://unduck.link?q={}"
 c.url.default_page = "file:///home/lomzem/coding/startpage/dist/index.html"
 c.url.start_pages = ["file:///home/lomzem/coding/startpage/dist/index.html"]
+c.content.user_stylesheets = ["~/.config/qutebrowser/styles/global.css"]
 
 # Files Command
 c.fileselect.handler = "external"

@@ -1,5 +1,4 @@
 "$schema" = "https://starship.rs/config-schema.json"
-palette = "noctalia"
 
 add_newline = true
 format = """$python$directory$git_branch\n$character"""
