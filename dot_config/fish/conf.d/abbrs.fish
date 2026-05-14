@@ -25,7 +25,7 @@ abbr --add p wl-paste
 abbr --add z cd
 
 abbr --add n nvim
-abbr --add nv "cd $HOME/.config/nvim && nvim ."
+abbr --add nv "cd $HOME/.local/share/chezmoi/dot_config/nvim && nvim ."
 
 # git
 abbr --add g git

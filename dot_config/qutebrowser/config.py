@@ -45,8 +45,8 @@ config.bind("<alt-h>", "back")
 config.bind("<alt-l>", "forward")
 
 # Binds: navigation
-config.bind("k", "cmd-run-with-count 7 scroll up")
-config.bind("j", "cmd-run-with-count 7 scroll down")
+config.bind("k", "cmd-run-with-count 4 scroll up")
+config.bind("j", "cmd-run-with-count 4 scroll down")
 
 # half page
 config.bind("u", "cmd-run-with-count 24 scroll up")

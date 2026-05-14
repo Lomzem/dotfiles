@@ -4,6 +4,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	group = group,
 	pattern = "*/chezmoi/**",
 	callback = function()
-		vim.system({ "chezmoi", "apply" }, { text = true, detach = true }, function(obj) end)
+		vim.system({ "chezmoi", "apply" }, { text = true, detach = true })
 	end,
 })
