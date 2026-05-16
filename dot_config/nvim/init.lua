@@ -4,6 +4,8 @@ require("binds")
 require("colorschemes")
 require("autocmds")
 
+require("vim._core.ui2").enable()
+
 -- Source all in `lua/plugins`
 local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
 for name, type in vim.fs.dir(plugins_dir, { depth = math.huge }) do

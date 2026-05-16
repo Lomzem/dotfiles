@@ -4,12 +4,14 @@ from dataclasses import dataclass
 
 
 # Misc
+# Avoid GUI config
+c.load_autoconfig = False
 c.zoom.default = "110%"
 c.colors.webpage.darkmode.enabled = True
 c.url.searchengines["DEFAULT"] = "https://unduck.link?q={}"
 c.url.default_page = "file:///home/lomzem/coding/startpage/dist/index.html"
 c.url.start_pages = ["file:///home/lomzem/coding/startpage/dist/index.html"]
-c.content.user_stylesheets = ["~/.config/qutebrowser/styles/global.css"]
+# c.content.user_stylesheets = ["~/.config/qutebrowser/styles/global.css"]
 
 # Files Command
 c.fileselect.handler = "external"
@@ -29,7 +31,7 @@ c.fonts.web.size.minimum = 18
 # Binds: misc
 config.bind("<ctrl-,>", "config-source")
 config.bind("<alt-shift-d>", "config-cycle colors.webpage.darkmode.enabled true false")
-config.bind("<space>nd", "clear-messages")
+# config.bind("<space>nd", "clear-messages")
 config.bind("gh", "cmd-set-text --space :help")
 
 # Binds: tabs
