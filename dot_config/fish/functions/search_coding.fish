@@ -1,10 +1,7 @@
 function search_coding
     set choices \
         (fd --format {} -td . "$HOME/coding/" -d 1) \
-        (fd --format {} -td . "$HOME/.local/share/chezmoi/dot_config/" -d 1) \
-        (fd --format {} -td . "$HOME/coding/csci581-ml" -d 1) \
-        (fd --format {} -td . "$HOME/coding/csci515-compilers" -d 1) \
-        (fd --format {} -td . "$HOME/coding/csci411-alg" -d 1) \
+        (fd --format {} -td . "$HOME/.local/share/chezmoi/dot_config/" -d 1)
 
     set selected (
         printf "%s\n" $choices |\
