@@ -6,6 +6,15 @@ require("autocmds")
 
 require("vim._core.ui2").enable()
 
+vim.pack.add({ "https://github.com/esmuellert/codediff.nvim" })
+require("codediff").setup({
+	diff = {
+		ignore_trim_whitespace = true,
+	},
+})
+
+vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
+
 -- Source all in `lua/plugins`
 local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
 for name, type in vim.fs.dir(plugins_dir, { depth = math.huge }) do
