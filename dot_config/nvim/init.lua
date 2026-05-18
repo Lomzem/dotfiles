@@ -15,7 +15,7 @@ require("codediff").setup({
 
 vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
 require("nvim-tree").setup()
-vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
+vim.keymap.set("n", "<a-e>", "<cmd>NvimTreeToggle<cr>")
 
 -- Source all in `lua/plugins`
 local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
