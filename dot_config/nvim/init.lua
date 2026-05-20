@@ -17,6 +17,8 @@ vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
 require("nvim-tree").setup()
 vim.keymap.set("n", "<a-e>", "<cmd>NvimTreeToggle<cr>")
 
+vim.pack.add({ "https://github.com/mrcjkb/rustaceanvim" })
+
 -- Source all in `lua/plugins`
 local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
 for name, type in vim.fs.dir(plugins_dir, { depth = math.huge }) do

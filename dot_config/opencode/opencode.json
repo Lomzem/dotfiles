@@ -1,5 +1,6 @@
 {
     "$schema": "https://opencode.ai/config.json",
+    "lsp": true,
     "agent": {
         "plan": {
             "tools": {
@@ -15,7 +16,7 @@
         },
         "bash": "allow"
     },
-    // "plugin": [
-    //     "@sveltejs/opencode"
-    // ],
+    "plugin": [
+        "@sveltejs/opencode"
+    ],
 }
