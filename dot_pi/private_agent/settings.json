@@ -1,0 +1,39 @@
+{
+  "lastChangelogVersion": "0.84.4",
+  "theme": "dark",
+  "hideThinkingBlock": false,
+
+  "npmCommand": ["bun"],
+
+  "packages": [
+    "git:github.com/DietrichGebert/ponytail",
+    "npm:@upstash/context7-pi",
+    "npm:pi-mcp-adapter",
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@ff-labs/pi-fff",
+    "npm:pi-code-previews",
+    "npm:pi-zentui",
+    {
+      "source": "npm:pi-subagents",
+      "skills": [],
+      "prompts": []
+    }
+  ],
+
+  "subagents": {
+    "disableBuiltins": true
+  },
+
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+
+  "terminal": {
+    "showTerminalProgress": false
+  },
+
+  "defaultProjectTrust": "always",
+
+  "tuiMode": "fullscreen",
+  "fullscreenExitOutput": "transcript"
+}

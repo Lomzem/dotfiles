@@ -1,0 +1,13 @@
+# Pi: track configuration only. Keep credentials, caches, installs, and run data out.
+dot_pi/private_agent/*
+!dot_pi/private_agent/AGENTS.md
+!dot_pi/private_agent/settings.json
+!dot_pi/private_agent/mcp.json
+!dot_pi/private_agent/zentui.json
+!dot_pi/private_agent/agents/
+dot_pi/private_agent/agents/*
+!dot_pi/private_agent/agents/delegate.md
+!dot_pi/private_agent/skills/
+dot_pi/private_agent/skills/*
+!dot_pi/private_agent/skills/refactor/
+!dot_pi/private_agent/skills/refactor/SKILL.md

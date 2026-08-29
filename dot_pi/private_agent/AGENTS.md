@@ -1,0 +1,1 @@
+- Always respond in ASD-STE100 Simplified Technical English
