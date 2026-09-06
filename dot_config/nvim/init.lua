@@ -19,7 +19,7 @@ vim.o.termguicolors = true
 vim.o.updatetime = 60
 vim.o.laststatus = 0
 vim.o.cmdheight = 0
-vim.o.winborder = "none"
+vim.o.winborder = "rounded"
 vim.o.splitright = true
 vim.o.splitbelow = true
 vim.o.swapfile = false
@@ -49,14 +49,15 @@ vim.keymap.set("i", "<c-s>", "<esc><cmd>w<cr>")
 vim.keymap.set("i", "<c-c>", "<esc>")
 vim.keymap.set("n", "Y", "yy")
 vim.keymap.set("n", "D", "dd")
-vim.keymap.set("n", "J", "<cmd>let p=getpos('.')<bar>join<bar>call setpos('.', p)<cr>") -- Keeps cursor in place
+vim.keymap.set("n", "J", "<cmd>let p=getpos('.')<bar>join<bar>call setpos('.', p)<cr>")
 vim.keymap.set("n", "<", "<<")
 vim.keymap.set("n", ">", ">>")
-vim.keymap.set("v", "<", "<gv") -- preserve selection
-vim.keymap.set("v", ">", ">gv") -- preserve selection
-vim.keymap.set("n", "z=", "1z=") --spellcheck
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+vim.keymap.set("n", "z=", "1z=")
 
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "<a-p>", function() vim.diagnostic.jump({ count = -1 }) end)
 vim.keymap.set("n", "<a-n>", function() vim.diagnostic.jump({ count = 1 }) end)
 
@@ -132,30 +133,12 @@ require("lazy").setup({
             dependencies = {
                 "saghen/blink.lib",
             },
-            build = function()
-                -- build the fuzzy matcher, optionally add a timeout to `pwait(timeout_ms)`
-                -- you can use `gb` in `:Lazy` to rebuild the plugin as needed
-                require("blink.cmp").build():pwait()
-            end,
+            build = function() require("blink.cmp").build():pwait() end,
 
             ---@module 'blink.cmp'
             ---@type blink.cmp.Config
             opts = {
-                -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
-                -- 'super-tab' for mappings similar to vscode (tab to accept)
-                -- 'enter' for enter to accept
-                -- 'none' for no mappings
-                --
-                -- All presets have the following mappings:
-                -- C-space: Open menu or open docs if already open
-                -- C-n/C-p or Up/Down: Select next/previous item
-                -- C-e: Hide menu
-                -- C-k: Toggle signature help (if signature.enabled = true)
-                --
-                -- See :h blink-cmp-config-keymap for defining your own keymap
                 keymap = { preset = "default" },
-
-                -- (Default) Only show the documentation popup when manually triggered
                 completion = { documentation = { auto_show = false } },
                 sources = { default = { "lsp", "path", "snippets", "buffer" } },
                 fuzzy = { implementation = "rust" },
@@ -166,7 +149,48 @@ require("lazy").setup({
             { "nvim-mini/mini.pairs", opts = {} },
             { "nvim-mini/mini.surround", opts = {} },
         },
+        {
+            "cbochs/grapple.nvim",
+            dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
+            opts = { scope = "cwd" },
+            init = function()
+                if vim.fn.argc() == 0 then vim.cmd("Grapple select index=1") end
+            end,
+            cmd = "Grapple",
+            keys = {
+                { "<leader>a", "<cmd>Grapple toggle<cr>" },
+                { "<c-e>", "<cmd>Grapple toggle_tags<cr>" },
+                { "<a-1>", "<cmd>Grapple select index=1<cr>" },
+                { "<a-2>", "<cmd>Grapple select index=2<cr>" },
+                { "<a-3>", "<cmd>Grapple select index=3<cr>" },
+                { "<a-4>", "<cmd>Grapple select index=4<cr>" },
+            },
+        },
+        {
+            "folke/snacks.nvim",
+            opts = {
+                notifier = { enabled = true },
+                input = { enabled = true },
+                picker = { enabled = true },
+            },
+        },
+        {
+            "folke/noice.nvim",
+            event = "VeryLazy",
+            opts = {
+                lsp = {
+                    override = {
+                        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                        ["vim.lsp.util.stylize_markdown"] = true,
+                    },
+                },
+            },
+            dependencies = {
+                "MunifTanjim/nui.nvim",
+                "rcarriga/nvim-notify",
+            },
+            checker = { enabled = true },
+        },
     },
-    checker = { enabled = true },
 })
 vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
