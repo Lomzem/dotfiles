@@ -1,31 +1,172 @@
-require("opts")
-require("binds")
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
-require("colorschemes")
-require("autocmds")
+vim.o.number = true
+vim.o.relativenumber = true
+vim.opt.fillchars = { eob = " " }
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+vim.o.autoindent = true
+vim.o.smartindent = true
+vim.o.hlsearch = false
+vim.o.incsearch = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.wrap = false
+vim.o.termguicolors = true
+vim.o.updatetime = 60
+vim.o.laststatus = 0
+vim.o.cmdheight = 0
+vim.o.winborder = "none"
+vim.o.splitright = true
+vim.o.splitbelow = true
+vim.o.swapfile = false
+vim.o.undofile = true
 
-require("vim._core.ui2").enable()
+vim.keymap.set("n", "y=", function()
+    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+    local joined_lines = vim.fn.join(lines, "\n")
+    joined_lines = vim.fn.trim(joined_lines)
+    vim.fn.setreg("+", joined_lines)
+    vim.notify("Copied to clipboard", vim.log.levels.INFO)
+end) -- Copy all
+vim.keymap.set({ "n", "v", "x" }, "<leader>y", function()
+    vim.cmd("normal! y")
+    local reg = vim.fn.getreg('"')
+    local trimmed = vim.fn.trim(reg)
+    vim.fn.setreg("+", trimmed)
+end, { silent = true })
 
-vim.pack.add({ "https://github.com/esmuellert/codediff.nvim" })
-require("codediff").setup({
-	diff = {
-		ignore_trim_whitespace = true,
-	},
-})
+vim.keymap.set("n", "<c-u>", "<c-u>zz")
+vim.keymap.set("n", "<c-d>", "<c-d>zz")
+vim.keymap.set("n", "H", "_")
+vim.keymap.set("n", "L", "$")
+vim.keymap.set("n", "<a-q>", "<cmd>q<cr>")
+vim.keymap.set("n", "<c-s>", "<cmd>w<cr>")
+vim.keymap.set("i", "<c-s>", "<esc><cmd>w<cr>")
+vim.keymap.set("i", "<c-c>", "<esc>")
+vim.keymap.set("n", "Y", "yy")
+vim.keymap.set("n", "D", "dd")
+vim.keymap.set("n", "J", "<cmd>let p=getpos('.')<bar>join<bar>call setpos('.', p)<cr>") -- Keeps cursor in place
+vim.keymap.set("n", "<", "<<")
+vim.keymap.set("n", ">", ">>")
+vim.keymap.set("v", "<", "<gv") -- preserve selection
+vim.keymap.set("v", ">", ">gv") -- preserve selection
+vim.keymap.set("n", "z=", "1z=") --spellcheck
 
-vim.pack.add({ "https://github.com/nvim-tree/nvim-tree.lua" })
-require("nvim-tree").setup()
-vim.keymap.set("n", "<a-e>", "<cmd>NvimTreeToggle<cr>")
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+vim.keymap.set("n", "<a-p>", function() vim.diagnostic.jump({ count = -1 }) end)
+vim.keymap.set("n", "<a-n>", function() vim.diagnostic.jump({ count = 1 }) end)
 
-vim.pack.add({ "https://github.com/mrcjkb/rustaceanvim" })
-
--- Source all in `lua/plugins`
-local plugins_dir = vim.fs.joinpath(vim.api.nvim_get_runtime_file("lua/plugins", false)[1])
-for name, type in vim.fs.dir(plugins_dir, { depth = math.huge }) do
-	if type == "file" then
-		local abspath = vim.fs.joinpath(plugins_dir, name)
-		dofile(abspath)
-	end
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out, "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
+vim.opt.rtp:prepend(lazypath)
+require("lazy").setup({
+    spec = {
+        {
+            "rose-pine/neovim",
+            name = "rose-pine",
+            config = function() vim.cmd("colorscheme rose-pine-moon") end,
+        },
+        {
+            "folke/lazydev.nvim",
+            ft = "lua",
+            opts = {
+                library = {
+                    { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+                },
+            },
+        },
+        {
+            "mason-org/mason-lspconfig.nvim",
+            opts = {},
+            dependencies = {
+                { "mason-org/mason.nvim", opts = {} },
+                "neovim/nvim-lspconfig",
+            },
+        },
+        {
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
+            opts = {
+                ensure_installed = {
+                    "lua-language-server",
+                    "stylua",
+                },
+            },
+        },
+        {
+            "dmtrKovalenko/fff",
+            lazy = false,
+            build = function() require("fff.download").download_or_build_binary() end,
+            opts = {},
+            keys = {
+                { "<c-p>", function() require("fff").find_files() end },
+                { "<leader>ps", function() require("fff").live_grep() end },
+                { "<leader>pc", function() require("fff").live_grep_under_cursor() end, mode = { "n", "x" } },
+            },
+        },
+        {
+            "stevearc/conform.nvim",
+            opts = {
+                format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
+                formatters_by_ft = { lua = { "stylua" } },
+            },
+        },
+        {
+            "saghen/blink.cmp",
+            dependencies = {
+                "saghen/blink.lib",
+            },
+            build = function()
+                -- build the fuzzy matcher, optionally add a timeout to `pwait(timeout_ms)`
+                -- you can use `gb` in `:Lazy` to rebuild the plugin as needed
+                require("blink.cmp").build():pwait()
+            end,
 
-require("lsp")
+            ---@module 'blink.cmp'
+            ---@type blink.cmp.Config
+            opts = {
+                -- 'default' (recommended) for mappings similar to built-in completions (C-y to accept)
+                -- 'super-tab' for mappings similar to vscode (tab to accept)
+                -- 'enter' for enter to accept
+                -- 'none' for no mappings
+                --
+                -- All presets have the following mappings:
+                -- C-space: Open menu or open docs if already open
+                -- C-n/C-p or Up/Down: Select next/previous item
+                -- C-e: Hide menu
+                -- C-k: Toggle signature help (if signature.enabled = true)
+                --
+                -- See :h blink-cmp-config-keymap for defining your own keymap
+                keymap = { preset = "default" },
+
+                -- (Default) Only show the documentation popup when manually triggered
+                completion = { documentation = { auto_show = false } },
+                sources = { default = { "lsp", "path", "snippets", "buffer" } },
+                fuzzy = { implementation = "rust" },
+            },
+        },
+        {
+            { "nvim-mini/mini.ai", opts = {} },
+            { "nvim-mini/mini.pairs", opts = {} },
+            { "nvim-mini/mini.surround", opts = {} },
+        },
+    },
+    checker = { enabled = true },
+})
+vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
