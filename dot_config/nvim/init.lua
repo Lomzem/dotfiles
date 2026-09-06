@@ -142,6 +142,10 @@ require("lazy").setup({
                 completion = { documentation = { auto_show = false } },
                 sources = { default = { "lsp", "path", "snippets", "buffer" } },
                 fuzzy = { implementation = "rust" },
+                cmdline = {
+                    keymap = { preset = "inherit" },
+                    completion = { menu = { auto_show = true } },
+                },
             },
         },
         {
@@ -153,9 +157,6 @@ require("lazy").setup({
             "cbochs/grapple.nvim",
             dependencies = { "nvim-tree/nvim-web-devicons", lazy = true },
             opts = { scope = "cwd" },
-            init = function()
-                if vim.fn.argc() == 0 then vim.cmd("Grapple select index=1") end
-            end,
             cmd = "Grapple",
             keys = {
                 { "<leader>a", "<cmd>Grapple toggle<cr>" },
@@ -194,3 +195,10 @@ require("lazy").setup({
     },
 })
 vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function()
+        if vim.fn.argc() ~= 0 then return end
+        vim.schedule(function() pcall(require("grapple").select, { index = 1 }) end)
+    end,
+})
