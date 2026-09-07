@@ -40,5 +40,8 @@ for keymap in viins vicmd emacs; do
   bindkey -M "$keymap" '^[[B' .down-line-or-history '^[OB' .down-line-or-history '^[j' .down-line-or-history
 done
 unset keymap
-# Native navigation even if Esc is processed separately in vi mode.
 bindkey -M vicmd 'k' .up-line-or-history 'j' .down-line-or-history
+
+function enter_nvim() { nvim }
+zle -N enter_nvim
+bindkey -M viins ^n enter_nvim
