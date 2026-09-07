@@ -105,6 +105,8 @@ require("lazy").setup({
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             opts = {
                 ensure_installed = {
+                    "clang-format",
+                    "clangd",
                     "lua-language-server",
                     "stylua",
                 },
