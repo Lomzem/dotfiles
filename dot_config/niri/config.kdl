@@ -1,3 +1,4 @@
+prefer-no-csd
 input {
     keyboard {
         repeat-delay 175
@@ -5,7 +6,6 @@ input {
     }
     touchpad {
         tap
-        natural-scroll
     }
     focus-follows-mouse max-scroll-amount="0%"
 }
@@ -52,6 +52,9 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Q hotkey-overlay-title="Open a Terminal: kitty" {
         spawn "kitty"
+    }
+    Mod+B hotkey-overlay-title="Open a Browser" {
+        spawn "helium-browser"
     }
     Mod+P hotkey-overlay-title="Run an Application: fuzzel" {
         spawn "fuzzel"
