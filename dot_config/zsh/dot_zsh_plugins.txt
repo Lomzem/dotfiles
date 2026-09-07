@@ -1,1 +1,3 @@
 marlonrichert/zsh-autocomplete
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-autosuggestions
