@@ -1,0 +1,18 @@
+export PAGER="bat"
+export BAT_PAGER="less -R"
+export MANPAGER='nvim +Man!'
+export EDITOR='nvim'
+export VISUAL='nvim'
+export HISTSIZE=10000
+export SAVEHIST=10000
+
+autoload -Uz +X "$HOME/.cache/zsh/zasync/zasync" # soourced before antidote to fix zsh-autocomplete
+
+source '/usr/share/zsh-antidote/antidote.zsh'
+antidote load
+
+# Reduce the delay before a lone Esc leaves insert mode.
+KEYTIMEOUT=1
+bindkey -v
+
+alias ls=eza
