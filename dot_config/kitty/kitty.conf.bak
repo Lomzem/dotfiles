@@ -4,9 +4,9 @@ include $HOME/.config/kitty/font.conf
 tab_bar_edge top
 tab_title_template "{index}"
 
-font_size 19.4
+font_size 18.2
 disable_ligatures all always
-modify_font cell_height 125%
+modify_font cell_height 105%
 
 cursor_trail 0
 cursor_blink_interval 0
@@ -19,7 +19,7 @@ initial_window_height 23c
 
 editor .
 
-map ctrl+v paste_from_clipboard
+# map ctrl+v paste_from_clipboard
 map ctrl+shift+, load_config_file
 map ctrl+equal increase_font_size
 map ctrl+minus decrease_font_size
@@ -79,7 +79,15 @@ mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output
 
 
 # BEGIN_KITTY_THEME
-# Noctalia
+# Rosé Pine Moon
 include current-theme.conf
 # END_KITTY_THEME
-background #12121c
+# background #14141a
+
+
+# BEGIN_KITTY_FONTS
+font_family      family="FiraCode Nerd Font"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+# END_KITTY_FONTS

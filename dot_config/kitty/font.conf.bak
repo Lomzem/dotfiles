@@ -1,7 +1,7 @@
 # vim:fileencoding=utf-8:foldmethod=marker
 # BEGIN_KITTY_FONTS
-font_family       family='GeistMono Nerd Font Mono' style=Medium
-bold_font         family='GeistMono Nerd Font Mono' style=Medium
-italic_font       family='GeistMono Nerd Font Mono' style=Medium
-bold_italic_font  family='GeistMono Nerd Font Mono' style=Medium
+font_family      family='JetBrainsMono Nerd Font Mono' style=Medium
+bold_font        auto
+italic_font      family='JetBrainsMono Nerd Font Mono' style=Medium
+bold_italic_font family='JetBrainsMono Nerd Font Mono' style=SemiBold
 # END_KITTY_FONTS
