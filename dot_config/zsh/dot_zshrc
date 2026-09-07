@@ -6,7 +6,8 @@ export VISUAL='nvim'
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-autoload -Uz +X "$HOME/.cache/zsh/zasync/zasync" # soourced before antidote to fix zsh-autocomplete
+# Preload zasync to work around zsh-autocomplete's dependency-loading bug.
+autoload -Uz +X "$HOME/.cache/zsh/zasync/zasync"
 
 source '/usr/share/zsh-antidote/antidote.zsh'
 antidote load
@@ -32,11 +33,12 @@ eval "$(zoxide init zsh --cmd cd)"
 eval "$(atuin init zsh --disable-up-arrow --disable-ai)"
 bindkey -M vicmd '^R' atuin-search-vicmd
 
-# Restore native arrow navigation after plugins have set their bindings.
+# Native history, including this keyboard's Esc+k / Esc+j arrow sequences.
+zstyle ':autocomplete:.(up|down)-line-or-history:*' ignore yes
 for keymap in viins vicmd emacs; do
-  bindkey -M "$keymap" '^[[A' up-line-or-history
-  bindkey -M "$keymap" '^[[B' down-line-or-history
-  bindkey -M "$keymap" '^[OA' up-line-or-history
-  bindkey -M "$keymap" '^[OB' down-line-or-history
+  bindkey -M "$keymap" '^[[A' .up-line-or-history '^[OA' .up-line-or-history '^[k' .up-line-or-history
+  bindkey -M "$keymap" '^[[B' .down-line-or-history '^[OB' .down-line-or-history '^[j' .down-line-or-history
 done
 unset keymap
+# Native navigation even if Esc is processed separately in vi mode.
+bindkey -M vicmd 'k' .up-line-or-history 'j' .down-line-or-history
