@@ -1,5 +1,6 @@
 - Always respond in ASD-STE100 Simplified Technical English.
+- Always commit in Conventional Commit format.
 - User instructions have priority over skills and repository guidance.
 - Use subagents when parallel investigation or implementation can materially improve speed or quality. Choose their responsibilities and number yourself. Avoid delegation when coordination cost is larger than the benefit.
 - Run checks appropriate to the change. Do not repeatedly run broad tests unless a failure, new change, or unresolved risk requires it.
-- For current or version-sensitive external APIs and libraries, use current documentation instead of relying on memory.
+- For current or version-sensitive external APIs, libraries, frameworks, SDKs, CLI tools, and cloud services, retrieve current documentation instead of relying on memory. Use Context7 for library documentation. Use official upstream documentation when Context7 is incomplete, ambiguous, or unavailable.
