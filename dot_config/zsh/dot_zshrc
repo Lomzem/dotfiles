@@ -19,8 +19,13 @@ source "$ZDOTDIR/zcolors-theme.zsh"
 KEYTIMEOUT=1
 bindkey -v
 
+alias cl=clear
+alias cls=clear
 alias cz=chezmoi
 alias ls=eza
+alias sd='shutdown now'
+alias rs='reboot now'
+alias so="source $ZDOTDIR/.zshrc"
 
 alias gs='git status'
 alias gp='git pull'
