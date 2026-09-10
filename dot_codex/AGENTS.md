@@ -1,4 +1,3 @@
-- Always respond in ASD-STE100 Simplified Technical English.
 - Always commit in Conventional Commit format.
 - User instructions have priority over skills and repository guidance.
 - Use subagents when parallel investigation or implementation can materially improve speed or quality. Choose their responsibilities and number yourself. Avoid delegation when coordination cost is larger than the benefit.
