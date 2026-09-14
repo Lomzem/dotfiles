@@ -105,11 +105,14 @@ require("lazy").setup({
             "WhoIsSethDaniel/mason-tool-installer.nvim",
             opts = {
                 ensure_installed = {
+                    "basedpyright",
                     "clang-format",
                     "clangd",
                     "kdlfmt", -- niri
                     "lua-language-server",
+                    "ruff",
                     "stylua",
+                    "tombi",
                 },
             },
         },
@@ -129,8 +132,10 @@ require("lazy").setup({
             opts = {
                 format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
                 formatters_by_ft = {
-                    lua = { "stylua" },
                     kdl = { "kdlfmt" },
+                    lua = { "stylua" },
+                    python = { "ruff" },
+                    toml = { "tombi" },
                 },
             },
         },
