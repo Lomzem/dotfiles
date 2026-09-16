@@ -163,7 +163,8 @@ require("lazy").setup({
         {
             { "nvim-mini/mini.ai", opts = {} },
             { "nvim-mini/mini.pairs", opts = {} },
-            { "nvim-mini/mini.surround", opts = {} },
+            { "nvim-mini/mini.surround", opts = { mappings = { add = "S", delete = "ds", replace = "cs" } } },
+            { "nvim-mini/mini.splitjoin", opts = { mappings = { toggle = "<leader>j" } } },
         },
         {
             "cbochs/grapple.nvim",
