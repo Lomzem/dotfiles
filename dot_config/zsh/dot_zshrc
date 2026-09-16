@@ -23,10 +23,13 @@ alias cl=clear
 alias cls=clear
 alias cz=chezmoi
 alias ls=eza
+alias rmf='rm -rf'
 alias sd='shutdown now'
 alias rs='reboot now'
 alias so="source $ZDOTDIR/.zshrc"
 
+alias ga='git add .'
+alias gA='git add -A'
 alias gs='git status'
 alias gp='git pull'
 alias gph='git push'
@@ -50,3 +53,6 @@ bindkey -M vicmd 'k' .up-line-or-history 'j' .down-line-or-history
 function enter_nvim() { nvim }
 zle -N enter_nvim
 bindkey -M viins ^n enter_nvim
+
+function gcm() { git commit -m "$*" }
+zle -N gcm
