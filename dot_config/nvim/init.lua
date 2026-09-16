@@ -60,6 +60,7 @@ vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "<a-p>", function() vim.diagnostic.jump({ count = -1 }) end)
 vim.keymap.set("n", "<a-n>", function() vim.diagnostic.jump({ count = 1 }) end)
+vim.keymap.set("n", "U", vim.lsp.buf.code_action)
 
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -180,6 +181,7 @@ require("lazy").setup({
         },
         {
             "folke/snacks.nvim",
+
             opts = {
                 notifier = { enabled = true },
                 input = { enabled = true },
@@ -188,6 +190,7 @@ require("lazy").setup({
         },
         {
             "folke/noice.nvim",
+
             event = "VeryLazy",
             opts = {
                 lsp = {
@@ -199,7 +202,7 @@ require("lazy").setup({
             },
             dependencies = {
                 "MunifTanjim/nui.nvim",
-                "rcarriga/nvim-notify",
+                { "rcarriga/nvim-notify" },
             },
             checker = { enabled = true },
         },
@@ -213,3 +216,5 @@ vim.api.nvim_create_autocmd("VimEnter", {
         vim.schedule(function() pcall(require("grapple").select, { index = 1 }) end)
     end,
 })
+
+vim.lsp.enable("rust_analyzer")
