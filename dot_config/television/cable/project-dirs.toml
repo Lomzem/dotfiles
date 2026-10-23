@@ -1,0 +1,11 @@
+[metadata]
+name = "project-dirs"
+description = "Projects and chezmoi-managed config directories (live paths)"
+
+[source]
+command = 'zsh "${XDG_CONFIG_HOME:-$HOME/.config}/television/project-dirs.zsh"'
+
+# This picker returns one directory to the calling shell.
+[keybindings]
+tab = "select_next_entry"
+backtab = "select_prev_entry"

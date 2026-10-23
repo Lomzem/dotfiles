@@ -1,0 +1,30 @@
+[project]
+name = "decman-config"
+version = "0.1.0"
+description = "Development environment for a decman system configuration"
+requires-python = ">=3.14"
+dependencies = [
+    "decman",
+    "decman-pacman",
+]
+
+# Keep this environment independent of the parent dotfiles workspace.
+[tool.uv.workspace]
+members = []
+
+[tool.uv.sources]
+decman = { git = "https://github.com/kiviktnm/decman", rev = "1.2.2" }
+decman-pacman = { git = "https://github.com/kiviktnm/decman", subdirectory = "plugins/decman-pacman", rev = "1.2.2" }
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.basedpyright]
+typeCheckingMode = "standard"
+pythonPlatform = "Linux"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.40.1",
+    "ruff>=0.16.7",
+]

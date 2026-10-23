@@ -1,0 +1,7 @@
+# Start niri on interactive local TTY logins.
+if [[ -o interactive && -o login && $TTY == /dev/tty<-> &&
+      -z $DISPLAY && -z $WAYLAND_DISPLAY &&
+      -z $SSH_CONNECTION && -z $SSH_TTY ]] &&
+   (( $+commands[niri-session] )); then
+  exec niri-session
+fi

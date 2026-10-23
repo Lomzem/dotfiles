@@ -1,0 +1,25 @@
+{
+  "attribution": {
+    "commit": ""
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "enabledPlugins": {
+    "cc-plugin-agents-md@builtin": true
+  },
+  "pluginConfigs": {
+    "agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-and-agents-md"
+      }
+    }
+  },
+  "timeFormat": "24-hour",
+  "autoMemoryEnabled": false,
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
+  "switchModelsOnFlag": false,
+  "disableBundledSkills": true,
+  "syncClaudeAiSkills": false
+}

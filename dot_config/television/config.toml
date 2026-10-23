@@ -1,0 +1,2 @@
+# Ctrl+F in zsh opens this channel and changes directory through zoxide.
+default_channel = "project-dirs"

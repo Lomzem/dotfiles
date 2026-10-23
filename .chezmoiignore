@@ -1,0 +1,18 @@
+**/*.bak
+
+# Decman: keep local history, environments, and generated caches out.
+.config/decman/**/.git
+.config/decman/**/.git/**
+.config/decman/**/.venv
+.config/decman/**/.venv/**
+.config/decman/**/__pycache__
+.config/decman/**/__pycache__/**
+.config/decman/**/.ruff_cache
+.config/decman/**/.ruff_cache/**
+.config/decman/**/.pytest_cache
+.config/decman/**/.pytest_cache/**
+.config/decman/**/.mypy_cache
+.config/decman/**/.mypy_cache/**
+.config/decman/**/*.py[cod]
+
+**/skills/.system
