@@ -1,0 +1,7 @@
+node_modules
+/.svelte-kit
+/dist
+/test-results
+/playwright-report
+vite.config.ts.timestamp-*
+vite.export.config.ts.timestamp-*

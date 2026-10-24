@@ -1,0 +1,4 @@
+bun.lock
+*.html
+!src/**/*.html
+src/lib/components/ui

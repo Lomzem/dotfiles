@@ -1,0 +1,12 @@
+# Every commit re-exports the report and proves it still meets the bar.
+pre-commit:
+  piped: true
+  jobs:
+    - name: lint
+      run: bun run lint
+    - name: check
+      run: bun run check
+    - name: export
+      run: bun run export && git add "$(basename "$PWD").html"
+    - name: test
+      run: bun run test

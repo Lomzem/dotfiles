@@ -24,3 +24,13 @@ dot_config/decman/**/dot_ruff_cache/
 dot_config/decman/**/dot_pytest_cache/
 dot_config/decman/**/dot_mypy_cache/
 dot_config/decman/**/*.py[cod]
+
+# visual-report template: track source and lockfile only, never installs or build output.
+dot_agents/skills/visual-report/template/node_modules/
+dot_agents/skills/visual-report/template/dot_svelte-kit/
+dot_agents/skills/visual-report/template/.svelte-kit/
+dot_agents/skills/visual-report/template/dist/
+dot_agents/skills/visual-report/template/test-results/
+dot_agents/skills/visual-report/template/playwright-report/
+dot_agents/skills/visual-report/template/*.html
+dot_agents/skills/visual-report/template/dot_git

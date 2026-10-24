@@ -16,3 +16,18 @@
 .config/decman/**/*.py[cod]
 
 **/skills/.system
+
+# visual-report template: installs and build output stay local if the template is ever built in place.
+.agents/skills/visual-report/template/node_modules
+.agents/skills/visual-report/template/node_modules/**
+.agents/skills/visual-report/template/.svelte-kit
+.agents/skills/visual-report/template/.svelte-kit/**
+.agents/skills/visual-report/template/dist
+.agents/skills/visual-report/template/dist/**
+.agents/skills/visual-report/template/test-results
+.agents/skills/visual-report/template/test-results/**
+.agents/skills/visual-report/template/playwright-report
+.agents/skills/visual-report/template/playwright-report/**
+.agents/skills/visual-report/template/*.html
+.agents/skills/visual-report/template/.git
+.agents/skills/visual-report/template/.git/**
