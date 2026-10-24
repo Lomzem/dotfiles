@@ -44,14 +44,14 @@ cpSync(template, dir, {
 	},
 });
 
-const quoted = `'${title.replaceAll('\\', '\\\\').replaceAll("'", "\\'")}'`;
 writeFileSync(
 	join(dir, 'src/lib/report/meta.ts'),
-	`/** The report title: the page \`<h1>\` and the document \`<title>\`. */\nexport const title = ${quoted};\n`,
+	`/** The report title: the page \`<h1>\` and the document \`<title>\`. */\nexport const title = ${JSON.stringify(title)};\n`,
 );
 
 await $`git init --quiet`.cwd(dir);
 await $`bun install --frozen-lockfile`.cwd(dir).quiet();
+await $`bunx prettier --write src/lib/report/meta.ts`.cwd(dir).quiet();
 await $`git add --all`.cwd(dir);
 await $`git commit --quiet --message ${`Start report: ${title}`}`.cwd(dir).env({ ...process.env, LEFTHOOK: '0' });
 

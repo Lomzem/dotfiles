@@ -1,5 +1,4 @@
 <script lang="ts">
-	import * as Card from '#lib/components/ui/card/index.js';
 	import * as Tabs from '#lib/components/ui/tabs/index.js';
 </script>
 
@@ -14,13 +13,9 @@
 		<Tabs.Trigger value="details">Details</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content value="overview">
-		<Card.Root>
-			<Card.Content>Overview panel.</Card.Content>
-		</Card.Root>
+		<p class="max-w-prose">Overview panel.</p>
 	</Tabs.Content>
 	<Tabs.Content value="details">
-		<Card.Root>
-			<Card.Content>Details panel.</Card.Content>
-		</Card.Root>
+		<p class="max-w-prose">Details panel.</p>
 	</Tabs.Content>
 </Tabs.Root>

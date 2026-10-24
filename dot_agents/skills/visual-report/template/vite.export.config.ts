@@ -3,8 +3,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
-import { title } from './src/lib/report/meta';
-import { themeScript } from './src/lib/theme-script';
+import { title } from './src/lib/report/meta.ts';
+import { themeScript } from './src/lib/theme-script.ts';
 
 const escapeHtml = (text: string) => text.replace(/[&<>"]/g, (char) => `&#${char.charCodeAt(0)};`);
 

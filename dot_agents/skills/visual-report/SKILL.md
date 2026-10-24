@@ -23,8 +23,10 @@ The report is `src/lib/report/Report.svelte`. Its title is in `src/lib/report/me
 
 Design each report for its content. Choose the structure, the visuals, and the interactions that make this subject clear. Add interaction where the reader explores: filters, comparisons, toggles between views, step-throughs, or simulations. A static section is correct for a fact the reader only reads.
 
+- Write each heading as a plain label for its content: "Cache hit rate by region". Start each section with its content. A report has no subtitles, taglines, slogans, or lead-in lines under the title or a heading.
+- Lay out sections with headings, whitespace, and dividers. Use a card only for one item in a set that the reader compares side by side.
 - Build from the shadcn-svelte components in `src/lib/components/ui/`. Add others with `bunx shadcn-svelte@latest add <name>`. Write custom SVG or HTML for visuals that no component gives.
-- Use the theme color tokens (`bg-card`, `text-muted-foreground`, `fill-chart-1`). They keep contrast at WCAG 2.2 AA in both themes.
+- Use the theme color tokens (`bg-muted`, `text-muted-foreground`, `fill-chart-1`). They keep contrast at WCAG 2.2 AA in both themes.
 - Make each section work from 320 CSS pixels wide up to desktop width.
 - Give every control a visible label and a keyboard path. Give every chart a text equivalent, such as a table or a summary sentence.
 - Import images and data files, so the export inlines them. Each kilobyte of the export is a cost when you render it, so add a dependency only when the report uses it.
@@ -37,13 +39,13 @@ Apply every rule in [`unslop`](../unslop/SKILL.md) to all report text. Technical
 
 ### 4. Preview in T3 Code
 
-Run `bun run export`, then `bun run serve` in the background. Open the report with T3 Code's preview tools at `{kind: "environment-port", port: 4173}`. Inspect it with `preview_snapshot` (with `includeImage`) in these states:
+Run `bun run export`, then `bun run serve` in the background. Open the report with T3 Code's preview tools at `{kind: "environment-port", port: 4173}`. If calls on a visible tab time out, open a background tab with `open: false`. Inspect the report with `preview_snapshot` (with `includeImage`) in these states:
 
 - Desktop width, dark theme and light theme.
 - The `iphone-se` preset.
 - Each interaction, operated by keyboard.
 
-Fix each defect you see, then export again. The preview is done when every state reads clearly and nothing overlaps, clips, or scrolls sideways. Before you stop the server, get the render height at the reply width: resize to `freeform` 728 × 800, then evaluate `document.documentElement.scrollHeight`.
+If `preview_snapshot` times out, run `bun run screenshots` and read the PNG files it prints. Use `preview_click` and `preview_evaluate` for the interactions. Fix each defect you see, then export again. The preview is done when every state reads clearly and nothing overlaps, clips, or scrolls sideways. Before you stop the server, get the render height at the reply width: resize to `freeform` 728 × 800, then evaluate `document.documentElement.scrollHeight`.
 
 ### 5. Commit
 

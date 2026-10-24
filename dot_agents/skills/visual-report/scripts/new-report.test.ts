@@ -30,7 +30,7 @@ test('creates an editable report under the report home', () => {
 	expect(reportDir).toMatch(/\/\d{4}-\d{2}-\d{2}-cache-hit-rates$/);
 	expect(existsSync(join(reportDir, 'src/lib/report/Report.svelte'))).toBe(true);
 	expect(readFileSync(join(reportDir, 'src/lib/report/meta.ts'), 'utf8')).toContain(
-		"export const title = 'Why the cache\\'s hit rate fell';",
+		`export const title = "Why the cache's hit rate fell";`,
 	);
 });
 
@@ -46,6 +46,13 @@ test('commits the starting source and ignores dependencies and build output', ()
 test('installs the pre-commit hook', () => {
 	expect(existsSync(join(reportDir, '.git/hooks/pre-commit'))).toBe(true);
 });
+
+test('a new report passes its own pre-commit gate', () => {
+	const gate = Bun.spawnSync(['bunx', 'lefthook', 'run', 'pre-commit', '--force'], {
+		cwd: reportDir,
+	});
+	expect(gate.exitCode).toBe(0);
+}, 180_000);
 
 test('never overwrites an existing report', () => {
 	const report = join(reportDir, 'src/lib/report/Report.svelte');
