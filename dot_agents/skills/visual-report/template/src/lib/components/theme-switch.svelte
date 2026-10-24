@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { Label } from '#lib/components/ui/label/index.js';
-	import { Switch } from '#lib/components/ui/switch/index.js';
+	import Switch from './switch.svelte';
 	import { createTheme } from '#lib/theme.svelte.js';
 
 	const theme = createTheme();
@@ -8,5 +7,5 @@
 
 <div class="flex items-center gap-2">
 	<Switch id="theme-switch" bind:checked={() => theme.dark, (value) => (theme.dark = value)} />
-	<Label for="theme-switch">Dark theme</Label>
+	<label for="theme-switch" class="text-sm font-medium">Dark theme</label>
 </div>

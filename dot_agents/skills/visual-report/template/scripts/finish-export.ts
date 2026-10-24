@@ -2,15 +2,16 @@
 // copies it to `<report dir>/<report dir name>.html`.
 import { basename, resolve } from 'node:path';
 
-// html_render accepts at most 512000 characters; keep a margin.
-const maxCharacters = 500_000;
+// The agent sends the whole file inline in one html_render call, and minified code costs about
+// one token per two characters. The starter is about 64,000 characters.
+const maxCharacters = 100_000;
 
 const html = await Bun.file('dist/index.html').text();
 const problems: string[] = [];
 
 if (html.length > maxCharacters) {
 	problems.push(
-		`The report is ${html.length} characters; html_render accepts ${maxCharacters}. Remove large assets or dependencies.`,
+		`The report is ${html.length} characters; the limit is ${maxCharacters}. Remove dependencies, large assets, or repeated markup.`,
 	);
 }
 

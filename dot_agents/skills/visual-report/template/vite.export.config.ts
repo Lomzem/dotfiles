@@ -26,5 +26,11 @@ export default defineConfig({
 					.replace('%report.themeScript%', themeScript),
 		},
 	],
-	build: { outDir: '../../dist', emptyOutDir: true },
+	build: {
+		outDir: '../../dist',
+		emptyOutDir: true,
+		// Short lines let an agent read the export in pages before it sends it to html_render.
+		minify: 'terser',
+		terserOptions: { format: { max_line_len: 500 } },
+	},
 });

@@ -9,7 +9,6 @@ import ts from 'typescript-eslint';
 const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 
 // Theme tokens keep both themes at WCAG contrast; these rules hold report code to them.
-// Components under ui/ are vendored from shadcn-svelte and own their styling.
 const designSystemRules = {
 	'shadcn/no-raw-colors': 'error',
 	'shadcn/no-arbitrary-values': 'error',
@@ -49,8 +48,8 @@ export default defineConfig(
 	},
 	{
 		files: ['src/**/*.svelte', 'src/**/*.ts'],
-		ignores: ['src/lib/components/ui/**'],
 		plugins: { shadcn },
+		settings: { shadcn: { componentImports: ['^#lib/components/'] } },
 		rules: designSystemRules,
 	},
 );

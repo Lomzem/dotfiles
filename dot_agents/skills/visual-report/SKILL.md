@@ -25,11 +25,11 @@ Design each report for its content. Choose the structure, the visuals, and the i
 
 - Write each heading as a plain label for its content: "Cache hit rate by region". Start each section with its content. A report has no subtitles, taglines, slogans, or lead-in lines under the title or a heading.
 - Lay out sections with headings, whitespace, and dividers. Use a card only for one item in a set that the reader compares side by side.
-- Build from the shadcn-svelte components in `src/lib/components/ui/`. Add others with `bunx shadcn-svelte@latest add <name>`. Write custom SVG or HTML for visuals that no component gives.
+- Build from semantic HTML and the components in `src/lib/components/`. Write custom SVG or HTML for visuals. Put a pattern the report repeats in a new component there.
 - Use the theme color tokens (`bg-muted`, `text-muted-foreground`, `fill-chart-1`). They keep contrast at WCAG 2.2 AA in both themes.
 - Make each section work from 320 CSS pixels wide up to desktop width.
 - Give every control a visible label and a keyboard path. Give every chart a text equivalent, such as a table or a summary sentence.
-- Import images and data files, so the export inlines them. Each kilobyte of the export is a cost when you render it, so add a dependency only when the report uses it.
+- Import images and data files, so the export inlines them. You send the whole export inline to `html_render`, so keep it small: write the UI yourself instead of adding a UI or chart library.
 
 Write `tests/report.spec.ts` with one test per interaction the report offers. Each test proves the interaction through the page, as the reader uses it. The step is done when every section has its content and every interaction has a test.
 
@@ -53,4 +53,4 @@ Commit all changes in the report directory. The pre-commit hook in `lefthook.yml
 
 ### 6. Render and reply
 
-Read `<report directory>/<report directory name>.html` and pass its full contents to `html_render`, with the height from step 4. In your reply, give the absolute path of that HTML file as a link. Add only what the page does not say.
+Read `<report directory>/<report directory name>.html` in pages of 60 lines, using the `offset` and `limit` of the Read tool, until you hold every line. Pass the full contents to `html_render`, with the height from step 4. In your reply, give the absolute path of that HTML file as a link. Add only what the page does not say.
