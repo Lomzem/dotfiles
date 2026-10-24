@@ -6,6 +6,11 @@ Edit package sets in `source/`. Repository packages, including Chaotic-AUR,
 go in `pkgs`; foreign packages go in `aurpkgs`. `source/t3code.py` keeps
 T3 Code and Tailscale together.
 
+Dictus uses the local `packages/dictus-bin/PKGBUILD`, declared with
+`aur.custom_packages` in `source/applications.py`. Decman builds it and pacman
+owns the installed files. To update it, bump `pkgver`, reset `pkgrel` to 1,
+and replace `sha256sums` with the checksum from the matching upstream release.
+
 Decman removes packages outside these declarations, including unused optional
 dependencies.
 

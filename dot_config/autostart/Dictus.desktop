@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Dictus
+Comment=Dictusstartup script
+Exec=/opt/dictus/Dictus.AppImage 
+StartupNotify=false
+Terminal=false

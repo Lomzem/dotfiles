@@ -538,7 +538,7 @@ binds {
         power-off-monitors
     }
     Mod+A repeat=false {
-        spawn "/usr/local/bin/dictus" "--toggle-transcription"
+        spawn "/usr/bin/dictus" "--toggle-transcription"
     }
     Super+Ctrl+Shift+L {
         spawn "loginctl" "lock-session"

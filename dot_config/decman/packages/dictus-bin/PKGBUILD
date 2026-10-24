@@ -1,0 +1,32 @@
+# Official upstream AppImage, installed as a pacman package by decman.
+pkgname=dictus-bin
+pkgver=0.3.0
+pkgrel=1
+pkgdesc='Offline voice dictation with Whisper and Parakeet'
+arch=('x86_64')
+url='https://github.com/getdictus/dictus-desktop'
+license=('MIT')
+depends=('fuse2' 'gtk-layer-shell' 'wtype')
+provides=('dictus')
+conflicts=('dictus')
+options=('!strip')
+source=("Dictus_${pkgver}_amd64.AppImage::$url/releases/download/v${pkgver}/Dictus_${pkgver}_amd64.AppImage"
+        "LICENSE::https://raw.githubusercontent.com/getdictus/dictus-desktop/v${pkgver}/LICENSE")
+noextract=("Dictus_${pkgver}_amd64.AppImage")
+sha256sums=('e66937cdca34bbac14ecd32012859dbd637543b7d04a3107ab3506a876efcb6e'
+            '3564e8ec14055ed54f896e8660a62627ea4fc3a1b64f72b798593df00e1f4edc')
+
+prepare() {
+    chmod +x "Dictus_${pkgver}_amd64.AppImage"
+    ./"Dictus_${pkgver}_amd64.AppImage" --appimage-extract usr/share/applications/Dictus.desktop
+    ./"Dictus_${pkgver}_amd64.AppImage" --appimage-extract usr/share/icons/hicolor/256x256/apps/dictus.png
+}
+
+package() {
+    install -Dm755 "Dictus_${pkgver}_amd64.AppImage" "$pkgdir/opt/dictus/Dictus.AppImage"
+    install -dm755 "$pkgdir/usr/bin"
+    ln -s /opt/dictus/Dictus.AppImage "$pkgdir/usr/bin/dictus"
+    install -Dm644 squashfs-root/usr/share/applications/Dictus.desktop "$pkgdir/usr/share/applications/Dictus.desktop"
+    install -Dm644 squashfs-root/usr/share/icons/hicolor/256x256/apps/dictus.png "$pkgdir/usr/share/icons/hicolor/256x256/apps/dictus.png"
+    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
