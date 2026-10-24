@@ -5,11 +5,11 @@ description: Deliver a report as an interactive, self-contained HTML page render
 
 # Visual report
 
-A **report** is one Svelte project under `~/.local/share/visual-report/reports/`. Its export is one self-contained HTML file that works offline. The project keeps the editable source, so you or a later agent can revise the report.
+A **report** is one Svelte project in a report directory under `~/.local/share/visual-report/reports/`. Its export is one self-contained HTML file that works offline. The report directory keeps the editable source, so you or a later agent can revise the report.
 
 ## Steps
 
-### 1. Create the project
+### 1. Create the report
 
 ```sh
 bun ~/.agents/skills/visual-report/scripts/new-report.ts <kebab-slug> "<Title>"
@@ -31,7 +31,7 @@ Design each report for its content. Choose the structure, the visuals, and the i
 - Give every control a visible label and a keyboard path. Give every chart a text equivalent, such as a table or a summary sentence.
 - Import images and data files, so the export inlines them. Each kilobyte of the export is a cost when you render it, so add a dependency only when the report uses it.
 
-Write `tests/report.spec.ts` with one test per interaction the report offers. Each test proves the interaction through the page, as the reader uses it.
+Write `tests/report.spec.ts` with one test per interaction the report offers. Each test proves the interaction through the page, as the reader uses it. The step is done when every section has its content and every interaction has a test.
 
 ### 3. Edit the prose
 
@@ -49,8 +49,8 @@ If `preview_snapshot` times out, run `bun run screenshots` and read the PNG file
 
 ### 5. Commit
 
-Commit all changes in the report directory. The pre-commit hook runs the gate: formatting, ESLint with `@shadcn/lint`, type checks, the export, and the Playwright tests (offline load, themes, keyboard, axe WCAG 2.2 AA, and reflow). Fix each failure and commit again. The step is done when the commit lands. A commit made with `--no-verify` skips the gate and does not count.
+Commit all changes in the report directory. The pre-commit hook in `lefthook.yml` runs the gate. Fix each failure and commit again. The step is done when the commit lands. A commit made with `--no-verify` skips the gate and does not count.
 
 ### 6. Render and reply
 
-Read `<report dir>/<report dir name>.html` and pass its full contents to `html_render`, with the height from step 4. In your reply, give the absolute path of that HTML file as a link. Add only what the page does not say.
+Read `<report directory>/<report directory name>.html` and pass its full contents to `html_render`, with the height from step 4. In your reply, give the absolute path of that HTML file as a link. Add only what the page does not say.

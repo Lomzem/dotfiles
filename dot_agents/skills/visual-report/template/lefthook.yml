@@ -2,8 +2,11 @@
 pre-commit:
   piped: true
   jobs:
+    - name: format
+      run: bunx prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
     - name: lint
-      run: bun run lint
+      run: bunx eslint . --max-warnings 0
     - name: check
       run: bun run check
     - name: export
