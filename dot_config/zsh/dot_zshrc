@@ -37,7 +37,17 @@ alias rmf='rm -rf'
 alias sd='shutdown now'
 alias rs='reboot now'
 alias so="source $ZDOTDIR/.zshrc"
-alias -g xc='| perl -0777 -pe "s/\A\s+|\s+\z//g" | wl-copy'
+
+function copy-trimmed() {
+  emulate -L zsh
+  setopt extendedglob
+  local text
+  IFS= read -r -d '' text || true
+  text=${text##[[:space:]]#}
+  text=${text%%[[:space:]]#}
+  print -rn -- "$text" | wl-copy
+}
+alias -g xc='| copy-trimmed'
 
 alias codex='codex --yolo'
 
