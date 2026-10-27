@@ -38,16 +38,7 @@ alias sd='shutdown now'
 alias rs='reboot now'
 alias so="source $ZDOTDIR/.zshrc"
 
-function copy-trimmed() {
-  emulate -L zsh
-  setopt extendedglob
-  local text
-  IFS= read -r -d '' text || true
-  text=${text##[[:space:]]#}
-  text=${text%%[[:space:]]#}
-  print -rn -- "$text" | wl-copy
-}
-alias -g xc='| copy-trimmed'
+alias -g xc='| sed -z "s/^[[:space:]]*//; s/[[:space:]]*$//" | wl-copy'
 
 alias codex='codex --yolo'
 
