@@ -5,3 +5,6 @@ model_reasoning_effort = "medium"
 
 [skills.bundled]
 enabled = false
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"

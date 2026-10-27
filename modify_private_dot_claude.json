@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+import json
+import sys
+
+original = sys.stdin.read()
+config = json.loads(original) if original.strip() else {}
+server = {"type": "http", "url": "https://mcp.context7.com/mcp"}
+servers = config.setdefault("mcpServers", {})
+if servers.get("context7") == server:
+    sys.stdout.write(original)
+else:
+    servers["context7"] = server
+    sys.stdout.write(json.dumps(config, indent=2) + "\n")
