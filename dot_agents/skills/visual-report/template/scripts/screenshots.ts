@@ -1,4 +1,4 @@
-// Screenshots of the served report (`bun run serve`) for when T3 preview snapshots fail.
+// Screenshots of the served report (`bun run serve`) for visual inspection.
 // Saves full-page PNGs to test-results/screenshots/ and prints their paths.
 import { chromium, type Page } from '@playwright/test';
 
