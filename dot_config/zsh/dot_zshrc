@@ -37,6 +37,7 @@ alias rmf='rm -rf'
 alias sd='shutdown now'
 alias rs='reboot now'
 alias so="source $ZDOTDIR/.zshrc"
+alias -g xc='| perl -0777 -pe "s/\A\s+|\s+\z//g" | wl-copy'
 
 alias codex='codex --yolo'
 
