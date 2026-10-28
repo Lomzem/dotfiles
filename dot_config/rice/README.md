@@ -131,7 +131,9 @@ Kitty's native alpha. Existing keybindings are preserved.
 card, text, selection and accent roles. GitHub retains native diff semantics;
 YouTube retains video, thumbnails and player colors. Google targets the search
 and homepage hosts listed in its stylesheet, leaving accounts and other Google
-products alone. Website markup changes may require selector updates.
+products alone. Keep Google Search → Settings → Other settings → Dark theme
+set to **On** as the native base. The stylesheet also covers nested AI Overview
+text roles, collapsed/expanded fade masks, source cards and metadata. Website markup changes may require selector updates.
 
 Install these local files using Stylus with **Allow access to file URLs** enabled.
 The installer records the source file as the update URL; `@updateURL file:`

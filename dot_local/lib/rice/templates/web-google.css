@@ -1,14 +1,14 @@
 /* ==UserStyle==
 @name           Rice Google
 @namespace      local.lomzem.rice
-@version        1.0.0
+@version        1.0.1
 @description    Approved wallpaper colors; managed by rice reapply.
 @author         lomzem
 @license        MIT
 ==/UserStyle== */
 /* Stable local-file updates accept changed code at the same version in Stylus.
    Keep site content opaque; compositor transparency is controlled by Niri. */
-@-moz-document domain("www.google.com"), domain("www.google.co.uk"), domain("www.google.ca"), domain("www.google.de"), domain("www.google.fr"), domain("www.google.co.jp"), domain("www.google.com.au") {
+@-moz-document regexp("https://www\\.google\\.(?:com|co\\.uk|ca|de|fr|co\\.jp|com\\.au)/(?:\\?.*|search(?:[/?#].*)?|webhp(?:[/?#].*)?)?") {
   :root {
     color-scheme: dark !important;
     --rice-bg: {{colors.surface.default.hex}};
@@ -38,9 +38,10 @@
   a, a:link { color: var(--rice-accent) !important; }
   a:visited, a:visited h3 { color: var(--rice-alt) !important; }
   textarea, input:not([type="checkbox"]):not([type="radio"]), select {
-    background-color: var(--rice-card) !important; color: var(--rice-text) !important;
+    background-color: transparent !important; color: var(--rice-text) !important;
     border-color: var(--rice-border) !important; caret-color: var(--rice-accent) !important;
   }
+  .RNNXgb { background-color: var(--rice-card) !important; }
   textarea::placeholder, input::placeholder { color: var(--rice-muted) !important; opacity: 1 !important; }
   [role="listbox"], [role="dialog"], [role="menu"], .cF4V5c, .Lj9fsd {
     background-color: var(--rice-card) !important; color: var(--rice-text) !important;
@@ -55,4 +56,47 @@
   .ZFiwCf :is(span, svg) { color: var(--rice-text) !important; }
   .R1QWuf, #appbar :is(a, span), #top_nav :is(a, span), #hdtb :is(a, span) { color: var(--rice-muted) !important; }
   /* Search/homepage only: accounts, Gmail, Docs and Maps retain their own styling. */
+
+  /* AI Overview defines its own Material tokens inside component scopes.
+     Inherited root tokens cannot override those local definitions. */
+  :root, body * {
+    --bbQxAb: var(--rice-text) !important;
+    --IXoxUe: var(--rice-muted) !important;
+    --amnPwe: var(--rice-muted) !important;
+    --Xqboce: var(--rice-text) !important;
+    --m3c9: var(--rice-text) !important;
+    --m3c11: var(--rice-text) !important;
+    --m3c10: var(--rice-muted) !important;
+    --m3c16: var(--rice-muted) !important;
+    --m3c12: var(--rice-accent) !important;
+  }
+  /* Native snippets and generated answers contain explicit muted emphasis. */
+  #rcnt em { color: inherit !important; }
+  #rcnt .ITZIwc { color: var(--rice-muted) !important; }
+  /* Collapsed/expanded answers and source cards use hard-coded light surfaces.
+     Keep the fade geometry and images; change only its destination color. */
+  .b2Rnsc { background: var(--rice-bg) !important; }
+  .RDmXvc {
+    background-image: linear-gradient(transparent 0px, color-mix(in srgb, var(--rice-bg) 90%, transparent) 52px, var(--rice-bg) 80px) !important;
+  }
+  #rcnt mark {
+    background: {{colors.primary_container.default.hex}} !important;
+    color: {{colors.on_primary_container.default.hex}} !important;
+  }
+  #rcnt :is(.vDOt8c, .CxFouc, .XpWxo, .Mo26qb) {
+    background-color: var(--rice-card) !important;
+    color: var(--rice-text) !important;
+    border-color: var(--rice-border) !important;
+  }
+
+  .lE72Gc { background-color: var(--rice-card) !important; color: var(--rice-text) !important; }
+  .bPlg5e { background-image: linear-gradient(transparent, var(--rice-card) 14px) !important; }
+  #main .gpZmoc, #rcnt .gpZmoc { color: var(--rice-text) !important; }
+  .VQHkre { background-color: var(--rice-card) !important; color: var(--rice-text) !important; }
+  .Zze5V { background-image: linear-gradient(transparent, var(--rice-card) 30px, var(--rice-card)) !important; }
+  .OfdQId { color: var(--rice-text) !important; }
+  /* Short related-search labels, image metadata and native bold snippets. */
+  #main :is(.R8BTeb, .dg6jd) { color: var(--rice-text) !important; }
+  #main .ylgVCe { color: var(--rice-muted) !important; }
+  #rcnt :is(b, strong) { color: inherit !important; }
 }

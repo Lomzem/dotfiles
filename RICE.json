@@ -169,5 +169,33 @@
       "Final Google screenshot confirms dark View all button and readable navigation without icon background boxes. Native setup tabs closed and keyboard focus returned to T3."
     ],
     "remaining": []
+  },
+  "google_correction": {
+    "baseline": "8f530eb",
+    "status": "fixed and applied",
+    "symptom": "AI Overview black text on dark background, white source cards and white collapsed gradients in query foooo. Prior basic search-only verification missed component scopes.",
+    "cause": "Nested Google Material tokens override inherited root variables; AI cards and gradient masks also contain hard-coded light colors. Dark Reader confirmed absent on excluded Google page.",
+    "changed_files": [
+      "dot_local/lib/rice/templates/web-google.css",
+      "dot_config/rice/README.md",
+      "RICE.json"
+    ],
+    "verification": [
+      "Native Helium DOM probe naturally RED before edits: 13 long-text pairs below4.5:1,5 bright surfaces and white gradient; worst text1.07:1.",
+      "Candidate GREEN in narrow and full-width collapsed layouts, plus expanded AI Overview after source-card/follow-up fixes.",
+      "Use approved primary-container pair for highlighted terms; preserve images, layout, animations and branded conic gradients.",
+      "Bumped Google UserCSS version1.0.1 and installed through existing Stylus local-file updater.",
+      "Installed stylesheet tested after navigation with no debug CSS: exact query foooo has0 failing long-text pairs,0 bright surfaces and0 white fades.",
+      "Expanded probe to short labels (more than2 characters), fixed related-search/image metadata and inherited bold emphasis.",
+      "Google native Dark theme was Off; changed to On through its settings UI. Fresh search reports native background #1f1f1f and no failing short/long text pairs.",
+      "Restricted UserCSS URL matcher to Search/homepage; preferences,Maps,accounts excluded.",
+      "CLI tests do not exercise Google DOM. Verification uses native browser diagnostic probes on collapsed/expanded layouts; no claim of complete arbitrary-site WCAG coverage.",
+      "Final actual installed UserCSS after fresh navigation: collapsed AND expanded overview both have0 failing text pairs (including short labels),0 bright UI surfaces and0 white fade masks; no temporary style element present.",
+      "Stylus native export verifies version1.0.1 and exact equality between installed source and generated CSS, including Search-only URL regexp.",
+      "Diagnostic before/after data and read-only browser probe retained privately at ~/.local/state/rice/review/google-correction.",
+      "Closed diagnostic tab and refreshed the original user query; native Google dark preference retained.",
+      "Removed rectangular textarea fills so search/AI input fields use their rounded parent surfaces; final installed source verified again via Stylus export."
+    ],
+    "remaining": []
   }
 }
