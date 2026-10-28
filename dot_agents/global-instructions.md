@@ -11,6 +11,11 @@
 - Work inline when the current model owns the task. Delegate independent work when it benefits from a separate context or review.
 - Subagents complete their assigned work directly. Further delegation requires the parent's explicit authorization in the task brief.
 
+# Pull requests
+
+- **GPT-6.1-Sol** owns PR follow-through: CI triage, review coordination, and merging when shipping is part of the task and the repository's merge requirements are satisfied. Production and UI fixes remain with Opus.
+- Before creating, taking over, or shipping a PR, read `~/.agents/PR-WORKFLOW.md`.
+
 # Context
 
 - Start with the current task and relevant files or document sections; expand when a dependency or unanswered question requires it.
