@@ -197,5 +197,20 @@
       "Removed rectangular textarea fills so search/AI input fields use their rounded parent surfaces; final installed source verified again via Stylus export."
     ],
     "remaining": []
+  },
+  "stronger_app_glass": {
+    "baseline": "e971ff3",
+    "status": "applied",
+    "decision": "User prioritizes more visible transparency in T3 Code and Helium, accepting some loss of legibility. Set both to78% whole-window opacity, overriding general90% rule; existing wallpaper blur retained.",
+    "changed_files": [
+      "dot_config/niri/config.kdl",
+      "dot_config/rice/README.md",
+      "RICE.json"
+    ],
+    "verification": [
+      "Source and live Niri configuration validate. Targeted chezmoi apply completed; live config matches source byte-for-byte. Exact rules match running app IDs helium and com.t3tools.T3Code.",
+      "Existing keybindings preserved; Mod+Shift+O still toggles opacity per window. No applications restarted."
+    ],
+    "remaining": []
   }
 }
