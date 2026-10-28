@@ -14,6 +14,7 @@ class FontsModule(decman.Module):
             "inter-font",
             "noto-fonts",
             "noto-fonts-emoji",
+            "otf-geist-mono-nerd",
             "ttf-jetbrains-mono-nerd",
             "ttf-lilex-nerd",
         }
@@ -22,6 +23,6 @@ class FontsModule(decman.Module):
     def aurpkgs(self) -> set[str]:
         return {
             "otf-apple-sf-pro",
-            "otf-geist",
+            "ttf-geist-variable",
             "ttf-rubik-vf",
         }

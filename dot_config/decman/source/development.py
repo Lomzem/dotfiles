@@ -22,6 +22,7 @@ class DevelopmentModule(decman.Module):
             "git-filter-repo",
             "git-lfs",
             "github-cli",
+            "gitleaks",
             "go",
             "hyperfine",
             "jujutsu",
