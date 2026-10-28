@@ -129,7 +129,9 @@ restores the previous setup. Recovery snapshots are private files under
 
 ## Glass and website styles
 
-Niri blurs all window backgrounds and popups against the wallpaper. Hollow
+Niri blurs window backgrounds and visible popups against the wallpaper. Noctalia’s
+invisible fullscreen click shield is excluded so opening a panel keeps the rest
+of the desktop sharp. Hollow
 focus rings keep Chromium/Electron windows from revealing a solid ring fill
 instead of the wallpaper. Background-only alpha is preferred: Kitty controls its
 own 82% background opacity and keeps text fully opaque. Fuzzel and Noctalia also

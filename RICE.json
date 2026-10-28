@@ -317,5 +317,23 @@
       "Temporary native input configuration restored byte-for-byte, DevTools closed, clipboard restored and focus returned to T3."
     ],
     "remaining": []
+  },
+  "noctalia_popup_blur_correction": {
+    "status": "fixed, applied and verified",
+    "date": "2026-10-28",
+    "symptom": "Opening Noctalia calendar or notifications blurred the rest of the desktop.",
+    "cause": "The Niri layer rule matched every noctalia-* namespace, including noctalia-panel-click-shield, an invisible fullscreen outside-click surface created on both outputs when a panel opens.",
+    "changes": [
+      "Exclude only ^noctalia-panel-click-shield$ from the existing layer blur rule. Visible panels, bar, application blur, keybindings and workspace assignments retain their existing configuration.",
+      "Applied only ~/.config/niri/config.kdl through chezmoi after confirming no source/live drift; Niri reloads live."
+    ],
+    "verification": [
+      "Live compositor harness: close panel, capture with grim, open control-center with calendar/notifications context via Noctalia IPC, verify panelOpen, capture again, compare grayscale 3x3 local standard deviation in a 600x400 background crop away from the popup.",
+      "Initial HDMI-A-1 reproduction twice retained 58.3% of background detail. Later captures with underlying window switches were discarded; final measurement used the unchanged eDP-1 wallpaper, which receives the same fullscreen click shield.",
+      "Calendar and notifications with exclusion: background detail 0.009071 before and after (100% retained). Sensitivity check removing only the exclusion: notifications 0.009071 to 0.005493 (60.5% retained, FAIL); restoring exclusion: 100% retained, PASS.",
+      "Niri config validation and git diff --check pass; chezmoi diff confirms applied Niri config matches source.",
+      "No portable unit-test seam for the compositor output; actual live IPC and composited screenshots provided regression verification. Temporary harness/captures removed and panels closed."
+    ],
+    "remaining": []
   }
 }
