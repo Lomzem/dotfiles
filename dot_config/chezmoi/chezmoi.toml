@@ -1,0 +1,10 @@
+[git]
+autoCommit = true
+autoPush = false
+
+[diff]
+command = "difft"
+args = ["{{ .Destination }}", "{{ .Target }}"]
+
+[merge]
+command = "nvim"
