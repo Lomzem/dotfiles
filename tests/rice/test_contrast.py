@@ -85,6 +85,19 @@ class ContrastGate(unittest.TestCase):
         self.desktop.rice("set", self.image, "terminal_normal_red=#60a5fa")
         self.assert_refused("terminal_normal_red stays red")
 
+    def test_discord_feedback_text_is_checked_over_the_translucent_background(self) -> None:
+        self.desktop.rice(
+            "set",
+            self.image,
+            "surface=#000000",
+            "surface_variant=#000000",
+            "surface_container_highest=#000000",
+            "terminal_normal_green=#60a060",
+            "alpha.panel=0.74",
+            "alpha.terminal=1",
+        )
+        self.assert_refused("terminal_normal_green on translucent Discord background")
+
     def test_malformed_values_are_rejected(self) -> None:
         for assignment in (
             "primary=#12345",

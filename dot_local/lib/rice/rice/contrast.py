@@ -117,6 +117,11 @@ PAIRS += tuple(
     if not any(p.fg == fg and p.bg == bg and p.minimum >= TEXT and p.alpha is None for p in PAIRS)
 )
 PAIRS += tuple(
+    Pair(fg, "surface", TEXT, f"{fg} on translucent Discord background", "panel")
+    for fg in ("error", "terminal_normal_green", "terminal_normal_yellow")
+    if not any(p.fg == fg and p.bg == "surface" and p.minimum >= TEXT and p.alpha == "panel" for p in PAIRS)
+)
+PAIRS += tuple(
     Pair(fg, "terminal_background", TEXT, f"{fg} transparent editor text", "terminal")
     for fg in TEXT_ROLES
     if not any(

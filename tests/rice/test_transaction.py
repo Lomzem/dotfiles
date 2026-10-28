@@ -1,6 +1,7 @@
 """Seam: preview -> apply -> restore, and a failed apply keeps the previous setup."""
 
 import configparser
+import json
 import unittest
 from pathlib import Path
 
@@ -139,6 +140,32 @@ class Transactions(unittest.TestCase):
 
 
 class FirstPreview(unittest.TestCase):
+    def test_vesktop_preview_preserves_preferences_and_restore_recovers_original(self) -> None:
+        desk = Desktop()
+        self.addCleanup(desk.close)
+        image = desk.image("night.png", (20, 24, 60))
+        settings = desk.config / "vesktop/settings/settings.json"
+        settings.parent.mkdir(parents=True)
+        original = {
+            "enabledThemes": ["personal.theme.css"],
+            "transparent": False,
+            "plugins": {"Example": {"enabled": True}},
+            "useQuickCss": True,
+        }
+        before = (json.dumps(original, indent=4) + "\n").encode()
+        settings.write_bytes(before)
+
+        desk.rice("draft", image)
+        desk.rice("preview", image)
+
+        applied = json.loads(settings.read_bytes())
+        self.assertTrue(applied["transparent"])
+        self.assertEqual(applied["enabledThemes"], ["personal.theme.css", "rice.theme.css"])
+        self.assertEqual(applied["plugins"], original["plugins"])
+        self.assertTrue(applied["useQuickCss"])
+        desk.rice("restore")
+        self.assertEqual(settings.read_bytes(), before)
+
     def test_repeated_first_previews_restore_existing_desktop(self) -> None:
         desk = Desktop()
         self.addCleanup(desk.close)

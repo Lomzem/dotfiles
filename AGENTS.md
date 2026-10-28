@@ -28,6 +28,8 @@ For transparency changes, verify the composited desktop as well as app output.
 An app screenshot can contain correct alpha while an opaque decoration behind
 the window hides the wallpaper. Native background alpha is preferred so text
 stays opaque; the guide describes the compositor fallbacks.
+For native UI automation, verify the target control has keyboard focus before
+pressing Return; window focus alone does not establish DevTools focus.
 
 For browser-style changes, verify the actual Helium profile with its installed
 Stylus and Dark Reader settings. The controller suite proves rendering and

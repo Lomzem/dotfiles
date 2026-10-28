@@ -483,11 +483,16 @@ def plan(paths: Paths, setup: dict) -> Plan:
     vesktop = paths.config / "vesktop/settings/settings.json"
     if vesktop.is_file():
         data = store.read_json(vesktop)
+        original = dict(data)
         enabled = data.get("enabledThemes", [])
         if not isinstance(enabled, list) or any(not isinstance(item, str) for item in enabled):
             raise RiceError("Vesktop enabledThemes must be a list of theme filenames")
         if "rice.theme.css" not in enabled:
             data["enabledThemes"] = [*enabled, "rice.theme.css"]
+        # Vencord's native transparent window keeps glyphs opaque. Vesktop reads
+        # this flag when creating its main window; CSS can reload immediately.
+        data["transparent"] = True
+        if data != original:
             result.outputs.append(Output(vesktop, (json.dumps(data, indent=2) + "\n").encode()))
     result.settings = font_settings(paths, fonts)
     return result
@@ -724,5 +729,5 @@ def apply(paths: Paths, setup: dict, state: dict) -> list[str]:
         "Kitty, Noctalia and Niri: reloaded",
         "Neovim: generated colors reload in sessions using rice",
         "Fuzzel, Zathura, Yazi, GTK and Qt: next launch; T3 font preferences: reopen app",
-        "Helium: generated theme and font bridge load on next launch; Vesktop: Rice theme enabled",
+        "Helium: generated theme and font bridge load on next launch; Vesktop: Rice theme enabled, native glass on relaunch",
     ]

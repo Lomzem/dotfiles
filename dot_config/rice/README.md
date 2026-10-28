@@ -83,7 +83,15 @@ restarts working applications.
   interface/composer/code/terminal font preferences are updated, preserving sizes.
   Already-open clients may need reopening for font changes.
 - Vesktop's enabled theme list gains `rice.theme.css`; other enabled themes and
-  settings are retained. Its running client may need reopening.
+  settings are retained. Vencord reloads generated CSS live, including interface
+  and code font families, while preserving Discord's text sizes. Native window
+  transparency is enabled for the next full Vesktop relaunch; rice leaves the
+  running app open. One background uses the central panel alpha, with transparent
+  structural layers and solid controls, menus and dialogs. Niri blurs the
+  wallpaper behind it without fading text or icons.
+  If an older theme overrides the colors, check Vencord's QuickCSS and other
+  enabled themes. On this machine the old generated Catppuccin QuickCSS was
+  disabled through **Settings → Vencord → Enable Custom CSS**; its file is retained.
 - Qt6ct is declared in decman. `QT_QPA_PLATFORMTHEME=qt6ct` reaches applications
   started from Niri after the next login. Qt5 is not installed on this machine.
 - Prefer native background alpha so text/icons stay opaque. Kitty uses its own
