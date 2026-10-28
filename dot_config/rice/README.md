@@ -86,10 +86,12 @@ restarts working applications.
   settings are retained. Its running client may need reopening.
 - Qt6ct is declared in decman. `QT_QPA_PLATFORMTHEME=qt6ct` reaches applications
   started from Niri after the next login. Qt5 is not installed on this machine.
-- Native transparent backgrounds keep text opaque. Other application windows use
-  90% whole-window opacity, with 82% opacity for Helium and T3 Code.
-  This also fades their content. **Mod+Shift+O** toggles
-  that rule for the focused window; fullscreen content remains opaque.
+- Prefer native background alpha so text/icons stay opaque. Kitty uses its own
+  `background_opacity` (currently 82%); Neovim/Yazi inherit that terminal surface.
+  Fuzzel and Noctalia use their native surface alpha. Niri has no blanket window
+  fade. Only Helium and T3 Code use a 90% whole-window fallback on Linux, where
+  their current main windows lack native background-only transparency.
+  **Mod+Shift+O** toggles that fallback; fullscreen content remains opaque.
 - Noctalia's lock screen blurs its own wallpaper; it never shows the unlocked
   session through the lock surface.
 
@@ -121,10 +123,11 @@ restores the previous setup. Recovery snapshots are private files under
 
 Niri blurs all window backgrounds and popups against the wallpaper. Hollow
 focus rings keep Chromium/Electron windows from revealing a solid ring fill
-instead of the wallpaper. Opaque apps
-use 90% whole-window opacity; Helium and T3 Code use 82%, matching Kitty’s background opacity.
-Kitty keeps native background alpha and fully
-opaque text. Fullscreen windows retain normal opacity. **Mod+Shift+O** toggles
+instead of the wallpaper. Background-only alpha is preferred: Kitty controls its
+own 82% background opacity and keeps text fully opaque. Fuzzel and Noctalia also
+control their own surface alpha. The only whole-window opacity rules are explicit
+90% fallbacks for Helium and T3 Code; other apps are not faded by the compositor.
+Fullscreen windows retain normal opacity. **Mod+Shift+O** toggles
 the compositor opacity rule for the focused window, so photographs, video or a
 low-contrast application can be made opaque immediately. This does not change
 Kitty's native alpha. Existing keybindings are preserved.

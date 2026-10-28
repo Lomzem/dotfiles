@@ -232,5 +232,32 @@
       "RICE.json"
     ],
     "remaining": []
+  },
+  "native_opacity_preference": {
+    "baseline": "1676898",
+    "status": "applied",
+    "decision": "Prefer native background-only alpha to preserve text/icons. User requested90% for Helium/T3 rather than matching Kitty82% via compositor.",
+    "changes": [
+      "Removed global compositor fade; explicit90% fallback matches only helium and com.t3tools.T3Code.",
+      "Kitty remains background_opacity0.82 via rice-theme.conf and no compositor opacity rule. Fuzzel/Noctalia retain native surface alpha; terminal Neovim/Yazi inherit Kitty.",
+      "Hollow focus ring and original blur4/offset5 retained."
+    ],
+    "capabilities": [
+      "Installed T3 main BrowserWindow uses an opaque backgroundColor and has no transparent:true; CSS alpha does not expose wallpaper through it. No vendor app patches.",
+      "No supported native Linux/Wayland background-only option found for installed Helium; macOS frame material is unrelated.",
+      "Helium0.20.1.1 native translucency request remains open upstream: https://github.com/imputnet/helium/issues/325; implemented frame material is macOS-only.",
+      "T3 nightly0.1.4-nightly.20261028.3824 app.asar/apps/desktop/dist-electron/main.cjs mainwindow constructor113312\u2013113336 lacks transparent:true; native background getter113185\u2013113186 returns opaque black/white.",
+      "Vesktop1.6.8 has supported native transparent:true in Vencord settings/settings.json, but needs a matching transparent-root/RGBA CSS adapter and a full restart. It is no longer compositor-faded; do not restart working apps automatically."
+    ],
+    "verification": [
+      "Live Niri configuration validates; only one opacity rule remains, scoped to the two fallback apps at0.9.",
+      "Live Kitty generated config still has background_opacity0.82. No application restarts."
+    ],
+    "changed_files": [
+      "dot_config/niri/config.kdl",
+      "dot_config/rice/README.md",
+      "RICE.json"
+    ],
+    "remaining": []
   }
 }

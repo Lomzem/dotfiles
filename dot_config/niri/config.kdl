@@ -91,18 +91,13 @@ window-rule {
         }
     }
 }
-// Visible glass for opaque apps, including newly installed ones. Kitty already
-// has native background alpha: leave its text fully opaque. Niri ignores this
-// rule in fullscreen. Mod+Shift+O toggles it for the current window.
-window-rule {
-    exclude app-id="^kitty$"
-    opacity 0.90
-}
-// Match Kitty's 82% glass balance. Mod+Shift+O can make either opaque.
+// Prefer application background alpha, keeping text/icons fully opaque.
+// These two apps currently need a whole-window fallback on Linux.
+// Niri ignores it in fullscreen; Mod+Shift+O toggles it for the current window.
 window-rule {
     match app-id="^helium$"
     match app-id="^com\\.t3tools\\.T3Code$"
-    opacity 0.82
+    opacity 0.9
 }
 layer-rule {
     match namespace="^(noctalia-.*|launcher)$"
