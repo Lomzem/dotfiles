@@ -42,8 +42,8 @@ body {
   --bg-surface-raised: {{colors.surface_container.default.hex}};
   --background-floating: {{colors.surface_container.default.hex}};
   --background-modifier-hover: {{colors.surface_container_low.default.hex}};
-  --background-modifier-selected: {{colors.primary_container.default.hex}};
-  --background-modifier-active: {{colors.primary_container.default.hex}};
+  --background-modifier-selected: {{colors.surface_container.default.hex}};
+  --background-modifier-active: {{colors.surface_container.default.hex}};
   --interactive-background-hover: {{colors.hover.default.hex}};
   --interactive-background-selected: {{colors.primary_container.default.hex}};
   --interactive-background-active: {{colors.primary_container.default.hex}};
@@ -113,8 +113,8 @@ body {
   --mention-background: {{colors.primary_container.default.hex}};
   --mention-foreground: {{colors.on_primary_container.default.hex}};
   --message-background-hover: {{colors.surface_container_low.default.hex}};
-  --message-mentioned-background-default: {{colors.primary_container.default.hex}};
-  --message-mentioned-background-hover: {{colors.primary_container.default.hex}};
+  --message-mentioned-background-default: {{colors.surface_container_low.default.hex}};
+  --message-mentioned-background-hover: {{colors.surface_container.default.hex}};
   --message-reacted-background-default: {{colors.primary_container.default.hex}};
   --message-reacted-text-default: {{colors.on_primary_container.default.hex}};
   --border-subtle: {{colors.outline_variant.default.hex}};

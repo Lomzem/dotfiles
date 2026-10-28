@@ -261,7 +261,7 @@
     "remaining": []
   },
   "vesktop_follow_up": {
-    "status": "implemented; native UI verification and final review",
+    "status": "applied, reviewed and verified",
     "baseline": "5a9aaa1a201bd8dc1e60db35a4e67eba3d830eb7",
     "spec": "Theme Discord through installed Vesktop/Vencord: approved Mitsuha colors, central interface/monospace fonts, background-only glass where supported; preserve sizes, plugins and other preferences; verify, commit and push.",
     "decisions": [
@@ -286,11 +286,18 @@
       "Native Vencord UI: custom CSS disabled, native window transparency enabled; no relaunch performed. Plugins and unrelated preferences preserved by narrow merge.",
       "Installed native source confirms transparency only takes effect at BrowserWindow creation; generated theme reloads through Vencord theme file watcher.",
       "Full suite: 18 tests pass; Ruff lint and formatting pass; basedpyright reports 0 errors and warnings.",
-      "Approved Mitsuha report after targeted deployment: 236 checks, 0 failures. Native code-element font probe resolves GeistMono Nerd Font."
+      "Approved Mitsuha report after targeted deployment: 236 checks, 0 failures. Native code-element font probe resolves GeistMono Nerd Font.",
+      "Final review correction: generated mention/default selected backgrounds use existing validated solid card roles; approved Mitsuha report remains 236 checks with no failures.",
+      "Temporary input configuration removed byte-for-byte; native DevTools closed, focus returned to T3.",
+      "Final post-review suite: 18 tests pass; Ruff lint/format and basedpyright pass."
     ],
     "remaining": [
-      "Two-axis review, then push.",
       "User can fully relaunch Vesktop when convenient to activate native desktop transparency."
-    ]
+    ],
+    "review": {
+      "standards": "One known process finding: feedback contrast test followed implementation, with baseline sensitivity proof accurately recorded. No implementation blockers; settings preservation and public CLI seam tests independently checked.",
+      "spec": "One finding: mentioned messages used primary_container with ordinary message text. Fixed by mapping mentioned-message/default selected backgrounds to surface_container_low/container, already checked against normal/muted/link text. Accent chips retain matching foregrounds. Approved palette unchanged.",
+      "verification": "The initial red regression reproduced approval of white primary_container with light ordinary text. Final CSS uses the existing card contract instead, so that experimental test and additional constraints were removed as duplicate coverage. Native body/font/ancestor checks remain valid; generated theme updates via native watcher."
+    }
   }
 }
