@@ -7,6 +7,8 @@ description: Visual reports as self-contained HTML files. Use for research findi
 
 A **report** is one Svelte project in a report directory under `~/.local/share/visual-report/reports/`. Its export is one self-contained HTML file that works offline. The report directory keeps the editable source, so you or a later agent can revise the report.
 
+Use `bun` to run scripts and manage dependencies, and `bunx` to run package CLIs.
+
 ## Steps
 
 ### 1. Create the report
@@ -28,7 +30,7 @@ Design each report for its content. Choose the structure, the visuals, and the i
 - Write each heading as a plain label for its content: "Cache hit rate by region". Put the section content directly beneath its heading.
 - Lay out sections with headings, whitespace, and dividers. Use a card only for one item in a set that the reader compares side by side.
 - Write status, category, version, and count labels as plain text: a word in the sentence, a table column, or a label beside its value.
-- **Components:** Build the report UI with [shadcn-svelte](https://www.shadcn-svelte.com/docs/cli) components and semantic HTML. In the report directory, initialize with `npx shadcn-svelte@latest init` when `components.json` is absent, then add the components you need with `npx shadcn-svelte@latest add <component>`. Match the report's existing import aliases and theme stylesheet when configuring the CLI. Keep shared report patterns in `src/lib/components/`; use custom SVG or HTML for visuals.
+- **Components:** Build the report UI with [shadcn-svelte](https://www.shadcn-svelte.com/docs/cli) components and semantic HTML. In the report directory, initialize with `bunx shadcn-svelte@latest init` when `components.json` is absent, then add the components you need with `bunx shadcn-svelte@latest add <component>`. Match the report's existing import aliases and theme stylesheet when configuring the CLI. Keep shared report patterns in `src/lib/components/`; use custom SVG or HTML for visuals.
 - Use the theme color tokens (`bg-muted`, `text-muted-foreground`, `fill-chart-1`). They keep contrast at WCAG 2.2 AA in both themes.
 - Make each section work from 320 CSS pixels wide up to desktop width.
 - Give every control a visible label and a keyboard path. Give every chart a text equivalent, such as a table or a summary sentence.
