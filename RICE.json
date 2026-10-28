@@ -1,7 +1,7 @@
 {
   "title": "Mitsuha desktop rice and approved wallpaper palettes",
   "baseline": "bcf1361c9e067d537c0fa2aee9dbc5f5f993fadd",
-  "status": "implementation committed; palette approval pending",
+  "status": "approved and activated",
   "wallpaper": "/home/lomzem/mitsuha.jpeg",
   "requirements": [
     "Preserve every existing keybinding, workspace assignment, and navigation behavior.",
@@ -90,13 +90,12 @@
       "Final standards review still pending. Concrete inline candidate preview prepared at ~/.local/state/rice/review/mitsuha.html; original desktop remains restored.",
       "Final verification after review fixes:16 tests pass, standard basedpyright zero errors/warnings, Ruff clean.",
       "Qt preference-preservation regression RED then GREEN; byte-identical preview/restore remains GREEN.",
-      "Disposable Helium profile verified theme activation and font bridge load via normal-launch wrapper flags."
+      "Disposable Helium profile verified theme activation and font bridge load via normal-launch wrapper flags.",
+      "Approved Mitsuha revision1 saved and applied. Noctalia reports custom Rice, Geist UI font, soft panel preset; approved report has0/233 failures.",
+      "Active Niri, Noctalia, Fuzzel configuration checks pass. GTK3 directory remains0700; all4 T3 font fields match central settings; Vesktop Rice theme enabled.",
+      "Chezmoi auto-committed approved profile as868da46 using the repository redacted pre-commit hook."
     ],
-    "remaining": [
-      "User approval of concrete Mitsuha palette",
-      "Scoped activation of approved palette",
-      "Track approved palette and commit activation record"
-    ],
+    "remaining": [],
     "decisions": [
       "Controller rice is a Python stdlib package with a public command interface; source templates/configuration are managed by chezmoi.",
       "Approved profiles are SHA256-associated immutable revisions in ~/.config/rice/profiles. Drafts, reports, snapshots and active/previous setup are private runtime state.",
@@ -125,6 +124,16 @@
           "Fuzzel accent text4.5:1 gate plus transparent editor pairs and conservative8-bit opacity."
         ]
       }
+    },
+    "activation": {
+      "palette": "Mitsuha",
+      "revision": 1,
+      "approval": "User explicitly approved the shown candidate and permanent application.",
+      "profile": "dot_config/rice/profiles/private_ca2fb8b78e6102f593f497a94aa6483a6fb616f94584b97456628a1e1ff57cb6.json",
+      "live": "Kitty, Noctalia, Niri and system font settings applied; next-launch applications receive generated configuration.",
+      "t3": "Rice Mitsuha environment theme published; user is handling its native picker. No further UI input sent.",
+      "browser": "Generated theme and font bridge load on next normal Helium launch; no browser restarted.",
+      "opencode": "Unmanaged binary ~/.opencode/bin/opencode found and removed. Data/history retained; legacy Noctalia registration archived."
     }
   }
 }
