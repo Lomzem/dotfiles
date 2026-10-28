@@ -34,6 +34,7 @@ class DesktopModule(decman.Module):
             "playerctl",  # Used by the Niri media key bindings.
             "power-profiles-daemon",
             "pulsemixer",
+            "qt6ct",  # Applies the rice palette and fonts to Qt apps (QT_QPA_PLATFORMTHEME in niri).
             "slurp",
             "vulkan-icd-loader",
             "vulkan-radeon",

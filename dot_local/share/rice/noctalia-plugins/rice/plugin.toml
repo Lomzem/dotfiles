@@ -1,0 +1,22 @@
+# Wallpaper picker that routes every choice through the rice controller.
+# Open it with: noctalia msg panel-toggle lomzem/rice:wallpapers
+
+id = "lomzem/rice"
+name = "Rice wallpapers"
+version = "1.0.0"
+plugin_api = 43
+author = "lomzem"
+license = "MIT"
+dependencies = []
+tags = ["wallpaper"]
+icon = "photo"
+description = "Pick wallpapers through rice: approved palettes apply, new images are drafted for review."
+
+[[panel]]
+id = "wallpapers"
+entry = "panel.luau"
+width = 900
+height = "content"
+max_height = 720
+placement = "floating"
+position = "center"

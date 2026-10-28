@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Rice Fonts",
+  "version": "1.0.0",
+  "description": "Keep browser default and fixed-width fonts in sync with rice fonts.",
+  "permissions": ["fontSettings", "alarms"],
+  "background": {"service_worker": "background.js"}
+}

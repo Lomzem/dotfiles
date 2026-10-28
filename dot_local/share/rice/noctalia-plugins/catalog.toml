@@ -1,0 +1,14 @@
+# Local plugin source for rice (see ~/.config/rice/README.md). One row per plugin directory.
+
+[[plugin]]
+id = "lomzem/rice"
+name = "Rice wallpapers"
+version = "1.0.0"
+updated_at = 1793059200
+added_at = 1793059200
+author = "lomzem"
+license = "MIT"
+icon = "photo"
+description = "Pick wallpapers through rice: approved palettes apply, new images are drafted for review."
+plugin_api = 43
+tags = ["wallpaper"]

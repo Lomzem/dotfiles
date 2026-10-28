@@ -1,0 +1,8 @@
+# Legacy Noctalia v4 files replaced by config.toml and the rice palette (rice README).
+.config/noctalia/settings.json
+.config/noctalia/colors.json
+.config/noctalia/templates/opencode.json
+.config/noctalia/user-templates.toml
+.config/noctalia/plugins.json
+# Kitty theme now comes from rice-theme.conf.
+.config/kitty/current-theme.conf

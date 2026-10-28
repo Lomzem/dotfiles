@@ -1,0 +1,7 @@
+#!/bin/sh
+# Load the generated Rice theme and font bridge; keep all normal browser arguments.
+rice_data="${XDG_DATA_HOME:-$HOME/.local/share}/rice"
+if [ -f "$rice_data/helium-theme/manifest.json" ] && [ -f "$rice_data/helium-fonts/fonts.json" ]; then
+    exec /usr/bin/helium-browser "--load-extension=$rice_data/helium-theme,$rice_data/helium-fonts" "$@"
+fi
+exec /usr/bin/helium-browser "$@"

@@ -1,0 +1,130 @@
+{
+  "title": "Mitsuha desktop rice and approved wallpaper palettes",
+  "baseline": "bcf1361c9e067d537c0fa2aee9dbc5f5f993fadd",
+  "status": "implementation committed; palette approval pending",
+  "wallpaper": "/home/lomzem/mitsuha.jpeg",
+  "requirements": [
+    "Preserve every existing keybinding, workspace assignment, and navigation behavior.",
+    "Dark navy glass, cyan/violet accents, Geist UI and Geist Mono Nerd Font, initial text sizes preserved, 10px gaps, 12px corners, thin accent focus indicator, subtle shadows, floating top bar.",
+    "Universal transparency/blur experiment: background-only alpha where supported; mild whole-window opacity fallback where necessary; increase opacity or use opaque fallback when readability suffers.",
+    "Use Noctalia 5.4 native palette generation/template rendering. Reconcile tracked legacy JSON with native v5 config.",
+    "Generate draft, edit named colors, show visual swatches and contrast report, explicitly approve. Approved palette keyed by wallpaper content SHA256, retaining generator version/settings and user changes. Returning to image reuses approved palette; explicit regenerate preserves old revisions.",
+    "Separate WCAG AA validator: 4.5:1 normal text and 3:1 large text/meaningful UI indicators; check controlled syntax, muted, selection, state pairs and composited alpha backgrounds. Correct colors/increase alpha for failures; do not certify arbitrary app/web content.",
+    "New wallpaper is draft before desktop application. Explicit temporary live preview with revert. Known approved wallpaper applies immediately.",
+    "Graphical Noctalia thumbnail wallpaper picker; restyled Fuzzel on existing Mod+P; terminal commands. Wallpaper-only change, saved palette application, previous setup restoration. No automatic regeneration behind approved palette selection.",
+    "Theme kitty, noctalia panels/bar/notifications/lockscreen, niri, helium, fuzzel, zathura, neovim, t3code, GTK3/4, Qt, Yazi, Vesktop, Zsh/terminal palette. No OpenCode integration.",
+    "Zathura theme document content by default, with original colors available as opt-in.",
+    "Reload live where reliable, report reopen requirements, never automatically restart working apps.",
+    "Chezmoi owns templates, configuration, approved profiles; disposable cache outside repo. Fonts/icons/geometry remain stable during wallpaper switches. Keep wallpapers out of Git by default.",
+    "Use decman for any package/font changes. Verify OpenCode removal and remove stale theme hooks; preserve user data.",
+    "Verify and activate initial approved Mitsuha theme, check switching/cache/preview/restore and UI, resolve review findings, run redacted secret checks and commit to current main branch without pushing.",
+    "Universal interface/monospace font change via `rice fonts`, central settings, fontconfig-validated, sizes preserved, all adapters."
+  ],
+  "approved_test_seams": [
+    "Public command: draft -> approve -> reuse without regeneration, including image rename/content identity.",
+    "Public command: contrast validation including composited transparency and independent known ratios.",
+    "Public command: preview -> apply -> restore; failed applies preserve previous setup."
+  ],
+  "facts": {
+    "noctalia": "5.4 native; live ~/.local/state/noctalia/settings.toml, stale tracked ~/.config/noctalia/settings.json. Generator JSON token map differs from custom shell palette schema; map deliberately. --theme-json reuses edited tokens.",
+    "niri": "26.04 git supports native blur and wallpaper-only xray.",
+    "t3": "Nightly binary /usr/bin/t3code-nightly, managed systemd user service. Compiled code has environment theme support; no t3 CLI on PATH. Do not patch vendor app or restart it.",
+    "helium": "0.20.1.1, native translucency not available; compositor opacity fallback.",
+    "kitty": "0.49.2; supports native background alpha and blur.",
+    "opencode": "No executable on PATH or pacman package found. Old custom Noctalia template and generated config remain.",
+    "inventory": "GTK/Yazi/Fuzzel/Zathura live config currently partly untracked. Do not import private browser preferences or session/account content."
+  },
+  "progress": {
+    "changed_files": [
+      ".chezmoiignore",
+      ".chezmoiremove",
+      ".gitignore",
+      "RICE.json",
+      "dot_local/bin/executable_rice",
+      "dot_local/lib/rice/rice/",
+      "dot_local/lib/rice/templates/",
+      "dot_local/share/rice/noctalia-plugins/",
+      "dot_config/noctalia/config.toml.tmpl (replaces settings.json/colors.json/colorschemes/plugins.json/user-templates.toml/templates/opencode.json, deleted)",
+      "dot_config/kitty/kitty.conf (current-theme.conf deleted)",
+      "dot_config/niri/config.kdl",
+      "dot_config/fuzzel/fuzzel.ini",
+      "dot_config/zathura/zathurarc",
+      "dot_config/gtk-3.0/gtk.css",
+      "dot_config/gtk-4.0/gtk.css",
+      "dot_config/yazi/theme.toml",
+      "dot_config/nvim/init.lua",
+      "dot_config/decman/source/desktop.py",
+      "dot_config/rice/README.md",
+      "tests/rice/"
+    ],
+    "verification": [
+      "Slice 1 profiles RED: `cd tests/rice && python3 -m unittest test_profiles` -> can't open file dot_local/bin/executable_rice; GREEN after cli.py (3 tests OK incl. regenerate-keeps-approved, unknown-image-drafted).",
+      "Slice 2 contrast: test_contrast written after contrast.py so not naturally red; mutation proof: alpha ignored -> FAIL 21.0 != 4.48; alpha range check removed -> FAIL at alpha.panel=2; restored -> 3 OK. Expected ratios are WebAIM published values (#fff/#777 4.48, #fff/#666 5.74).",
+      "Slice 3 transaction: mutation proof: rollback disabled -> FAIL (files differ); previous recorded as current -> FAIL restore not byte-identical; restored -> 2 OK.",
+      "ruff check (line-length 120) clean; ruff format applied.",
+      "All 14 templates rendered via `rice approve --apply` in temp HOME (harness fakes): no leftover {{ or @@; niri validate OK with include rice.kdl; noctalia config validate rice.toml OK; fuzzel --check-config OK; yazi flavor TOML parses; nvim headless `colorscheme rice` OK; fontconfig xmllint OK; helium manifest JSON parses.",
+      "Static niri config (with Mod+Shift+W bind) validated with niri validate; diff removes only gaps 16, focus-ring off, shadow off; all binds and startup rules kept. Live app-ids helium/kitty/com.t3tools.T3Code match rules.",
+      "Live fuzzel.ini already failed --check-config (`placeholder=` empty); removed in tracked copy.",
+      "Mitsuha draft: `rice draft /home/lomzem/mitsuha.jpeg` -> ~/.local/state/rice/drafts/ca2fb8b7\u2026/report.html, noctalia v5.4.0 m3-content, 40 checks 0 fail, NOT approved; `rice status` -> Nothing applied yet.",
+      "Final: ruff check --line-length 120 --ignore EXE001 clean (EXE001 = chezmoi executable_ prefix); ruff format clean; full suite `cd tests/rice && python3 -m unittest` -> Ran 8 tests OK.",
+      "Parent independently ran 8 tests: all pass.",
+      "Parent typechecked controller with basedpyright using existing decman standard settings: zero errors/warnings.",
+      "Parent redacted gitleaks directory scan: zero findings.",
+      "Parent reproduced first-preview restore rejection and approval with unreadable surface_container_high: confirmed review findings.",
+      "Parent preserved live Kitty Ctrl+V binding and merged live Neovim edits. Rice activation currently remains inside disabled Rose Pine config, requires correction.",
+      "Correction child failed on Claude provider rate limit; no model switched.",
+      "Partial corrections retained: exact full-resolution backdrop extrema, offline generator sandbox, array-table settings preservation; parent ran all10 current tests successfully.",
+      "Parent controller+decman basedpyright standard checks: zero errors/warnings; decman Ruff passes; Qt6ct0.11-9 installed.",
+      "Natural failing CLI regressions reproduced for first/repeated preview recovery and wallpaper IPC failure before fixes; now pass.",
+      "Full-resolution extrema and missing high-container contrast coverage fixed; Mitsuha draft regenerated and passes226 checks.",
+      "Real preview: Niri/Noctalia/Fuzzel validate, native picker loads thumbnails, fontconfig resolves Geist/GeistMono.",
+      "Manual universal font switch to Inter/JetBrainsMono verified Kitty,Fuzzel,fontconfig,Helium bridge and all4 T3 font fields, then reverted to Geist.",
+      "Headless disposable Helium profile loads Rice Fonts extension service worker via --load-extension; no current browser restart.",
+      "Final expanded owner suite:14 tests passing; standard basedpyright zero errors/warnings, Ruff clean.",
+      "Real native picker thumbnail selection verified using a temporary input device: new draft shows correct Report/Preview/Approve; graphical font chooser cancellation changes nothing.",
+      "Initial live preview restored original static configs, generated files, GTK fonts and T3 font preferences; no approved palette applied.",
+      "Renamed approved image remains visible in gallery: regression RED before registry fix; GREEN afterwards.",
+      "Final staged redacted Gitleaks checks: zero findings; all37 local history commits also clean.",
+      "Generated Neovim colorscheme loads headlessly; rendered GTK3 stylesheet parses through native GTK CSS parser.",
+      "Final spec review found Fuzzel accent text incorrectly gated at3:1. New public regression naturally RED, fixed to4.5:1; terminal colored-text transparent pairs and8-bit alpha bounds included. Regenerated Mitsuha passes233 checks.",
+      "Final standards review still pending. Concrete inline candidate preview prepared at ~/.local/state/rice/review/mitsuha.html; original desktop remains restored.",
+      "Final verification after review fixes:16 tests pass, standard basedpyright zero errors/warnings, Ruff clean.",
+      "Qt preference-preservation regression RED then GREEN; byte-identical preview/restore remains GREEN.",
+      "Disposable Helium profile verified theme activation and font bridge load via normal-launch wrapper flags."
+    ],
+    "remaining": [
+      "User approval of concrete Mitsuha palette",
+      "Scoped activation of approved palette",
+      "Track approved palette and commit activation record"
+    ],
+    "decisions": [
+      "Controller rice is a Python stdlib package with a public command interface; source templates/configuration are managed by chezmoi.",
+      "Approved profiles are SHA256-associated immutable revisions in ~/.config/rice/profiles. Drafts, reports, snapshots and active/previous setup are private runtime state.",
+      "Noctalia v5 supplies generation/rendering; approved colors are mapped to the native shell palette and application templates. Generation is sandboxed away from live Noctalia configuration.",
+      "Files, font preferences, required wallpaper/config IPC and state publication form one reversible transaction. Initial/repeated previews preserve original files, symlinks, missing files and preferences. Newly introduced adapters extend the original snapshot.",
+      "Unknown images enter draft review in the custom native thumbnail picker. The stock picker hook reverts unknown choices after an unavoidable brief wallpaper change.",
+      "Full-resolution image extrema bound transparent surfaces. Explicit adapter text-pair coverage plus semantic hue checks gate approval and application. No claim of whole-desktop WCAG conformance.",
+      "Noctalia floating panels select glass/soft/solid based on actual native preset alpha and measured contrast; Mitsuha chooses soft. Mild compositor whole-window opacity is an explicitly unverified content-contrast fallback for opaque apps.",
+      "Central interface/monospace settings persist independently from palettes. Graphical rice fonts --pick plus explicit CLI choices; target GTK, Qt6, terminal apps, shell, all4 T3 font fields, Vesktop and the Helium font bridge.",
+      "Helium local launcher/desktop override loads generated theme and font bridge on next normal launch; browser Preferences are never edited. Font bridge refreshes default/fixed fonts every30s. Website CSS can choose its own fonts.",
+      "Zathura recolors document content by default, Ctrl+R restores original colors. No app restarts are performed.",
+      "Live Kitty paste binding and unrelated Neovim edits were merged into source; unrelated Codex/Zsh/plugin-lock/ship-pr changes remain untouched. GTK directory permissions preserved.",
+      "OpenCode executable/package already absent. Stale source templates removed; legacy template registration archived outside live Noctalia config. Histories/data preserved.",
+      "User explicitly allowed Sol to finish UI implementation after the Opus provider rate limit."
+    ],
+    "reviews": {
+      "standards": {
+        "final_findings": 1,
+        "resolved": [
+          "Qt6ct sizes/unrelated preferences preserved, with natural red regression then green; byte-stable merges."
+        ]
+      },
+      "spec": {
+        "final_findings": 1,
+        "resolved": [
+          "Fuzzel accent text4.5:1 gate plus transparent editor pairs and conservative8-bit opacity."
+        ]
+      }
+    }
+  }
+}

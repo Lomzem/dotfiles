@@ -30,10 +30,11 @@ vim.o.undofile = true
 vim.opt.linebreak = true
 vim.opt.linebreak = true
 vim.opt.breakindentopt = "shift:2"
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 0
 vim.opt.guicursor = ""
 
 local transparent = true
+vim.g.rice_transparent = transparent
 
 vim.keymap.set("n", "y=", function()
     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -96,7 +97,6 @@ require("lazy").setup({
             {
                 "catppuccin/nvim",
                 name = "catppuccin",
-                cond = false,
                 config = function()
                     require("catppuccin").setup({
                         transparent_background = transparent,
@@ -107,6 +107,7 @@ require("lazy").setup({
             {
                 "rose-pine/neovim",
                 name = "rose-pine",
+                cond = false,
                 config = function()
                     require("rose-pine").setup({
                         styles = {
@@ -397,6 +398,20 @@ require("lazy").setup({
         },
     },
 })
+-- rice is selected after plugin setup, independent of the fallback theme plugin.
+local rice_colors = vim.fn.stdpath("config") .. "/colors"
+pcall(vim.cmd.colorscheme, "rice")
+local rice_watcher = vim.uv.new_fs_event()
+if rice_watcher and vim.uv.fs_stat(rice_colors) then
+    rice_watcher:start(rice_colors, {}, vim.schedule_wrap(function(_, name)
+        if name == "rice.lua" then pcall(vim.cmd.colorscheme, "rice") end
+    end))
+    vim.api.nvim_create_autocmd("VimLeavePre", { once = true, callback = function()
+        rice_watcher:stop()
+        rice_watcher:close()
+    end })
+end
+
 vim.keymap.set("n", "<leader>lz", "<cmd>Lazy<cr>")
 
 vim.lsp.enable("rust_analyzer")

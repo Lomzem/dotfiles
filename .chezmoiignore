@@ -36,3 +36,10 @@
 .githooks
 .githooks/**
 SECURITY.md
+RICE.json
+tests
+tests/**
+
+# rice: never install Python caches.
+.local/lib/rice/**/__pycache__
+.local/lib/rice/**/__pycache__/**
