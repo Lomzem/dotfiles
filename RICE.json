@@ -335,5 +335,26 @@
       "No portable unit-test seam for the compositor output; actual live IPC and composited screenshots provided regression verification. Temporary harness/captures removed and panels closed."
     ],
     "remaining": []
+  },
+  "noctalia_popup_flicker_correction": {
+    "status": "fixed, applied and verified",
+    "date": "2026-10-28",
+    "baseline": "9c9ede4",
+    "symptom": "Notifications flashed a bright blurred-wallpaper rectangle during opening and closing; the preceding click-shield fix verified settled screenshots only.",
+    "cause": "Forcing Niri blur on Noctalia layer surfaces enables wallpaper-only xray before the panel paints its content. Noctalia 5.4 already publishes native ext-background-effect regions in step with its rendering; forced rules override that timing and region control.",
+    "decision": "Remove Noctalia from the forced layer blur rule entirely; retain ^launcher$ for Fuzzel. Native Noctalia blur, existing animation settings, palette, keybindings (including Mod+N) and workspace assignments are preserved. This supersedes the click-shield-only exclusion above.",
+    "sources": [
+      "https://github.com/noctalia-dev/noctalia/blob/main/docs/user/compositor-settings/niri.mdx#blur",
+      "https://niri-wm.github.io/niri/Window-Effects.html"
+    ],
+    "verification": [
+      "Recorded actual HDMI-A-1 compositor output at 60 fps while invoking the same Noctalia IPC command as Mod+N. Baseline 3 open/close cycles: 11 bright flash frames out of 360, panel-region peak luma 101.08. Frame sheets show wallpaper-only rectangles before the panel paints.",
+      "Regression loop: python3 ~/.local/state/rice/review/noctalia-flicker/record.py NAME; python3 ~/.local/state/rice/review/noctalia-flicker/check.py NAME. check.py decodes every frame with FFmpeg signalstats in a 200x120 panel-region crop and fails for luma above 75 (normal closed/open peak below 49 for this approved wallpaper and current desktop).",
+      "First probe excluded only attached-panel in addition to click shield: zero flash frames. Final native-only configuration: notifications 0/358 flash frames; faster six-cycle notifications stress 0/376; calendar 0/360. Peak luma 48.95 or lower, animations enabled throughout.",
+      "Final eDP-1 600x400 background crop remains pixel-identical with notifications closed versus open, preserving the original desktop-blur fix. Native panel glass remains visible; opening and closing frame sheets inspected.",
+      "Niri validates, chezmoi diff for installed Niri config is empty, and git diff --check passes. No controller changes; no shallow static unit-test mirror added for a live compositor timing bug."
+    ],
+    "artifacts": "Private diagnostic recordings, events, scripts and frame sheets retained under ~/.local/state/rice/review/noctalia-flicker; wf-recorder installed to capture real transitions. No application code or temporary config probes remain.",
+    "remaining": []
   }
 }

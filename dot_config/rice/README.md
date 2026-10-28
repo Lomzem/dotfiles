@@ -129,11 +129,12 @@ restores the previous setup. Recovery snapshots are private files under
 
 ## Glass and website styles
 
-Niri blurs window backgrounds and visible popups against the wallpaper. Noctalia’s
-invisible fullscreen click shield is excluded so opening a panel keeps the rest
-of the desktop sharp. Hollow
-focus rings keep Chromium/Electron windows from revealing a solid ring fill
-instead of the wallpaper. Background-only alpha is preferred: Kitty controls its
+Niri blurs window backgrounds and visible popups against the wallpaper. Noctalia
+requests its own native blur regions as panels draw; forcing compositor blur on
+its surfaces causes wallpaper flashes during transitions and blurs the desktop
+through its invisible fullscreen click shield. Only Fuzzel needs the explicit
+launcher layer blur rule. Hollow focus rings keep Chromium/Electron windows from
+revealing a solid ring fill instead of the wallpaper. Background-only alpha is preferred: Kitty controls its
 own 82% background opacity and keeps text fully opaque. Fuzzel and Noctalia also
 control their own surface alpha. The only whole-window opacity rules are explicit
 90% fallbacks for Helium and T3 Code; other apps are not faded by the compositor.

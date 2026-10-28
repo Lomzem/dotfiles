@@ -100,10 +100,10 @@ window-rule {
     opacity 0.9
 }
 layer-rule {
-    match namespace="^(noctalia-.*|launcher)$"
-    // The transparent fullscreen shield only catches clicks outside panels.
-    // Blurring it would blur the entire desktop whenever a panel opens.
-    exclude namespace="^noctalia-panel-click-shield$"
+    // Noctalia requests native blur regions when its panel content is ready.
+    // Forcing blur on its surfaces flashes wallpaper during open/close and
+    // blurs the whole desktop through its invisible fullscreen click shield.
+    match namespace="^launcher$"
     background-effect {
         blur true
         xray true
