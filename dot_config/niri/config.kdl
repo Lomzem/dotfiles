@@ -72,30 +72,29 @@ include optional=true "rice.kdl"
 // Translucent surfaces blur only the wallpaper behind them (xray), so their
 // contrast is checked against a known backdrop.
 blur {
-    passes 3
-    offset 3
+    passes 4
+    offset 5
 }
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
-}
-window-rule {
-    match app-id="^kitty$"
     background-effect {
         blur true
         xray true
     }
-}
-// Opaque Chromium/Electron windows get a mild whole-window fallback.
-window-rule {
-    match app-id="^helium$"
-    match app-id="^com\\.t3tools\\.T3Code$"
-    match app-id="^(vesktop|dev\\.vencord\\.Vesktop|org\\.pwmt\\.zathura|org\\.gnome\\..*|qt6ct)$"
-    opacity 0.96
-    background-effect {
-        blur true
-        xray true
+    popups {
+        background-effect {
+            blur true
+            xray true
+        }
     }
+}
+// Visible glass for opaque apps, including newly installed ones. Kitty already
+// has native background alpha: leave its text fully opaque. Niri ignores this
+// rule in fullscreen. Mod+Shift+O toggles it for the current window.
+window-rule {
+    exclude app-id="^kitty$"
+    opacity 0.90
 }
 layer-rule {
     match namespace="^(noctalia-.*|launcher)$"
@@ -187,6 +186,9 @@ binds {
     }
     Mod+O repeat=false {
         toggle-overview
+    }
+    Mod+Shift+O repeat=false hotkey-overlay-title="Toggle window transparency" {
+        toggle-window-rule-opacity
     }
     Mod+Shift+C repeat=false {
         close-window

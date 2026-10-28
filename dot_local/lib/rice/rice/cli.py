@@ -258,6 +258,33 @@ def cmd_reapply(paths: Paths, args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_darkreader(paths: Paths, args: argparse.Namespace) -> int:
+    """Merge the active palette into an export; the extension imports the result."""
+    source = Path(args.export).expanduser().resolve()
+    target = Path(args.output).expanduser().resolve()
+    if source == target or target.exists():
+        raise RiceError("choose a new output file; the original Dark Reader export is kept")
+    patch_path = paths.data / "rice/userstyles/darkreader.patch.json"
+    if not patch_path.is_file():
+        raise RiceError("run `rice reapply` before merging Dark Reader settings")
+    try:
+        exported = store.read_json(source)
+        patch = store.read_json(patch_path)
+    except OSError as error:
+        raise RiceError(f"cannot read Dark Reader settings: {error.strerror}") from error
+    if not isinstance(exported.get("theme"), dict) or not isinstance(exported.get("disabledFor"), list):
+        raise RiceError("expected a full JSON export from Dark Reader Settings > Advanced")
+    if not all(isinstance(site, str) for site in exported["disabledFor"]):
+        raise RiceError("Dark Reader disabledFor must contain site names")
+    exported["theme"].update(patch["theme"])
+    exported["disabledFor"] = list(dict.fromkeys(exported["disabledFor"] + patch["disabledFor"]))
+    for key in ("changeBrowserTheme", "detectDarkTheme"):
+        exported[key] = patch[key]
+    store.write_json(target, exported)
+    print(f"Import in Dark Reader Settings > Advanced: {target}")
+    return 0
+
+
 def cmd_fonts(paths: Paths, args: argparse.Namespace) -> int:
     fonts = store.settings(paths)["fonts"]
     if args.pick:
@@ -469,6 +496,9 @@ def parser() -> argparse.ArgumentParser:
     )
     p.add_argument("name")
     command("reapply", cmd_reapply, "Re-render the current setup (after editing templates)")
+    p = command("darkreader", cmd_darkreader, "Merge the active palette into a Dark Reader settings export")
+    p.add_argument("export", help="JSON exported from Dark Reader Settings > Advanced")
+    p.add_argument("--output", required=True, help="new JSON file to import; existing files are never overwritten")
     p = command(
         "fonts",
         cmd_fonts,

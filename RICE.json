@@ -135,5 +135,39 @@
       "browser": "Generated theme and font bridge load on next normal Helium launch; no browser restarted.",
       "opencode": "Unmanaged binary ~/.opencode/bin/opencode found and removed. Data/history retained; legacy Noctalia registration archived."
     }
+  },
+  "follow_up": {
+    "title": "Broader glass and browser userstyles",
+    "status": "applied and verified",
+    "baseline": "fd7ae9d",
+    "decisions": [
+      "Global Niri blur and popup blur; 90% compositor opacity for opaque applications; Kitty native alpha retained; fullscreen unchanged; new Mod+Shift+O per-window opacity toggle.",
+      "Four authored UserCSS adapters for GitHub, Google search, DuckDuckGo and YouTube rendered transactionally from the approved palette. Existing disabled GitHub prototype retained.",
+      "Use installed Stylus and Dark Reader. Native local-file updates, no separate injected darkening engine or remote CSS dependencies.",
+      "Dark Reader settings are merged from a user export to preserve exclusions, per-site themes and fonts. Imported through its native UI and portty file chooser."
+    ],
+    "changed_files": [
+      "dot_config/niri/config.kdl",
+      "dot_local/lib/rice/rice/cli.py",
+      "dot_local/lib/rice/rice/desktop.py",
+      "dot_local/lib/rice/templates/nvim.lua",
+      "dot_local/lib/rice/templates/web-*.css",
+      "dot_local/lib/rice/templates/darkreader.json",
+      "dot_config/rice/README.md"
+    ],
+    "verification": [
+      "Existing 16 public command tests pass with new browser outputs included in transaction and restore coverage.",
+      "Standard basedpyright zero errors/warnings; Ruff passes.",
+      "Live Stylus parser rejected file: @updateURL metadata; omitted metadata and install via local source URL instead. GitHub,Google,DuckDuckGo,YouTube installed with update checks enabled.",
+      "Dark Reader merge smoke preserves independent custom settings, font choices and exclusions; rejects output overwrites; output mode0600.",
+      "Dark Reader native export after import matches all generated palette fields and styled-domain exclusions. Unrelated settings and unowned theme preferences are byte-value equivalent to the original export.",
+      "Stylus export verifies four Rice styles enabled, each linked to its generated file URL. Same-version local Google update detected and applied successfully; update interval changed from24h to1h.",
+      "Native repository/search views checked for GitHub,Google,YouTube; preserved images/player and semantic details.",
+      "DuckDuckGo search rendered after loading, with readable result titles/snippets and native imagery. All four target sites visually checked in real Helium.",
+      "Final suite16/16 pass; basedpyright0 errors/warnings;0/233 controlled contrast checks fail; live Niri validation passes; fully redacted Gitleaks directory scan clean.",
+      "Dark Reader fallback visually verified on kernel.org. Google nested View all surface and navigation text inspected in native DevTools, then targeted fixes applied through Stylus local update.",
+      "Final Google screenshot confirms dark View all button and readable navigation without icon background boxes. Native setup tabs closed and keyboard focus returned to T3."
+    ],
+    "remaining": []
   }
 }

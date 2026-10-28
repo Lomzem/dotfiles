@@ -1,0 +1,66 @@
+/* ==UserStyle==
+@name           Rice DuckDuckGo
+@namespace      local.lomzem.rice
+@version        1.0.0
+@description    Approved wallpaper colors; managed by rice reapply.
+@author         lomzem
+@license        MIT
+==/UserStyle== */
+/* Stable local-file updates accept changed code at the same version in Stylus.
+   Keep site content opaque; compositor transparency is controlled by Niri. */
+@-moz-document domain("duckduckgo.com") {
+  :root {
+    color-scheme: dark !important;
+    --rice-bg: {{colors.surface.default.hex}};
+    --rice-card: {{colors.surface_container.default.hex}};
+    --rice-raised: {{colors.surface_container_high.default.hex}};
+    --rice-text: {{colors.on_surface.default.hex}};
+    --rice-muted: {{colors.on_surface_variant.default.hex}};
+    --rice-accent: {{colors.primary.default.hex}};
+    --rice-on-accent: {{colors.on_primary.default.hex}};
+    --rice-alt: {{colors.tertiary.default.hex}};
+    --rice-border: {{colors.outline_variant.default.hex}};
+    --rice-red: {{colors.terminal_normal_red.default.hex}};
+    --rice-green: {{colors.terminal_normal_green.default.hex}};
+    --rice-yellow: {{colors.terminal_normal_yellow.default.hex}};
+  }
+  ::selection { background: {{colors.primary_container.default.hex}} !important; color: {{colors.on_primary_container.default.hex}} !important; }
+  :focus-visible { outline-color: var(--rice-accent) !important; }
+  body { background-color: var(--rice-bg) !important; color: var(--rice-text) !important; }
+
+  :root, .dark, .theme-dark {
+    --theme-background-color: var(--rice-bg) !important;
+    --theme-surface-color: var(--rice-card) !important;
+    --theme-text-primary-color: var(--rice-text) !important;
+    --theme-text-secondary-color: var(--rice-muted) !important;
+    --theme-title-color: var(--rice-accent) !important;
+    --theme-link-color: var(--rice-accent) !important;
+    --theme-border-color: var(--rice-border) !important;
+    --sds-color-background-primary: var(--rice-bg) !important;
+    --sds-color-background-secondary: var(--rice-card) !important;
+    --sds-color-text-primary: var(--rice-text) !important;
+    --sds-color-text-secondary: var(--rice-muted) !important;
+  }
+  html, body, #__next, .site-wrapper, .results--main, .results, .body--serp {
+    background-color: var(--rice-bg) !important; color: var(--rice-text) !important;
+  }
+  .header-wrap, .header, [class*="header_isSticky"] {
+    background: color-mix(in srgb, var(--rice-bg) 90%, transparent) !important;
+    backdrop-filter: blur(18px);
+  }
+  [data-testid="result"], .result, [data-testid="web-vertical"] { background-color: transparent !important; color: var(--rice-text) !important; }
+  [data-testid="result-title-a"], .result__a, .result__title a { color: var(--rice-accent) !important; }
+  [data-testid="result-title-a"]:visited, .result__a:visited { color: var(--rice-alt) !important; }
+  [data-result="snippet"], [data-testid="result-snippet"], .result__snippet { color: var(--rice-text) !important; }
+  [data-testid="result-extras-url-link"], .result__url, .result__extras { color: var(--rice-muted) !important; }
+  input:not([type="checkbox"]):not([type="radio"]), textarea, .search, .search__input, [role="searchbox"] {
+    background-color: var(--rice-card) !important; color: var(--rice-text) !important;
+    border-color: var(--rice-border) !important; caret-color: var(--rice-accent) !important;
+  }
+  input::placeholder, textarea::placeholder { color: var(--rice-muted) !important; opacity: 1 !important; }
+  [role="listbox"], [role="dialog"], [role="menu"], .acp-wrap, .modal__box {
+    background-color: var(--rice-card) !important; color: var(--rice-text) !important;
+  }
+  [role="option"][aria-selected="true"] { background-color: var(--rice-raised) !important; }
+  /* Images, logos, result favicons and semantic badges are not filtered. */
+}

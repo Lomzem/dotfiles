@@ -86,9 +86,9 @@ restarts working applications.
   settings are retained. Its running client may need reopening.
 - Qt6ct is declared in decman. `QT_QPA_PLATFORMTHEME=qt6ct` reaches applications
   started from Niri after the next login. Qt5 is not installed on this machine.
-- Native transparent backgrounds keep text opaque. Helium, T3, Vesktop, Zathura,
-  and matching GTK windows use mild whole-window opacity where necessary; this
-  also fades their content. Niri rules can be adjusted for individual apps.
+- Native transparent backgrounds keep text opaque. Other application windows use
+  90% whole-window opacity, which also fades their content. **Mod+Shift+O** toggles
+  that rule for the focused window; fullscreen content remains opaque.
 - Noctalia's lock screen blurs its own wallpaper; it never shows the unlocked
   session through the lock surface.
 
@@ -115,3 +115,47 @@ Palettes, generator settings and revisions remain available when caches are remo
 If application fails, read the reported error before retrying. `rice restore`
 restores the previous setup. Recovery snapshots are private files under
 `~/.local/state/rice/backups`; retain them until you are satisfied with the change.
+
+## Glass and website styles
+
+Niri blurs all window backgrounds and popups against the wallpaper. Opaque apps
+use 90% whole-window opacity; Kitty keeps native background alpha and fully
+opaque text. Fullscreen windows retain normal opacity. **Mod+Shift+O** toggles
+the compositor opacity rule for the focused window, so photographs, video or a
+low-contrast application can be made opaque immediately. This does not change
+Kitty's native alpha. Existing keybindings are preserved.
+
+`rice reapply` also generates four Stylus UserCSS files under
+`~/.local/share/rice/userstyles`: `github.user.css`, `google.user.css`,
+`duckduckgo.user.css`, and `youtube.user.css`. They use approved colors for page,
+card, text, selection and accent roles. GitHub retains native diff semantics;
+YouTube retains video, thumbnails and player colors. Google targets the search
+and homepage hosts listed in its stylesheet, leaving accounts and other Google
+products alone. Website markup changes may require selector updates.
+
+Install these local files using Stylus with **Allow access to file URLs** enabled.
+The installer records the source file as the update URL; `@updateURL file:`
+metadata is intentionally omitted because Stylus rejects it. Enable **Check for
+updates** in each installer. After a palette change, use Stylus's **Check all
+styles for updates**, or wait for its hourly checks (configured in the current browser). Keeping a local installer
+tab open with live reload enabled gives immediate updates. Stable style names
+and namespaces let reinstallations replace the existing style.
+
+Dark Reader provides fallback on other sites. Its generated
+`darkreader.patch.json` is a patch, not a full import. Export existing settings
+from Dark Reader → Settings → Advanced, then merge:
+
+```sh
+rice darkreader ~/Downloads/Dark-Reader-Settings.json \
+  --output ~/Downloads/Dark-Reader-Rice.json
+```
+
+Import the resulting file in the same Advanced screen. The merge preserves
+existing site exclusions, per-site themes, fonts and unrelated preferences;
+adds the styled domains to the exclusions; sets dark background/text, selection
+and scrollbar colors; and keeps Dark Reader from replacing the browser theme.
+The source export and existing output files are never overwritten. Use a fresh
+export and a new output filename for later changes. Dark Reader imports are a
+separate step because the installed extension has no supported external settings
+API. Browser settings backups remain private under
+`~/.local/state/rice/browser-backups`, outside the dotfiles repository.

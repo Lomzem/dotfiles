@@ -1,0 +1,17 @@
+{
+  "theme": {
+    "mode": 1,
+    "engine": "dynamicTheme",
+    "brightness": 100,
+    "contrast": 100,
+    "grayscale": 0,
+    "sepia": 0,
+    "darkSchemeBackgroundColor": "{{colors.surface.default.hex}}",
+    "darkSchemeTextColor": "{{colors.on_surface.default.hex}}",
+    "selectionColor": "{{colors.primary_container.default.hex}}",
+    "scrollbarColor": "{{colors.primary.default.hex}}"
+  },
+  "changeBrowserTheme": false,
+  "detectDarkTheme": true,
+  "disabledFor": ["github.com", "gist.github.com", "www.google.com", "www.google.co.uk", "www.google.ca", "www.google.de", "www.google.fr", "www.google.co.jp", "www.google.com.au", "duckduckgo.com", "youtube.com"]
+}

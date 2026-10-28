@@ -1,0 +1,88 @@
+/* ==UserStyle==
+@name           Rice GitHub
+@namespace      local.lomzem.rice
+@version        1.0.0
+@description    Approved wallpaper colors; managed by rice reapply.
+@author         lomzem
+@license        MIT
+==/UserStyle== */
+/* Stable local-file updates accept changed code at the same version in Stylus.
+   Keep site content opaque; compositor transparency is controlled by Niri. */
+@-moz-document domain("github.com"), domain("gist.github.com") {
+  :root {
+    color-scheme: dark !important;
+    --rice-bg: {{colors.surface.default.hex}};
+    --rice-card: {{colors.surface_container.default.hex}};
+    --rice-raised: {{colors.surface_container_high.default.hex}};
+    --rice-text: {{colors.on_surface.default.hex}};
+    --rice-muted: {{colors.on_surface_variant.default.hex}};
+    --rice-accent: {{colors.primary.default.hex}};
+    --rice-on-accent: {{colors.on_primary.default.hex}};
+    --rice-alt: {{colors.tertiary.default.hex}};
+    --rice-border: {{colors.outline_variant.default.hex}};
+    --rice-red: {{colors.terminal_normal_red.default.hex}};
+    --rice-green: {{colors.terminal_normal_green.default.hex}};
+    --rice-yellow: {{colors.terminal_normal_yellow.default.hex}};
+  }
+  ::selection { background: {{colors.primary_container.default.hex}} !important; color: {{colors.on_primary_container.default.hex}} !important; }
+  :focus-visible { outline-color: var(--rice-accent) !important; }
+  body { background-color: var(--rice-bg) !important; color: var(--rice-text) !important; }
+
+  :root, [data-color-mode], [data-color-mode] [data-dark-theme], [data-color-mode] [data-light-theme] {
+    --bgColor-default: var(--rice-bg) !important;
+    --bgColor-muted: var(--rice-card) !important;
+    --bgColor-inset: var(--rice-bg) !important;
+    --bgColor-emphasis: var(--rice-raised) !important;
+    --bgColor-neutral-muted: var(--rice-raised) !important;
+    --fgColor-default: var(--rice-text) !important;
+    --fgColor-muted: var(--rice-muted) !important;
+    --fgColor-subtle: var(--rice-muted) !important;
+    --fgColor-accent: var(--rice-accent) !important;
+    --fgColor-link: var(--rice-accent) !important;
+    --fgColor-danger: var(--rice-red) !important;
+    --fgColor-success: var(--rice-green) !important;
+    --fgColor-attention: var(--rice-yellow) !important;
+    --borderColor-default: var(--rice-border) !important;
+    --borderColor-muted: var(--rice-border) !important;
+    --borderColor-accent-emphasis: var(--rice-accent) !important;
+    --button-default-bgColor-rest: var(--rice-card) !important;
+    --button-default-bgColor-hover: var(--rice-raised) !important;
+    --button-default-fgColor-rest: var(--rice-text) !important;
+    --button-primary-bgColor-rest: var(--rice-accent) !important;
+    --button-primary-bgColor-hover: var(--rice-accent) !important;
+    --button-primary-fgColor-rest: var(--rice-on-accent) !important;
+    --control-bgColor-rest: var(--rice-card) !important;
+    --control-bgColor-hover: var(--rice-raised) !important;
+    --control-fgColor-rest: var(--rice-text) !important;
+    --color-canvas-default: var(--rice-bg) !important;
+    --color-canvas-subtle: var(--rice-card) !important;
+    --color-canvas-inset: var(--rice-bg) !important;
+    --color-fg-default: var(--rice-text) !important;
+    --color-fg-muted: var(--rice-muted) !important;
+    --color-fg-subtle: var(--rice-muted) !important;
+    --color-accent-fg: var(--rice-accent) !important;
+    --color-border-default: var(--rice-border) !important;
+    --color-border-muted: var(--rice-border) !important;
+    --color-btn-bg: var(--rice-card) !important;
+    --color-btn-text: var(--rice-text) !important;
+    --color-btn-primary-bg: var(--rice-accent) !important;
+    --color-btn-primary-text: var(--rice-on-accent) !important;
+    --color-prettylights-syntax-comment: var(--rice-muted) !important;
+    --color-prettylights-syntax-constant: var(--rice-alt) !important;
+    --color-prettylights-syntax-entity: var(--rice-accent) !important;
+    --color-prettylights-syntax-keyword: var(--rice-alt) !important;
+    --color-prettylights-syntax-string: var(--rice-green) !important;
+    --color-prettylights-syntax-variable: var(--rice-yellow) !important;
+    --color-prettylights-syntax-storage-modifier-import: var(--rice-text) !important;
+    --color-prettylights-syntax-markup-heading: var(--rice-accent) !important;
+  }
+  .AppHeader, .Header, .AppHeader-globalBar, .AppHeader-localBar {
+    background: color-mix(in srgb, var(--rice-bg) 88%, transparent) !important;
+    backdrop-filter: blur(18px);
+    border-color: var(--rice-border) !important;
+  }
+  .markdown-body, .react-code-text, .react-code-lines { color: var(--rice-text) !important; }
+  .markdown-body pre, .highlight { background-color: var(--rice-card) !important; }
+  .markdown-body a, .Link--primary:hover { color: var(--rice-accent) !important; }
+  /* Keep native diff additions/deletions, heatmaps, avatars and loading indicators. */
+}

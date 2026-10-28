@@ -94,6 +94,11 @@ def template_targets(paths: Paths) -> list[tuple[str, Path]]:
         ("fontconfig.conf", c / "fontconfig/conf.d/60-rice-fonts.conf"),
         ("helium.json", d / "rice/helium-theme/manifest.json"),
         ("helium-fonts.json", d / "rice/helium-fonts/fonts.json"),
+        ("web-github.css", d / "rice/userstyles/github.user.css"),
+        ("web-google.css", d / "rice/userstyles/google.user.css"),
+        ("web-duckduckgo.css", d / "rice/userstyles/duckduckgo.user.css"),
+        ("web-youtube.css", d / "rice/userstyles/youtube.user.css"),
+        ("darkreader.json", d / "rice/userstyles/darkreader.patch.json"),
     ]
 
 
