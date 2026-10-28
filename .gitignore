@@ -34,3 +34,37 @@ dot_agents/skills/visual-report/template/test-results/
 dot_agents/skills/visual-report/template/playwright-report/
 dot_agents/skills/visual-report/template/*.html
 dot_agents/skills/visual-report/template/dot_git
+
+# Secret files, including chezmoi source-state names.
+# Local environment files; commit only sanitized examples.
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.envrc.local
+# Private keys and credential bundles.
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+.git-credentials
+.netrc
+.npmrc.local
+# Raw scanner output can itself contain secrets.
+gitleaks-report.*
+dot_env
+dot_env.*
+!dot_env.example
+!dot_env.sample
+!dot_env.template
+private_dot_env
+private_dot_env.*
+private_*.pem
+private_*.key
+dot_git-credentials
+private_dot_git-credentials
+dot_netrc
+private_dot_netrc

@@ -9,6 +9,9 @@ export BAT_PAGER="less -R"
 export MANPAGER='nvim +Man!'
 export EDITOR='nvim'
 export VISUAL='nvim'
+# A leading space keeps a command out of native history and Atuin.
+setopt HIST_IGNORE_SPACE
+
 export HISTSIZE=10000
 export SAVEHIST=10000
 

@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+cd "$(git rev-parse --show-toplevel)"
+if ! command -v gitleaks >/dev/null 2>&1; then
+    echo 'Commit blocked: install gitleaks (included in the decman development module).' >&2
+    exit 1
+fi
+# Check names too: low-entropy values in a forced-added .env can evade scanners.
+python - <<'PYTHON'
+import fnmatch
+import subprocess
+import sys
+names = subprocess.check_output([
+    "git", "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z"
+]).decode("utf-8", "surrogateescape").split("\0")
+patterns = (
+    ".env", ".env.*", "dot_env", "dot_env.*", "private_dot_env", "private_dot_env.*",
+    "*.pem", "*.key", "*.p12", "*.pfx", "id_rsa", "id_ed25519",
+    ".git-credentials", "dot_git-credentials", "private_dot_git-credentials",
+    ".netrc", "dot_netrc", "private_dot_netrc",
+)
+examples = {prefix + suffix for prefix in (".env", "dot_env")
+            for suffix in (".example", ".sample", ".template")}
+blocked = [name for name in names if name and name.rsplit("/", 1)[-1] not in examples
+           and any(fnmatch.fnmatchcase(name.rsplit("/", 1)[-1], p) for p in patterns)]
+if blocked:
+    print("Commit blocked: keep credential files outside Git; use sanitized examples or chezmoi encryption.", file=sys.stderr)
+    for name in blocked:
+        print(repr(name), file=sys.stderr)
+    sys.exit(1)
+PYTHON
+exec gitleaks git --pre-commit --staged --redact=100 --no-banner .

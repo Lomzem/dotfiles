@@ -20,3 +20,9 @@
 
 - Start with the current task and relevant files or document sections; expand when a dependency or unanswered question requires it.
 - At major task boundaries, update the existing task record with decisions, changed files, verification results, and remaining work needed to resume after a handoff or compaction.
+
+# Secrets
+
+- Inspect environment variable names and credential presence without printing values. Read only the configuration fields needed for the task; keep secrets out of tool output, logs, diffs, screenshots, and chat.
+- Supply credentials through the available secret-input tool or an existing password manager. Never ask for a secret in chat or put one in a command argument, tracked file, or example. Use clearly fake placeholders in examples.
+- Before committing or pushing, run the repository's secret checks with full redaction. Resolve findings without bypassing hooks or adding broad exclusions. Report only the path, line, and rule. If a credential was exposed, stop propagating it and have it revoked or rotated before cleaning up history.

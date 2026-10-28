@@ -1,5 +1,6 @@
 [credential]
-	helper = store
+	helper =
+	helper = cache --timeout=3600
 [user]
 	email = lawjaylee1@icloud.com
 	name = Lawjay Lee
@@ -11,6 +12,7 @@
 [color]
 	ui = auto
 [core]
+	excludesFile = ~/.config/git/ignore
 	pager = bat
 [alias]
     a = add

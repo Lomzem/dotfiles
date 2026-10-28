@@ -31,3 +31,8 @@
 .agents/skills/visual-report/template/*.html
 .agents/skills/visual-report/template/.git
 .agents/skills/visual-report/template/.git/**
+
+# Repository maintenance files stay in the source directory.
+.githooks
+.githooks/**
+SECURITY.md
