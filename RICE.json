@@ -299,5 +299,23 @@
       "spec": "One finding: mentioned messages used primary_container with ordinary message text. Fixed by mapping mentioned-message/default selected backgrounds to surface_container_low/container, already checked against normal/muted/link text. Accent chips retain matching foregrounds. Approved palette unchanged.",
       "verification": "The initial red regression reproduced approval of white primary_container with light ordinary text. Final CSS uses the existing card contract instead, so that experimental test and additional constraints were removed as duplicate coverage. Native body/font/ancestor checks remain valid; generated theme updates via native watcher."
     }
+  },
+  "vesktop_hover_correction": {
+    "status": "fixed, applied and verified",
+    "baseline": "61865d7",
+    "symptom": "Hovered Direct Messages heading had dark purple text; message hover appeared as an opaque strip over glass.",
+    "cause": "Discord privateChannelsHeaderContainer:hover consumes interactive-text-hover without painting interactive-background-hover. The template used on_hover (#510b69), intended for the bright hover surface (#efb0ff), as standalone text.",
+    "changes": [
+      "Standalone hover text/icons now use on_surface; secondary button hover uses a checked opaque card/foreground pair.",
+      "Message and generic interactive hover use an 18% tint of the base surface, preserving the wallpaper instead of painting an opaque strip."
+    ],
+    "verification": [
+      "Native actual heading hover reproduced: rgb(81,11,105), worst black/white-backdrop contrast 1.224:1. Same executable native probe after live theme reload: rgb(224,226,234), 8.278:1.",
+      "Native shared selected/hover message CSS rule computes rgba(16,20,25,0.18) with text rgb(224,226,234); temporary selected class removed immediately. Console keyboard input clears Discord mouse-mode, so the shared selected state was used to inspect the actual native hover declaration.",
+      "No new static mirror test: the regression is in remotely served Discord selectors/state consumption, outside the CLI fixtures. Native probe and before/after results are retained privately under ~/.local/state/rice/review/vesktop.",
+      "Final suite: 18 tests pass; Mitsuha report: 236 checks, 0 failures; git diff --check passes.",
+      "Temporary native input configuration restored byte-for-byte, DevTools closed, clipboard restored and focus returned to T3."
+    ],
+    "remaining": []
   }
 }
