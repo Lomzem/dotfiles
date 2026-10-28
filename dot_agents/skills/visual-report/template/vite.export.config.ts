@@ -29,8 +29,6 @@ export default defineConfig({
 	build: {
 		outDir: '../../dist',
 		emptyOutDir: true,
-		// Keep the export compact, with bounded line lengths for local inspection.
 		minify: 'terser',
-		terserOptions: { format: { max_line_len: 500 } },
 	},
 });

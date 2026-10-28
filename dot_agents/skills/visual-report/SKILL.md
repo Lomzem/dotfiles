@@ -25,7 +25,7 @@ The report is `src/lib/report/Report.svelte`. Its title is in `src/lib/report/me
 
 **Visualize:** Reach for a chart or diagram when a trend, comparison, distribution, flow, or structure would become clearer visually.
 
-Design each report for its content. Choose the structure, the visuals, and the interactions that make this subject clear. Add interaction where the reader explores: filters, comparisons, toggles between views, step-throughs, or simulations. A static section is correct for a fact the reader only reads.
+Let the content determine report length, section count, and export size. Design each report for its content. Choose the structure, the visuals, and the interactions that make this subject clear. Add interaction where the reader explores: filters, comparisons, toggles between views, step-throughs, or simulations. A static section is correct for a fact the reader only reads.
 
 - Write each heading as a plain label for its content: "Cache hit rate by region". Put the section content directly beneath its heading.
 - Lay out sections with headings, whitespace, and dividers. Use a card only for one item in a set that the reader compares side by side.
@@ -41,7 +41,7 @@ Write `tests/report.spec.ts` with one test per interaction the report offers. Ea
 
 ### 3. Edit the prose
 
-Apply every rule in [`unslop`](../unslop/SKILL.md) to all report text. Technical text (procedures, system behavior, specifications, and failure analysis) also follows ASD-STE100 Simplified Technical English. Read [STE100.md](STE100.md) for those rules.
+Apply every rule in [`unslop`](../unslop/SKILL.md) to all report text. For technical text (procedures, system behavior, specifications, and failure analysis), read the clarity guidance adapted from ASD-STE100 in [STE100.md](STE100.md).
 
 ### 4. Verify the export
 
@@ -63,4 +63,4 @@ Commit all changes in the report directory. The pre-commit hook in `lefthook.yml
 
 Link the absolute path to `<report directory>/<report directory name>.html` in your reply so the user can click the file and open it in their own browser. Add only what the page does not say. Delivery is complete when the verified export exists and the reply links it.
 
-**Optional inline rendering:** For an extra preview in T3 Code, follow [INLINE-RENDERING.md](INLINE-RENDERING.md).
+**Stretch goal — inline preview:** The HTML file is the deliverable. After the verified file is ready, you may add a T3 Code preview using [INLINE-RENDERING.md](INLINE-RENDERING.md). Preview availability or failure does not block delivery or require changes to the report.
