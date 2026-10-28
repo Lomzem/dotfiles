@@ -76,6 +76,8 @@ blur {
     offset 5
 }
 window-rule {
+    // Hollow focus ring: an opaque fill would hide wallpaper behind CSD clients.
+    draw-border-with-background false
     geometry-corner-radius 12
     clip-to-geometry true
     background-effect {
@@ -96,11 +98,11 @@ window-rule {
     exclude app-id="^kitty$"
     opacity 0.90
 }
-// Stronger glass for the browser and editor. Mod+Shift+O can make either opaque.
+// Match Kitty's 82% glass balance. Mod+Shift+O can make either opaque.
 window-rule {
     match app-id="^helium$"
     match app-id="^com\\.t3tools\\.T3Code$"
-    opacity 0.78
+    opacity 0.82
 }
 layer-rule {
     match namespace="^(noctalia-.*|launcher)$"

@@ -212,5 +212,25 @@
       "Existing keybindings preserved; Mod+Shift+O still toggles opacity per window. No applications restarted."
     ],
     "remaining": []
+  },
+  "wallpaper_visibility_fix": {
+    "baseline": "57ddd34",
+    "status": "applied",
+    "cause": "With borders off, Niri defaulted to a filled focus ring for client-decorated Chromium/Electron windows. The opaque rectangle hid wallpaper even though the client snapshot correctly showed78% alpha.",
+    "fix": "Global draw-border-with-background false keeps the thin focus ring hollow. Final T3/Helium opacity82%, matching Kitty native background opacity; original blur4passes/offset5 restored at user request.",
+    "verification": [
+      "Actual Niri window captures of T3 and Helium measured alpha0.780392 before fix, ruling out missing rules or opacity override.",
+      "Controlled opaque Kitty window with helium app-id exposed wallpaper while Chromium/Electron stayed flat; source/docs confirmed per-client filled focus ring default.",
+      "Same T3 window/output captured before and after hollow-ring change: wallpaper becomes visible.",
+      "Experimented with blur2/offset2, visually verified identifiable wallpaper detail; user preferred prior Kitty effect, so restored blur4/offset5 and matched both apps to82%.",
+      "Source/live Niri configs validate and match byte-for-byte. Unexpected live edits checked: only appearance parameters/formatting differed; no keybinding changes overwritten.",
+      "Temporary test window closed; private diagnostic captures under ~/.local/state/rice/review/opacity."
+    ],
+    "changed_files": [
+      "dot_config/niri/config.kdl",
+      "dot_config/rice/README.md",
+      "RICE.json"
+    ],
+    "remaining": []
   }
 }

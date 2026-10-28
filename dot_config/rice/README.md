@@ -87,7 +87,7 @@ restarts working applications.
 - Qt6ct is declared in decman. `QT_QPA_PLATFORMTHEME=qt6ct` reaches applications
   started from Niri after the next login. Qt5 is not installed on this machine.
 - Native transparent backgrounds keep text opaque. Other application windows use
-  90% whole-window opacity, with stronger 78% opacity for Helium and T3 Code.
+  90% whole-window opacity, with 82% opacity for Helium and T3 Code.
   This also fades their content. **Mod+Shift+O** toggles
   that rule for the focused window; fullscreen content remains opaque.
 - Noctalia's lock screen blurs its own wallpaper; it never shows the unlocked
@@ -119,8 +119,10 @@ restores the previous setup. Recovery snapshots are private files under
 
 ## Glass and website styles
 
-Niri blurs all window backgrounds and popups against the wallpaper. Opaque apps
-use 90% whole-window opacity; Helium and T3 Code use 78% for stronger glass.
+Niri blurs all window backgrounds and popups against the wallpaper. Hollow
+focus rings keep Chromium/Electron windows from revealing a solid ring fill
+instead of the wallpaper. Opaque apps
+use 90% whole-window opacity; Helium and T3 Code use 82%, matching Kitty’s background opacity.
 Kitty keeps native background alpha and fully
 opaque text. Fullscreen windows retain normal opacity. **Mod+Shift+O** toggles
 the compositor opacity rule for the focused window, so photographs, video or a
