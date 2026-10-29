@@ -55,7 +55,8 @@ layout {
     }
     // Thin focus indicator; colours come from rice.kdl.
     focus-ring {
-        width 2
+        off
+ // width 2
     }
     border {
         off
@@ -609,7 +610,6 @@ output "HDMI-A-1" {
     mode "4096x2160@60.000"
     scale 1.5
 }
-
 // Use shared-memory capture to avoid incompatible tiled AMD DMA-BUF buffers.
 // https://niri-wm.github.io/niri/Configuration%3A-Debug-Options.html#disable-pipewire-dmabuf
 debug {
