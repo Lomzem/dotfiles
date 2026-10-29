@@ -89,6 +89,7 @@ def template_targets(paths: Paths) -> list[tuple[str, Path]]:
         ("qt6ct-colors.conf", c / "qt6ct/colors/rice.conf"),
         ("qt6ct.conf", c / "qt6ct/qt6ct.conf"),
         ("yazi.toml", c / "yazi/flavors/rice.yazi/flavor.toml"),
+        ("television.toml", c / "television/themes/rice.toml"),
         ("nvim.lua", c / "nvim/colors/rice.lua"),
         ("vesktop.css", c / "vesktop/themes/rice.theme.css"),
         ("fontconfig.conf", c / "fontconfig/conf.d/60-rice-fonts.conf"),

@@ -356,5 +356,31 @@
     ],
     "artifacts": "Private diagnostic recordings, events, scripts and frame sheets retained under ~/.local/state/rice/review/noctalia-flicker; wf-recorder installed to capture real transitions. No application code or temporary config probes remain.",
     "remaining": []
+  },
+  "television_selection_contrast": {
+    "status": "fixed and applied; verified in a pty render, Kitty composited capture blocked by lock screen",
+    "date": "2026-10-29",
+    "baseline": "cf4cb7e",
+    "symptom": "tv 0.15.9 project-dirs selected row rendered light green text on a light gray bar (user screenshot).",
+    "cause": "tv's built-in default theme sets selection_fg='bright-green' and selection_bg='bright-black'. Rice defines terminal_bright_black (#b2b6be in Mitsuha) as light comment text and validates ANSI colours only as foreground on the terminal background, so ANSI-as-background produced #a0eeb3 on #b2b6be = 1.49:1.",
+    "decision": "Add a rice adapter (templates/television.toml -> ~/.config/television/themes/rice.toml) and select it with [ui] theme = \"rice\" in the tracked config. It keeps tv's default role mapping but only uses already-checked pairs: selection_bg surface_container_highest (all TEXT_ROLES including terminal_bright_green/red are validated on it), mode badges terminal_background on terminal_normal_green/yellow and on_tertiary on tertiary. No background key, so Kitty's translucent surface is unchanged. No palette or contrast-rule change, so no new palette approval was needed. Hex theme_overrides in the tracked config were rejected because they would freeze one wallpaper; ANSI-name overrides cannot be contrast-guaranteed. tv rejects partial theme files (missing field border_fg), so the template is complete; when themes/rice.toml is absent tv falls back to its default theme.",
+    "verification": [
+      "Regression: python3 -m unittest discover -s tests/rice -p test_television.py runs rice draft/approve/select in a disposable HOME, installs the tracked television config, renders real tv in a pseudo-terminal and resolves SGR colours through the generated Kitty theme. Pre-fix red: selected text #a0eeb3 on #b9b8be 1.44:1. Post-fix green. Reverting only config.toml to the baseline goes red again.",
+      "Live loop (throwaway pty script against live config and Kitty rice-theme.conf): baseline 1.49:1 (#a0eeb3 on #b2b6be); after apply + rice reapply 9.00:1 (#a0eeb3 on #32353b) for both an ad-hoc source and the actual project-dirs channel.",
+      "Full suite python3 -m unittest discover -s tests/rice: 19 tests OK.",
+      "chezmoi status showed only the three changed paths with no live edits; applied only those paths, then rice reapply re-rendered Mitsuha. Generated themes/rice.toml remains unmanaged runtime output like other adapters."
+    ],
+    "changed_files": [
+      "dot_config/television/config.toml",
+      "dot_local/lib/rice/rice/desktop.py",
+      "dot_local/lib/rice/templates/television.toml",
+      "tests/rice/test_television.py",
+      "dot_config/rice/README.md",
+      "RICE.json"
+    ],
+    "remaining": [
+      "Visual check of tv in Kitty on the composited desktop: the session was locked during verification, so only the pty colour stream was verified. Kitty should paint explicit cell backgrounds opaque over its 82% default background; confirm visually.",
+      "User visual approval of the new selection bar look (surface_container_highest instead of ANSI bright black) has not been given."
+    ]
   }
 }

@@ -71,6 +71,9 @@ restarts working applications.
 - Kitty, Noctalia, and Niri reload live. Neovim sessions started with this config
   watch the generated colorscheme. Existing Neovim sessions from before setup
   need the updated config loaded or a new session.
+- Television uses the generated `rice` theme on its next launch. Its selected
+  row sits on a checked surface rather than ANSI bright black, which this palette
+  keeps for light comment text.
 - Fuzzel, Zathura, Yazi, GTK, and Qt pick up changes when reopened. Zathura
   recolors documents by default; **Ctrl+R** restores original document colors.
 - Helium's local launcher and desktop entry load the generated theme and font
