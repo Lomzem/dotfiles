@@ -344,7 +344,7 @@ require("lazy").setup({
                 },
                 {
                     "gr",
-                    function() Snacks.picker.lsp_references() end,
+                    function() vim.lsp.buf.rename() end,
                 },
                 {
                     "gm",
