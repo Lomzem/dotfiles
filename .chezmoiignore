@@ -38,6 +38,8 @@ AGENTS.md
 .githooks/**
 SECURITY.md
 RICE.json
+docs/research
+docs/research/**
 tests
 tests/**
 
