@@ -21,7 +21,7 @@ Before adding test, answer:
 4. Export, flag, wrapper, injection hook with no production caller needed?
    Move proof to real boundary instead.
 
-- Use [boundary and cost guide](../../../docs/help/testing/writing-tests.md).
+- Use the [boundary and cost guide](references/proof.md#boundary-and-cost).
 - Regressions must fail pre-fix for intended reason, pass after repair; report
   unavailable baseline proof.
 - One owner regression covers bug; never replay at every crossed layer.
@@ -51,7 +51,15 @@ Before adding test, answer:
 - Before audit edit: read [candidate evidence and workflow](references/audit.md#candidate-evidence);
   inspect full owners/callers/history; record remaining proof before deletion.
 - Delete obsolete production seams with tests; never optimize for deletion counts.
-- Follow [proof policy](../openclaw-testing/SKILL.md#proof-policy); preserve active
-  Vitest checkouts; run owner/sibling proof + changed checks; then autoreview.
+- Follow the [proof policy](references/proof.md#proof-policy); preserve checkouts
+  during active test runs; run owner/sibling proof and required changed checks;
+  then review the final diff.
 - Report causes, retained contracts, proof/cost, production versus test LOC,
   follow-ups. Commit/push/land only with task authority.
+
+## Origin
+
+Adapted from [OpenClaw test-audit](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit)
+for shared use in Codex and Claude. Resolve commands and ownership rules from
+the target repository’s instructions and tooling. The bundled references replace
+OpenClaw-specific dependencies.

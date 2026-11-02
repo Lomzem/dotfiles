@@ -52,17 +52,17 @@ contract. Audit existing matches:
 
 ## Validation and handoff
 
-- Follow [proof policy](../../openclaw-testing/SKILL.md#proof-policy).
-  Never edit checkout during active Vitest run. Run owner/sibling tests.
+- Follow the [proof policy](proof.md#proof-policy).
+  Preserve the checkout during active test runs. Run owner/sibling tests.
 - Removed source greps/plan assertions: exercise owning executable/dry-run.
-- Run targeted format, `git diff --check`; classify changed gate with
-  `node scripts/check-changed.mjs --dry-run -- <changed-paths>` before running it.
-- Before landing removal batches, run CI's `pnpm deadcode:dependencies`,
-  `pnpm deadcode:unused-files`, and `pnpm deadcode:exports` (all phases): removed
-  tests orphan support files/exports that ordinary PR CI misses and main's
-  `check-dependencies` catches.
-- Inspect `git diff --numstat`; get final autoreview.
+- Run targeted formatting and `git diff --check`, plus required checks selected
+  from the target repository’s instructions, scripts, and CI routing.
+- Before landing removal batches, run the repository’s available unused-file,
+  unused-export, and dependency checks: removed tests can orphan support code
+  that ordinary PR CI misses. If no such checks exist, inspect remaining callers
+  and imports and report that limitation.
+- Inspect `git diff --numstat`; review the final diff for lost contracts.
 - Report causes, removed categories/seams, retained false positives, proof/cost,
   production versus test/support LOC, PR state, follow-ups.
-- Commit/push/land only when authorized through native maintainer workflow.
-  Refresh from main + rediscover before another audit batch.
+- Commit/push/land only when authorized by the task and repository workflow.
+  Refresh from the target branch and rediscover before another audit batch.
