@@ -34,16 +34,19 @@ alias claude='claude --dangerously-skip-permissions'
 alias cl=clear
 alias cls=clear
 alias cz=chezmoi
-alias upd='sudo decman --source "$HOME/.config/decman/source.py"'
 alias ls=eza
+alias n=nvim
+alias r='readlink -f'
 alias rmf='rm -rf'
-alias sd='shutdown now'
 alias rs='reboot now'
+alias sd='shutdown now'
 alias so="source $ZDOTDIR/.zshrc"
+alias upd='sudo decman --source "$HOME/.config/decman/source.py"'
 
 alias -g xc='| sed -z "s/^[[:space:]]*//; s/[[:space:]]*$//" | wl-copy'
 
 alias codex='codex --yolo'
+alias claude='claude --dangerously-skip-permissions'
 
 alias ga='git add .'
 alias gA='git add -A'
@@ -61,30 +64,30 @@ bindkey -M vicmd '^R' atuin-search-vicmd
 # Native history, including this keyboard's Esc+k / Esc+j arrow sequences.
 zstyle ':autocomplete:.(up|down)-line-or-history:*' ignore yes
 for keymap in viins vicmd emacs; do
-  bindkey -M "$keymap" '^[[A' .up-line-or-history '^[OA' .up-line-or-history '^[k' .up-line-or-history
-  bindkey -M "$keymap" '^[[B' .down-line-or-history '^[OB' .down-line-or-history '^[j' .down-line-or-history
+    bindkey -M "$keymap" '^[[A' .up-line-or-history '^[OA' .up-line-or-history '^[k' .up-line-or-history
+    bindkey -M "$keymap" '^[[B' .down-line-or-history '^[OB' .down-line-or-history '^[j' .down-line-or-history
 done
 unset keymap
 bindkey -M vicmd 'k' .up-line-or-history 'j' .down-line-or-history
 
-function enter_nvim() { nvim }
+function enter_nvim() { nvim; }
 zle -N enter_nvim
 bindkey -M viins ^n enter_nvim
 
-function gcm() { git commit -m "$*" }
+function gcm() { git commit -m "$*"; }
 zle -N gcm
 
 # Jump to a project or managed config directory through zoxide's cd function.
 function television-cd() {
-  local dir
-  if dir=$(command tv project-dirs --no-remote --no-sort) && [[ -n "$dir" && -d "$dir" ]]; then
-    cd -- "$dir"
-    zle reset-prompt
-  fi
-  zle redisplay
+    local dir
+    if dir=$(command tv project-dirs --no-remote --no-sort) && [[ -n "$dir" && -d "$dir" ]]; then
+        cd -- "$dir"
+        zle reset-prompt
+    fi
+    zle redisplay
 }
 zle -N television-cd
 for keymap in viins vicmd emacs; do
-  bindkey -M "$keymap" '^F' television-cd
+    bindkey -M "$keymap" '^F' television-cd
 done
 unset keymap
