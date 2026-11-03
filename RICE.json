@@ -382,5 +382,41 @@
       "Visual check of tv in Kitty on the composited desktop: the session was locked during verification, so only the pty colour stream was verified. Kitty should paint explicit cell backgrounds opaque over its 82% default background; confirm visually.",
       "User visual approval of the new selection bar look (surface_container_highest instead of ANSI bright black) has not been given."
     ]
+  },
+  "noctalia_stuck_notifications_investigation": {
+    "date": "2026-11-03",
+    "status": "reproduced and diagnosed; active popup dismissed and verified",
+    "symptom": "User reports notification popups remaining in the top right despite toggling notifications and clearing all.",
+    "observations": [
+      "Installed Noctalia 5.4.1 owns org.freedesktop.Notifications (PID 994). Niri 26.04-244-ga8562a11.",
+      "Initial and final Niri layers list only wallpaper and bar; GetNotifications returns zero. Private top-right compositor crop shows no notification.",
+      "Live D-Bus Notify with 2000ms timeout creates noctalia-notification surface and removes it after expiry. A second run using notification-clear-active also removes the surface. Both checks PASS; neither reproduces the reported failure. DND was off.",
+      "User confirmed notification 813 remains after clearing it in Noctalia. Captured actual popup; GetNotifications still lists 813 with timeout=0 and Niri lists noctalia-notification.",
+      "Minimized live check-clear-history.py repeated twice: notification-clear-history returns ok, FAIL: popup remains after clearing notification history. This is the observed separation of history and active popups, rather than a compositor rendering fault.",
+      "notification-clear-active immediately removes popup, active D-Bus entries and Niri surface. Final fresh timeout=0 test with check.py persistent clear: surface exists during display, absent after dismissal, PASS. Composited top-right screenshot confirms popup gone. Installed Niri bindings inspected directly."
+    ],
+    "decision": "Preserve existing keybindings and configuration. Super+Shift+N already calls notification-clear-active; Super+Ctrl+N calls notification-clear-history; Super+N toggles the notification panel. Use active dismissal for visible persistent popups.",
+    "artifacts": "Private scripts retained in ~/.local/state/rice/review/noctalia-stuck-notifications/. check-clear-history.py reproduces the history-only behavior and intentionally reports FAIL if a popup remains. check.py persistent clear verifies that active dismissal removes a timeout=0 popup. No unattended regression test added to the controller suite because controller behavior was not involved.",
+    "remaining": [],
+    "cause": "Noctalia maintains active popup state separately from notification history. Clearing history does not close an active notification with timeout=0; notification-clear-active does. No stale Niri surface was observed."
+  },
+  "noctalia_clear_all_shortcut": {
+    "date": "2026-11-03",
+    "status": "applied, verified and confirmed by user",
+    "request": "Super+Ctrl+N must dismiss active popups, remove the Noctalia bar badge and clear notification history.",
+    "decision": "Supersedes the history-only Super+Ctrl+N behavior documented in the preceding investigation. Bind it to spawn-sh: noctalia msg notification-clear-active && noctalia msg notification-clear-history. Dismiss first so any retained dismissed notifications are removed by the subsequent history clear. Preserve all other bindings.",
+    "changed_files": [
+      "dot_config/niri/config.kdl",
+      "RICE.json"
+    ],
+    "verification": [
+      "Before changing source, chezmoi diff for installed Niri config was empty. Reviewed the one binding change and applied only ~/.config/niri/config.kdl. Source and live Niri configuration validate; final chezmoi diff is empty.",
+      "Sent a real persistent D-Bus notification, confirmed noctalia-notification surface and visible bar badge dot. Injected the actual Super+Ctrl+N chord using wtype. Surface disappeared and GetNotifications returned zero active entries.",
+      "Composited screenshots confirm badge dot removed and Noctalia Notifications All tab displays No Notifications. Closed the panel opened for verification; temporary screenshots deleted.",
+      "git diff --check passes. No controller or UI implementation changes; no controller tests needed for this binding change.",
+      "User tested a fresh persistent notification with Super+Ctrl+N and confirmed it works; requested commit and push."
+    ],
+    "principles": "Laziness Protocol: one binding change. Prove It Works: exercised the actual keyboard chord and inspected popup surface, badge and history UI.",
+    "remaining": []
   }
 }

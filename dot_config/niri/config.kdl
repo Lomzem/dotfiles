@@ -152,8 +152,8 @@ binds {
     Mod+N repeat=false hotkey-overlay-title="Toggle Noctalia notifications" {
         spawn "noctalia" "msg" "panel-toggle" "control-center" "notifications"
     }
-    Mod+Ctrl+N repeat=false hotkey-overlay-title="Delete all Noctalia notifications" {
-        spawn "noctalia" "msg" "notification-clear-history"
+    Mod+Ctrl+N repeat=false hotkey-overlay-title="Dismiss and delete all Noctalia notifications" {
+        spawn-sh "noctalia msg notification-clear-active && noctalia msg notification-clear-history"
     }
     Mod+Shift+N repeat=false hotkey-overlay-title="Dismiss all Noctalia notifications" {
         spawn "noctalia" "msg" "notification-clear-active"
