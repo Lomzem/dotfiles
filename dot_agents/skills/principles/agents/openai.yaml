@@ -1,0 +1,6 @@
+interface:
+  display_name: "Principles"
+  short_description: "Reassess the task against relevant engineering principles."
+  default_prompt: "Use $principles to read the router and apply the relevant principles to the current task."
+policy:
+  allow_implicit_invocation: false

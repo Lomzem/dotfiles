@@ -18,6 +18,7 @@
 
 # Context
 
+- **Principles:** Before substantive implementation, debugging, refactoring, or verification work, read `~/.agents/principles/README.md` and follow the references whose triggers apply. Reassess when the task enters a new phase.
 - Start with the current task and relevant files or document sections; expand when a dependency or unanswered question requires it.
 - At major task boundaries, update the existing task record with decisions, changed files, verification results, and remaining work needed to resume after a handoff or compaction.
 
