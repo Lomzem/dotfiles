@@ -1,15 +1,9 @@
-# Every commit re-exports the report and proves it still meets the bar.
+# Every commit formats staged files, then runs the report's verification gate and stages the export.
 pre-commit:
   piped: true
   jobs:
     - name: format
       run: bunx prettier --write --ignore-unknown {staged_files}
       stage_fixed: true
-    - name: lint
-      run: bunx eslint . --max-warnings 0
-    - name: check
-      run: bun run check
-    - name: export
-      run: bun run export && git add "$(basename "$PWD").html"
-    - name: test
-      run: bun run test
+    - name: verify
+      run: bun run verify && git add "$(basename "$PWD").html"

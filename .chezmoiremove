@@ -6,3 +6,8 @@
 .config/noctalia/plugins.json
 # Kitty theme now comes from rice-theme.conf.
 .config/kitty/current-theme.conf
+
+# visual-report now uses generated shadcn controls.
+.agents/skills/visual-report/template/src/lib/components/button.svelte
+.agents/skills/visual-report/template/src/lib/components/switch.svelte
+.agents/skills/visual-report/template/src/lib/components/tabs.svelte

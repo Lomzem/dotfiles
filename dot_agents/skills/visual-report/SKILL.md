@@ -5,77 +5,64 @@ description: Visual reports as self-contained HTML files. Use for research findi
 
 # Visual report
 
-A **report** is one Svelte project in a report directory under `~/.local/share/visual-report/reports/`. Its export is one self-contained HTML file that works offline. The report directory keeps the editable source, so you or a later agent can revise the report.
+A **report** is one Svelte project under `~/.local/share/visual-report/reports/`. Its editable source stays in the report directory; its deliverable is one self-contained HTML file that works offline.
 
-Use `bun` to run scripts and manage dependencies, and `bunx` to run package CLIs.
+Use `bun` for scripts and dependencies, and `bunx` for package CLIs.
 
-## Steps
+## 1. Create or reopen
 
-### 1. Create the report
+For a new report:
 
 ```sh
 bun ~/.agents/skills/visual-report/scripts/new-report.ts <kebab-slug> "<Title>"
 ```
 
-The last line of output is the report directory. To revise a report, edit its existing directory instead.
+The last output line is the report directory. For revisions, edit the existing directory. Continue when the report directory is identified and ready to edit.
 
-### 2. Design the report
+## 2. Plan the design
 
-For a new report or a visual redesign, read [`frontend-design`](../frontend-design/SKILL.md) and follow its plan, review, build, and critique process. Ground each report's identity in its subject, audience, and reading task. The template's neutral palette is a starting point for implementation; choose the report's palette and typography deliberately.
+For a new report or visual redesign, read [frontend-design](../frontend-design/SKILL.md) and follow its plan, review, build, and critique process. Ground the identity in the subject, audience, and reading task. For other revisions, preserve the established identity.
 
-Record the reviewed plan in `DESIGN.md` in the report directory, including why its choices fit the content and which visual choice gives this report its personality. When revising a report, preserve its established identity unless the brief calls for a redesign.
+Record the reviewed plan in `DESIGN.md`: palette and typography, layout, why they fit the content, and the visual choice that gives the report its personality. Map the palette to semantic tokens in `src/app.css` with light and dark values; keep category and status meanings consistent between themes. Choose chart colors for their data roles. Bundle custom fonts locally.
 
-Map the chosen palette to the semantic tokens in `src/app.css`, with separate light and dark values. Keep category and status meanings consistent across themes. Choose chart colors for their data roles, such as categories, ordered values, or divergence. Carry the identity through the report shell, controls, and visuals. Bundle any custom fonts locally so typography survives offline export.
+Read [ACCESSIBILITY.md](ACCESSIBILITY.md) before building or changing visuals or controls, and use its inspection checklist during verification.
 
-This step is done when the plan explains why this design fits this subject and defines both themes for implementation.
+Continue when `DESIGN.md` explains the design choices and defines both themes for implementation.
 
-### 3. Write the report
+## 3. Write the report
 
-The report is `src/lib/report/Report.svelte`. Its title is in `src/lib/report/meta.ts`. The shell around it gives the page its `<h1>`, the skip link, the `<main>` landmark, and the theme switch. Dark is the default theme.
+Edit `src/lib/report/Report.svelte` and its title in `src/lib/report/meta.ts`. The shell supplies the `<h1>`, skip link, `<main>`, and theme switch. Dark is the default theme.
 
-**Visualize:** Reach for a chart or diagram when a trend, comparison, distribution, flow, or structure would become clearer visually.
+Let the subject determine length, sections, visuals, and export size. Visualize trends, comparisons, distributions, flows, and structures when doing so improves understanding. Add interaction where the reader explores; use static content for facts the reader only reads.
 
-Let the content determine report length, section count, and export size. Design each report for its content. Choose the structure, the visuals, and the interactions that make this subject clear. Add interaction where the reader explores: filters, comparisons, toggles between views, step-throughs, or simulations. A static section is correct for a fact the reader only reads.
+- Use plain content labels for headings, with the content directly beneath them.
+- Organize sections with headings, whitespace, and dividers. Reserve cards for items compared side by side.
+- Put status, category, version, and count labels in sentences, table columns, or beside values.
+- Build with the template's shadcn-svelte controls and semantic HTML. Add needed controls with `bunx shadcn-svelte@latest add <component>`, preserving the existing aliases and theme. Keep shared patterns in `src/lib/components/`; use custom SVG or HTML for visuals.
+- Use semantic color tokens. Import images, fonts, and data so the export bundles its assets. Use ordinary outbound links for citations.
 
-- Write each heading as a plain label for its content: "Cache hit rate by region". Put the section content directly beneath its heading.
-- Lay out sections with headings, whitespace, and dividers. Use a card only for one item in a set that the reader compares side by side.
-- Write status, category, version, and count labels as plain text: a word in the sentence, a table column, or a label beside its value.
-- **Components:** Build the report UI with [shadcn-svelte](https://www.shadcn-svelte.com/docs/cli) components and semantic HTML. In the report directory, initialize with `bunx shadcn-svelte@latest init` when `components.json` is absent, then add the components you need with `bunx shadcn-svelte@latest add <component>`. Match the report's existing import aliases and theme stylesheet when configuring the CLI. Keep shared report patterns in `src/lib/components/`; use custom SVG or HTML for visuals.
-- Use the report's semantic color tokens (`bg-muted`, `text-muted-foreground`, `fill-chart-1`). Verify their rendered combinations against WCAG 2.2 AA in both themes, including muted text, chart labels, and hover, focus, and selected states.
-- Make each section work from 320 CSS pixels wide up to desktop width.
-- Give every control a visible label and a keyboard path. Give every chart a text equivalent, such as a table or a summary sentence.
-- Pair color with visible labels, shapes, patterns, or line styles wherever it conveys meaning. Underline inline links. Keep focus indicators visible and unobscured, and respect reduced motion.
-- Import images and data files, so the export inlines them. Bundle component dependencies into the export.
-- Use ordinary outbound `<a href="https://…">` links for citations. Keep assets local and repair asset or validator defects so export validation can verify offline use.
+Replace the sample tests in `tests/report.spec.ts` with reader-facing tests for the report's interactions, including keyboard operation. Keep the shared export and shell checks.
 
-Write `tests/report.spec.ts` with one test per interaction the report offers. Each test proves the interaction through the page, as the reader uses it. The step is done when every section has its content and every interaction has a test.
+Continue when every section has its content, every interaction has behavioral coverage, and the accessibility requirements are implemented.
 
-### 4. Edit the prose
+## 4. Edit the prose
 
-Apply every rule in [`unslop`](../unslop/SKILL.md) to all report text. For technical text (procedures, system behavior, specifications, and failure analysis), read the clarity guidance adapted from ASD-STE100 in [STE100.md](STE100.md).
+Apply [unslop](../unslop/SKILL.md) to all report text. For procedures, system behavior, specifications, or failure analysis, also read [STE100.md](STE100.md). Continue when all applicable rules have been applied.
 
-### 5. Verify the export
+## 5. Verify and critique
 
-**Lint:** Run `bun run lint` in the report directory and fix each diagnostic. The template runs [shadcn-lint (`@shadcn/lint`)](https://github.com/shadcn-ui/lint) through ESLint, configured in `eslint.config.js`. To run that check directly, use `bunx eslint . --max-warnings 0`.
+Run `bun run verify` in the report directory. It owns the ordered automated checks and baseline screenshots of the exported file. For an existing report that predates `verify`, use its recorded verification workflow; migrate its template only when requested. Fix failures and rerun the affected checks.
 
-Run `bun run export` and `bun run test` to verify the exported file and its interactions. For visual inspection, run `bun run serve` in the background, then `bun run screenshots` and inspect the saved images. Add captures as needed to cover:
+Inspect the screenshots and any additional captures needed for the report's interaction states. Complete the manual checks in [ACCESSIBILITY.md](ACCESSIBILITY.md). Record the checked color pairs and ratios, manual results, and visual critique in `DESIGN.md`. Confirm the report still expresses the planned identity after fixes.
 
-- 1280 pixels wide in dark and light themes.
-- 375 and 320 pixels wide.
-- Each interaction's visible states, with keyboard behavior covered by the interaction tests.
+A passing automated gate proves its checks passed; visual clarity, design fit, and the manual accessibility checks require direct inspection. Continue when the gate passes, every inspected state reads clearly at its viewport, and `DESIGN.md` contains the inspection evidence.
 
-Check actual foreground/background pairs, including transparency, in both themes. Require [4.5:1 for normal text and 3:1 for large text](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html). Large text is at least 24 CSS pixels, or about 18.67 CSS pixels when bold. Require [3:1 against adjacent colors](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) for meaningful chart marks and visual cues needed to identify controls and states, including author-styled focus indicators. Decorative dividers can remain subtle.
+## 6. Commit
 
-Use the automated accessibility results alongside manual checks of SVG/canvas contrast, visible alternatives to color, keyboard focus, zoom/reflow, and reduced motion. Automated checks alone do not establish WCAG conformance. Record the checked color pairs and ratios, manual results, and visual critique in `DESIGN.md`. Confirm the report still expresses the planned identity after accessibility fixes.
+Commit all report changes with the pre-commit hook enabled. The hook uses the same automated verification path. Resolve failures and retry. Continue when the commit lands.
 
-Fix defects and repeat the affected checks. Verification is complete when the checks pass, every inspected state reads clearly with content fitting its viewport, and the design record contains the accessibility evidence.
+## 7. Deliver
 
-### 6. Commit
+Link the absolute path to `<report directory>/<report directory name>.html` in your reply. Add only what the page does not say. Delivery is complete when the verified export exists and the reply links it.
 
-Commit all changes in the report directory. The pre-commit hook in `lefthook.yml` runs the gate. Fix each failure and commit again. The step is done when the commit lands. Keep the pre-commit hook enabled so the commit proves the gate passed.
-
-### 7. Deliver the file
-
-Link the absolute path to `<report directory>/<report directory name>.html` in your reply so the user can click the file and open it in their own browser. Add only what the page does not say. Delivery is complete when the verified export exists and the reply links it.
-
-**Stretch goal — inline preview:** The HTML file is the deliverable. After the verified file is ready, you may add a T3 Code preview using [INLINE-RENDERING.md](INLINE-RENDERING.md). Preview availability or failure does not block delivery or require changes to the report.
+For an additional T3 Code preview after the file is ready, use [INLINE-RENDERING.md](INLINE-RENDERING.md). Preview availability or failure does not block file delivery or require report changes.

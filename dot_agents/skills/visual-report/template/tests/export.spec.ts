@@ -4,14 +4,14 @@ import { expect, reportUrl, test } from './report-file';
 const themeSwitch = (page: import('@playwright/test').Page) =>
 	page.getByRole('switch', { name: 'Dark theme' });
 
-test('opens offline without remote requests or errors', async ({
+test('opens from its own file without external requests or errors', async ({
 	report,
-	remoteRequests,
+	externalRequests,
 	errors,
 }) => {
 	await expect(report.getByRole('heading', { level: 1 })).toBeVisible();
 	await expect(report.getByRole('main')).toBeVisible();
-	expect(remoteRequests).toEqual([]);
+	expect(externalRequests).toEqual([]);
 	expect(errors).toEqual([]);
 });
 

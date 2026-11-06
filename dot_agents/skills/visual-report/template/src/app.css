@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
 /* The export build's Vite root is src/export, so name the sources explicitly. */
 @source './';
 
