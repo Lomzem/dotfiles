@@ -25,10 +25,12 @@ Use the repository's instructions to determine required checks, reviewers, merge
 
 ## Monitor and merge
 
-- Use the platform's event-driven PR watcher for waits. Delegated workers return the PR URL, head SHA, check and review state, and remaining work to their parent; the parent owns monitoring.
-- On new results, address the actionable findings, update the PR, and resume monitoring if requirements remain pending. Keep review requests tied to prepared revisions rather than repeated attempts while a review or rate limit is pending.
+- Use T3 Code tools to babysit the PR. Immediately after creating, taking over, or pushing to a PR, link its full URL with `link_pull_request` (or `link_pull_requests` for a stack).
+- When asked to monitor or babysit, or when authorized work awaits checks or reviews, finish any needed branch update and push, handle existing comments, then call `watch_pull_request` and end the turn. Use this event-driven watcher instead of polling loops, blocking CLI watches, sleeps, or scheduled tasks. Delegated workers return the PR URL, head SHA, check and review state, and remaining work to their parent; the parent owns monitoring.
+- On a watcher wake, assess the current head's checks and reviews, address actionable findings, and update the PR. The watch stays active across wakes and pushes; end the turn while requirements remain pending. Keep review requests tied to prepared revisions rather than repeated attempts while a review or rate limit is pending.
 - When merging is included in the task, merge only after the current head has all required checks passing and the repository's required approvals. Where CodeRabbit approval is required, verify a completed review and its explicit approval covering that head; stale approval or a rate-limit status leaves the gate unmet.
 - Use the repository's merge method, verify that the PR merged into the intended base branch, and report the PR URL and resulting commit. PR delivery is complete when the authorized merge is verified; review-only work is complete when findings and outstanding gates are reported.
+- Call `unwatch_pull_request` when monitoring is complete or handed back to the user.
 
 ## CodeRabbit reference
 
