@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+"""Restore Claude provider slots without tracking T3 runtime state or logins."""
+import json
+import sys
+from pathlib import Path
+
+original = sys.stdin.read()
+settings = json.loads(original) if original.strip() else {}
+before = json.dumps(settings, sort_keys=True)
+providers = settings.setdefault("providerInstances", {})
+
+for instance_id, name, home in (
+    ("claudeAgent", None, ""),
+    ("claudeTeam", "AJA", str(Path.home() / ".claude_team")),
+):
+    provider = providers.setdefault(instance_id, {})
+    provider.setdefault("driver", "claudeAgent")
+    provider.setdefault("enabled", True)
+    if name is not None:
+        provider.setdefault("displayName", name)
+    config = provider.setdefault("config", {})
+    for key, value in {
+        "binaryPath": "claude",
+        "homePath": home,
+        "customModels": [],
+        "launchArgs": "",
+        "autoCompactWindow": "200000",
+    }.items():
+        config.setdefault(key, value)
+
+if json.dumps(settings, sort_keys=True) == before:
+    sys.stdout.write(original)
+else:
+    sys.stdout.write(json.dumps(settings, indent=2) + "\n")
