@@ -10,4 +10,4 @@ if servers.get("context7") == server:
     sys.stdout.write(original)
 else:
     servers["context7"] = server
-    sys.stdout.write(json.dumps(config, indent=2) + "\n")
+    sys.stdout.write(json.dumps(config, indent=2, ensure_ascii=False) + "\n")
