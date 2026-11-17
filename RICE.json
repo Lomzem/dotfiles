@@ -447,5 +447,12 @@
     "remaining": [
       "Visual verification of the conversation wallpaper in the native T3 client requires selecting the published Rice theme in Appearance."
     ]
+  },
+  "handoff_wallpaper_reload": {
+    "date": "2026-11-17",
+    "status": "desktop wallpaper restored and verified",
+    "symptom": "Noctalia reported the Mitsuha path, but a compositor capture of an empty workspace showed a solid gray wallpaper after the missing image had been restored.",
+    "recovery": "Setting the same JPEG through a temporary symlink on the active output refreshed the image. Setting the original path again retained the image. Removed the temporary symlink and kept the active palette and fonts.",
+    "verification": "After rice reapply, the wallpaper rendered on HDMI-A-1 and matched the Mitsuha image at 1.000 luminance correlation. A capture beside the focused window showed 37 distinct gray levels. Rice's current and previous setup records matched their pre-reapply values."
   }
 }
