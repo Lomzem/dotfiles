@@ -1,7 +1,7 @@
 # Model roles
 
 - **Opus 5.5** is the default parent. It decides and writes the final result: architecture, API and product design, UI and copy, what tests prove, implementation, and the disposition of every review finding.
-- **GPT-6.1-Sol** does legwork: it reads, runs, and suggests. Its output is evidence and options for Opus to judge. Sol's edits land only when they are tool-generated (formatter output, regenerated files, lockfiles) or when the user approves Sol code for that task.
+- **GPT-6.2-Sol** does legwork: it reads, runs, and suggests. Its output is evidence and options for Opus to judge. Sol's edits land only when they are tool-generated (formatter output, regenerated files, lockfiles) or when the user approves Sol code for that task.
 
 # Delegation
 
