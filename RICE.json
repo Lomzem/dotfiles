@@ -418,5 +418,34 @@
     ],
     "principles": "Laziness Protocol: one binding change. Prove It Works: exercised the actual keyboard chord and inspected popup surface, badge and history UI.",
     "remaining": []
+  },
+  "handoff_071346b": {
+    "date": "2026-11-17",
+    "source": "/home/lomzem/rice-handoff-071346b",
+    "status": "integrated and applied with chezmoi",
+    "decisions": [
+      "Port the named use, check and edit commands, PNG previews and Zsh completion. Reuse the existing contrast evaluator, Noctalia gallery, profile revisions, state and rollback.",
+      "The tracked Mitsuha image and controlled colors match the bundle. Restore the missing installed copy of the tracked image and keep this machine's approved 82% panel and terminal opacity and existing fonts.",
+      "Publish the full Rice T3 environment theme, conversation wallpaper and ANSI colors. Leave theme selection and client glass preferences to T3. Keep generated files outside Git."
+    ],
+    "changed_files": [
+      "RICE.json",
+      "dot_config/rice/README.md",
+      "dot_config/zsh/dot_zshrc",
+      "dot_config/zsh/completions/_rice",
+      "dot_config/zsh/rice-ansi.zsh",
+      "dot_local/lib/rice/rice/{cli,contrast,desktop,named,palette,preview,store}.py",
+      "tests/rice/test_named.py"
+    ],
+    "verification": [
+      "Python controller suite passes 26 tests. The new public CLI tests cover named and symlinked wallpapers, duplicate names, contrast fixes, edit and restore, and T3 theme, wallpaper and terminal outputs.",
+      "Fresh installed Zsh session completes both the check command and an installed wallpaper name.",
+      "Installed rice check mitsuha passes 236 checks and renders a PNG using the approved profile at 82% opacity.",
+      "Live rice reapply re-rendered Mitsuha. The current and previous setup records, Niri config checksum and T3 theme preference matched their pre-apply values. Noctalia reported the restored wallpaper path. Published T3 output has 61 color roles, an exact copy of Mitsuha and 16 ANSI colors."
+    ],
+    "principles": "Laziness Protocol kept the existing renderer and profile store. Separate Before Serializing Shared State kept T3 theme selection in the app. Prove It Works covered the installed CLI and real Zsh completion as well as disposable apply and restore tests.",
+    "remaining": [
+      "Visual verification of the conversation wallpaper in the native T3 client requires selecting the published Rice theme in Appearance."
+    ]
   }
 }

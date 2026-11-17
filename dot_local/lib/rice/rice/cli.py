@@ -9,15 +9,11 @@ import subprocess
 import sys
 from pathlib import Path
 
-from . import contrast, desktop, report, store
+from . import contrast, desktop, named, palette, report, store
 from .store import Paths, RiceError
+from .store import state as _state
 
 NEEDS_REVIEW = 3
-
-
-def _state(paths: Paths) -> dict:
-    path = paths.state / "state.json"
-    return store.read_json(path) if path.exists() else {}
 
 
 def _public(setup: dict | None) -> dict | None:
@@ -246,14 +242,14 @@ def cmd_palette(paths: Paths, args: argparse.Namespace) -> int:
 
 
 def cmd_reapply(paths: Paths, args: argparse.Namespace) -> int:
-    current = _state(paths).get("current")
-    if not current:
-        raise RiceError("nothing applied yet; use `rice select`")
     state = _state(paths)
-    for note in desktop.apply(paths, current, state):
+    current = state.get("current")
+    if not current:
+        raise RiceError("nothing applied yet; use `rice use NAME`")
+    if current["palette"].get("source") == "file":
+        current = named.setup(paths, current["palette"]["name"], Path(current["wallpaper"]))
+    for note in desktop.apply(paths, current, state, preserve_previous=True):
         print(f"  {note}")
-    # Re-rendering is not a new setup: keep the previous one restorable.
-    store.write_json(paths.state / "state.json", state)
     print(f"Re-rendered {current['label']}")
     return 0
 
@@ -288,15 +284,7 @@ def cmd_darkreader(paths: Paths, args: argparse.Namespace) -> int:
 def cmd_fonts(paths: Paths, args: argparse.Namespace) -> int:
     fonts = store.settings(paths)["fonts"]
     if args.pick:
-        raw = store.run(["fc-list", ":", "family"])
-        families = sorted(
-            {
-                part.strip()
-                for line in raw.stdout.splitlines()
-                for part in line.split(",")
-                if desktop.FONT_NAME.fullmatch(part.strip())
-            }
-        )
+        families = desktop.font_families()
         choices = []
         for title in ("Interface font", "Monospace font"):
             picked = store.run(["fuzzel", "--dmenu", "--prompt", title + ": "], input="\n".join(families))
@@ -308,7 +296,7 @@ def cmd_fonts(paths: Paths, args: argparse.Namespace) -> int:
     if not args.interface and not args.monospace:
         print(json.dumps(fonts) if args.json else f"interface: {fonts['interface']}\nmonospace: {fonts['monospace']}")
         return 0
-    families = desktop.installed_families()
+    families = {family.casefold() for family in desktop.font_families()}
     stored = store.read_json(paths.settings) if paths.settings.exists() else {}
     new_fonts = dict(stored.get("fonts", {}))
     if args.interface:
@@ -324,9 +312,8 @@ def cmd_fonts(paths: Paths, args: argparse.Namespace) -> int:
         return 0
     try:
         state = _state(paths)
-        for note in desktop.apply(paths, current, state):
+        for note in desktop.apply(paths, current, state, preserve_previous=True):
             print(f"  {note}")
-        store.write_json(paths.state / "state.json", state)
     except RiceError:
         if original is None:
             paths.settings.unlink(missing_ok=True)
@@ -354,7 +341,7 @@ def cmd_status(paths: Paths, args: argparse.Namespace) -> int:
         print("Nothing applied yet.")
     else:
         palette = current["palette"]
-        kind = f"r{palette['revision']}" if "revision" in palette else "draft preview"
+        kind = f"r{palette['revision']}" if "revision" in palette else palette.get("source", "draft preview")
         print(f"Palette: {palette['name']} ({kind})\nWallpaper: {current['wallpaper']}")
     print(f"Fonts: {data['fonts']['interface']} / {data['fonts']['monospace']}")
     return 0
@@ -384,6 +371,29 @@ def _thumbnail(paths: Paths, image: Path, sha: str) -> str | None:
 
 def cmd_list(paths: Paths, args: argparse.Namespace) -> int:
     current = _state(paths).get("current") or {}
+    if not (args.json or args.thumbnails):
+        active = Path(current["wallpaper"]).resolve() if current else None
+        names = store.wallpaper_names(paths)
+        if not names:
+            print("No wallpapers found in " + ", ".join(store.settings(paths)["wallpaper_dirs"]))
+        for name, images in names.items():
+            for image in images:
+                marker = "*" if image.resolve() == active else " "
+                if len(images) > 1:
+                    source = "duplicate name, rename one"
+                elif palette.file_path(paths, name).is_file():
+                    source = "palette file"
+                else:
+                    sha = store.image_sha(image)
+                    if store.load_profile(paths, sha):
+                        source = "approved profile"
+                    elif store.load_draft(paths, sha):
+                        source = "draft awaiting approval"
+                    else:
+                        source = "generated palette"
+                print(f"{marker} {name:<24} {source:<25} {image}")
+        print("Approved palettes: " + (", ".join(p["name"] for p in store.profiles(paths)) or "none"))
+        return 0
     items = []
     for image in store.wallpapers(paths):
         sha = store.image_sha(image)
@@ -418,7 +428,7 @@ def cmd_hook(paths: Paths, args: argparse.Namespace) -> int:
         return 0
     image = Path(chosen).resolve()
     current = _state(paths).get("current")
-    if current and Path(current["wallpaper"]) == image:
+    if current and Path(current["wallpaper"]).resolve() == image:
         return 0
     profile = store.load_profile(paths, store.image_sha(image))
     if profile is not None:
@@ -439,6 +449,8 @@ def cmd_hook(paths: Paths, args: argparse.Namespace) -> int:
 # ── Entry ───────────────────────────────────────────────────────────────────
 
 LOCKED = {
+    "use",
+    "edit",
     "draft",
     "set",
     "approve",
@@ -454,15 +466,59 @@ LOCKED = {
 }
 
 
+def cmd_complete(paths: Paths, args: argparse.Namespace) -> int:
+    if args.kind == "wallpapers":
+        names = list(store.wallpaper_names(paths))
+    else:
+        names = desktop.font_families()
+    print("\n".join(names))
+    return 0
+
+
+def cmd_overview(paths: Paths, args: argparse.Namespace) -> int:
+    cmd_status(paths, args)
+    print(
+        "\nWallpaper\n"
+        "  use NAME|PATH    apply a wallpaper and its palette\n"
+        "  list             show wallpapers (* marks the current one)\n\n"
+        "Palettes\n"
+        "  edit NAME|PATH   edit, check and apply a palette\n"
+        "  check NAME|PATH  check contrast, suggest fixes and draw a preview\n\n"
+        "Fonts and templates\n"
+        "  fonts            show or change interface and monospace fonts\n"
+        "  reapply          render again after editing templates or settings\n\n"
+        "Run `rice --help` for all commands, including the approval and restore workflow."
+    )
+    return 0
+
+
+class Parser(argparse.ArgumentParser):
+    def error(self, message: str) -> None:
+        self.print_help(sys.stderr)
+        self.exit(2, f"\n{self.prog}: {message}\n")
+
+
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(prog="rice", description=__doc__)
-    sub = root.add_subparsers(dest="command", required=True, metavar="COMMAND")
+    root = Parser(prog="rice", description=__doc__)
+    root.set_defaults(handler=cmd_overview, json=False)
+    sub = root.add_subparsers(dest="command", metavar="COMMAND")
 
     def command(name: str, handler, help: str) -> argparse.ArgumentParser:
         p = sub.add_parser(name, help=help, description=help)
         p.set_defaults(handler=handler)
         return p
 
+    for name, handler, description in (
+        ("use", named.cmd_use, "Apply a wallpaper and its validated palette"),
+        ("edit", named.cmd_edit, "Edit a palette in your editor, check it and apply it"),
+        ("check", named.cmd_check, "Check contrast, suggest fixes and draw a preview"),
+    ):
+        p = command(name, handler, description)
+        p.add_argument("wallpaper", metavar="NAME|PATH", help="wallpaper name from rice list, or an image path")
+        if name == "check":
+            p.add_argument("--json", action="store_true", help="machine-readable checks and palette roles")
+    p = command("complete", cmd_complete, "List available wallpaper names or font families")
+    p.add_argument("kind", choices=["wallpapers", "fonts"])
     p = command("draft", cmd_draft, "Create or show a draft palette for an image")
     p.add_argument("image")
     p.add_argument(
@@ -526,6 +582,6 @@ def main(argv: list[str] | None = None) -> int:
             with store.locked(paths):
                 return args.handler(paths, args)
         return args.handler(paths, args)
-    except (RiceError, contrast.PaletteError) as error:
+    except (RiceError, contrast.PaletteError, OSError) as error:
         print(f"rice: {error}", file=sys.stderr)
         return 1

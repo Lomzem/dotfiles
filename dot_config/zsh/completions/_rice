@@ -1,0 +1,64 @@
+#compdef rice
+# Wallpaper and font names come from rice itself, so new wallpapers complete without editing this file.
+
+_rice_wallpapers() {
+  local -a names
+  names=(${(f)"$(rice complete wallpapers 2>/dev/null)"})
+  _describe -t wallpapers 'wallpaper' names && return
+  _files -g '*.(png|jpg|jpeg|webp|bmp|gif|avif|jxl)(-.)'
+}
+
+_rice_fonts() {
+  local -a names
+  names=(${(f)"$(rice complete fonts 2>/dev/null)"})
+  _describe -t fonts 'font family' names
+}
+
+_rice() {
+  local -a commands
+  commands=(
+    'use:apply a wallpaper and its palette'
+    'list:show wallpapers (* marks the current one)'
+    'edit:edit a palette in $EDITOR, check it, then apply it'
+    'check:check that text stays readable; suggests fixes'
+    'fonts:show or change the interface and monospace fonts'
+    'reapply:render every app again after editing templates or settings'
+    'draft:create a draft palette'
+    'set:edit a draft palette'
+    'report:write the draft or approved palette report'
+    'approve:approve a draft palette'
+    'select:apply an approved palette or draft a new one'
+    'preview:apply a draft temporarily'
+    'restore:restore the previous setup'
+    'wallpaper:change the wallpaper and keep the palette'
+    'palette:apply an approved palette by name'
+    'status:show the current setup'
+    'darkreader:merge the active palette into a Dark Reader settings export'
+  )
+  if (( CURRENT == 2 )); then
+    _describe -t commands 'rice command' commands
+    return
+  fi
+  local command=$words[2]
+  shift words
+  (( CURRENT-- ))
+  case $command in
+    use|edit) _arguments '1:wallpaper:_rice_wallpapers' ;;
+    check) _arguments '1:wallpaper:_rice_wallpapers' '--json[machine-readable report for agents]' ;;
+    draft|set|report|approve|select|preview|wallpaper)
+      _arguments '1:wallpaper image:_files'
+      ;;
+    list) _arguments '--json[structured list]' '--thumbnails[include thumbnails]' ;;
+    status) _arguments '--json[structured status]' ;;
+    darkreader) _arguments '1:settings export:_files' '--output[new settings file]:file:_files' ;;
+    fonts)
+      _arguments \
+        '--pick[choose both fonts with Fuzzel]' \
+        '--json[structured font settings]' \
+        '--interface[font for interface text]:font family:_rice_fonts' \
+        '--monospace[font for terminals and code]:font family:_rice_fonts'
+      ;;
+  esac
+}
+
+_rice "$@"

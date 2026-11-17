@@ -25,12 +25,107 @@ from pathlib import Path
 
 import tomllib
 
-from . import contrast, store
+from . import contrast, palette, store
 from .store import Paths, RiceError
 
 TEMPLATES = store.LIB / "templates"
 NOCTALIA_PALETTE = "Rice"
 T3_THEME_ID = "rice"
+T3_IMAGE_SUFFIXES = ("webp", "png", "jpg", "jpeg")
+T3_IMAGE_LIMIT = 16 * 1024 * 1024
+T3_COLORS = {
+    "canvas": "surface",
+    "chrome": "surface",
+    "toolbar": "surface",
+    "toolbarForeground": "on_surface",
+    "toolbarBorder": "outline_variant",
+    "toolbarControl": "surface_container",
+    "toolbarControlForeground": "on_surface",
+    "toolbarControlHover": "surface_container_high",
+    "surface": "surface",
+    "surfaceRaised": "surface_container_low",
+    "surfaceOverlay": "surface_container_high",
+    "text": "on_surface",
+    "textMuted": "on_surface_variant",
+    "border": "outline_variant",
+    "input": "outline_variant",
+    "focus": "primary",
+    "accent": "primary",
+    "accentForeground": "on_primary",
+    "secondary": "secondary_container",
+    "secondaryForeground": "on_secondary_container",
+    "muted": "surface_container",
+    "mutedForeground": "on_surface_variant",
+    "placeholder": "on_surface_variant",
+    "secondaryLabel": "on_surface_variant",
+    "iconMuted": "on_surface_variant",
+    "error": "error",
+    "errorForeground": "error",
+    "errorSurface": "surface_container_high",
+    "warning": "terminal_normal_yellow",
+    "warningForeground": "terminal_normal_yellow",
+    "warningSurface": "surface_container_high",
+    "update": "primary",
+    "updateForeground": "primary",
+    "updateSurface": "surface_container_high",
+    "accentSurface": "secondary_container",
+    "accentSurfaceForeground": "on_secondary_container",
+    "messageSurface": "surface_container_high",
+    "messageForeground": "on_surface",
+    "messageAction": "primary",
+    "messageActionForeground": "on_primary",
+    "messageActionHover": "primary",
+    "codeBackground": "surface_container_lowest",
+    "codeForeground": "on_surface",
+    "searchMatchBackground": "tertiary_container",
+    "searchMatchForeground": "on_tertiary_container",
+    "searchMatchActiveBackground": "tertiary",
+    "searchMatchActiveForeground": "on_tertiary",
+    "sidebar": "surface_container_lowest",
+    "sidebarForeground": "on_surface",
+    "sidebarMutedForeground": "on_surface_variant",
+    "sidebarControlSurface": "surface_container_low",
+    "sidebarRowHover": "surface_container",
+    "sidebarRowActive": "surface_container_high",
+    "sidebarRowSelected": "surface_container_highest",
+    "sidebarBorder": "outline_variant",
+    "terminalBackground": "background",
+    "terminalForeground": "terminal_foreground",
+    "terminalCursor": "terminal_foreground",
+    "terminalSelection": "surface_variant",
+    "terminalScrollbar": "outline_variant",
+    "terminalScrollbarHover": "outline",
+}
+T3_TEXT = (
+    *(
+        (fg, bg)
+        for bg in ("canvas", "surface", "surfaceRaised", "surfaceOverlay", "toolbar")
+        for fg in ("text", "textMuted", "placeholder", "secondaryLabel", "accent", "error", "warning")
+    ),
+    ("toolbarControlForeground", "toolbarControl"),
+    ("toolbarControlForeground", "toolbarControlHover"),
+    ("accentForeground", "accent"),
+    ("secondaryForeground", "secondary"),
+    ("mutedForeground", "muted"),
+    ("errorForeground", "errorSurface"),
+    ("warningForeground", "warningSurface"),
+    ("updateForeground", "updateSurface"),
+    ("accentSurfaceForeground", "accentSurface"),
+    ("messageForeground", "messageSurface"),
+    ("messageActionForeground", "messageAction"),
+    ("messageActionForeground", "messageActionHover"),
+    ("codeForeground", "codeBackground"),
+    ("searchMatchForeground", "searchMatchBackground"),
+    ("searchMatchActiveForeground", "searchMatchActiveBackground"),
+    *(
+        (fg, bg)
+        for bg in ("sidebar", "sidebarControlSurface", "sidebarRowHover", "sidebarRowActive", "sidebarRowSelected")
+        for fg in ("sidebarForeground", "sidebarMutedForeground")
+    ),
+    ("terminalForeground", "terminalBackground"),
+    ("terminalForeground", "terminalSelection"),
+)
+T3_ON_WALLPAPER = ("text", "textMuted", "accent", "error")
 PLACEHOLDER = re.compile(r"@@([a-z_]+)\.([a-z_]+)@@")
 FONT_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9 ._+-]{0,63}")
 
@@ -106,14 +201,14 @@ def template_targets(paths: Paths) -> list[tuple[str, Path]]:
 # ── Fonts ───────────────────────────────────────────────────────────────────
 
 
-def installed_families() -> set[str]:
+def font_families() -> list[str]:
     result = store.run(["fc-list", ":", "family"])
     if result.returncode != 0:
         raise RiceError("fc-list failed; is fontconfig installed?")
     names: set[str] = set()
     for line in result.stdout.splitlines():
-        names.update(part.strip().casefold() for part in line.split(","))
-    return names
+        names.update(part.strip() for part in line.split(",") if FONT_NAME.fullmatch(part.strip()))
+    return sorted(names, key=str.casefold)
 
 
 def check_font(name: str, families: set[str]) -> str:
@@ -453,16 +548,71 @@ def _noctalia_settings(paths: Paths) -> list[Output]:
     return [] if stripped == text else [Output(path, stripped.encode())]
 
 
+def _t3_colors() -> dict[str, str]:
+    checked = {(pair.fg, pair.bg, pair.alpha) for pair in contrast.PAIRS if pair.minimum >= contrast.TEXT}
+    shown = [(fg, bg, None) for fg, bg in T3_TEXT] + [(fg, "surface", "panel") for fg in T3_ON_WALLPAPER]
+    for fg, bg, opacity in shown:
+        tokens = (T3_COLORS[fg], T3_COLORS[bg], opacity)
+        if tokens not in checked:
+            raise RiceError(f"T3 shows {fg} on {bg}, but rice check never tests {tokens[0]} on {tokens[1]}")
+    return T3_COLORS
+
+
 def _t3_theme(setup: dict) -> bytes:
     colors = setup["colors"]
+    roles = {role: colors[token] for role, token in _t3_colors().items()}
+    veil = colors["surface"] + f"{round(setup['alpha']['panel'] * 255):02x}"
     theme = {
         "version": 1,
         "name": f"Rice {setup['label']}"[:48],
         "appearance": "dark",
-        "canvas": colors["surface"],
-        "accent": colors["primary"],
+        "canvas": roles["canvas"],
+        "accent": roles["accent"],
+        "colors": roles,
+        "css": (
+            '[data-workspace-area="conversation"] { background: '
+            f"linear-gradient({veil}, {veil}), var(--theme-background-image, none) center / cover no-repeat !important; }}"
+        ),
     }
     return (json.dumps(theme, indent=2) + "\n").encode()
+
+
+def _t3_wallpaper(themes: Path, wallpaper: Path) -> list[Output]:
+    suffix = {".jpeg": "jpg"}.get(wallpaper.suffix.lower(), wallpaper.suffix.lower()[1:])
+    if suffix in T3_IMAGE_SUFFIXES and wallpaper.stat().st_size <= T3_IMAGE_LIMIT:
+        data = wallpaper.read_bytes()
+    else:
+        suffix = "webp"
+        data = _t3_webp(wallpaper)
+    outputs = []
+    for other in T3_IMAGE_SUFFIXES:
+        target = themes / f"{T3_THEME_ID}.{other}"
+        if other == suffix:
+            if not target.is_file() or target.is_symlink() or target.read_bytes() != data:
+                outputs.append(Output(target, data, 0o644))
+        elif target.exists() or target.is_symlink():
+            outputs.append(Output(target, None))
+    return outputs
+
+
+def _t3_webp(wallpaper: Path) -> bytes:
+    try:
+        result = subprocess.run(
+            ["magick", f"{wallpaper}[0]", "-resize", "3840x3840>", "-quality", "90", "webp:-"],
+            capture_output=True,
+            check=False,
+            timeout=120,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        raise RiceError(f"ImageMagick could not make a T3 background from {wallpaper}: {error}") from error
+    if result.returncode != 0 or len(result.stdout) > T3_IMAGE_LIMIT or not result.stdout:
+        raise RiceError(f"ImageMagick could not make a T3 background from {wallpaper}")
+    return result.stdout
+
+
+def _ansi_colors(colors: dict[str, str]) -> bytes:
+    tokens = [f"terminal_{tone}_{name}" for tone in ("normal", "bright") for name in palette.ANSI]
+    return "".join(f"\033]4;{index};{colors[token]}\033\\" for index, token in enumerate(tokens)).encode()
 
 
 def plan(paths: Paths, setup: dict) -> Plan:
@@ -470,13 +620,16 @@ def plan(paths: Paths, setup: dict) -> Plan:
     result = Plan()
     with tempfile.TemporaryDirectory(prefix="rice-render-") as tmp:
         result.outputs = _render_templates(paths, setup, fonts, Path(tmp))
+    t3_themes = paths.home / ".t3/userdata/themes"
     result.outputs += [
         Output(
             paths.config / f"noctalia/palettes/{NOCTALIA_PALETTE}.json",
             _noctalia_palette(setup["colors"]),
         ),
         *_noctalia_settings(paths),
-        Output(paths.home / f".t3/userdata/themes/{T3_THEME_ID}.json", _t3_theme(setup)),
+        Output(paths.data / "rice/ansi-colors", _ansi_colors(setup["colors"]), 0o644),
+        *_t3_wallpaper(t3_themes, Path(setup["wallpaper"])),
+        Output(t3_themes / f"{T3_THEME_ID}.json", _t3_theme(setup)),
     ]
     t3 = paths.home / ".t3/userdata/client-settings.json"
     if t3.is_file():
@@ -694,7 +847,9 @@ def restore(paths: Paths, state: dict) -> list[str]:
     return ["Restored the desktop captured before the first rice preview/application."]
 
 
-def apply(paths: Paths, setup: dict, state: dict) -> list[str]:
+def apply(
+    paths: Paths, setup: dict, state: dict, *, preserve_previous: bool = False
+) -> list[str]:
     """Apply one setup transactionally; repeated previews retain their original undo."""
     contrast.validate_palette(setup["colors"], setup["alpha"], set())
     rows = contrast.evaluate(setup["colors"], setup["alpha"], store.backdrop_bound(Path(setup["wallpaper"])))
@@ -704,7 +859,7 @@ def apply(paths: Paths, setup: dict, state: dict) -> list[str]:
     live = _noctalia(["wallpaper-get"])
     work = plan(paths, setup)
     old = state.get("current")
-    previous = state.get("previous") if old and old.get("preview") else old
+    previous = state.get("previous") if preserve_previous or (old and old.get("preview")) else old
     if not old and state.get("previous", {}) and "snapshot" in state["previous"]:
         previous = state["previous"]
     if not previous:

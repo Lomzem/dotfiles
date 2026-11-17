@@ -4,6 +4,39 @@
 adjustments, and applies it across the desktop. Approved palettes are associated
 with the image contents, so renaming an image does not regenerate its colors.
 
+## Use Rice from Zsh
+
+Run `rice` for the current setup and common commands, or `rice --help` for
+the full command list. Zsh completes wallpaper names and installed fonts.
+
+```sh
+rice list
+rice check mitsuha --json
+rice use mitsuha
+rice edit mitsuha
+```
+
+`check`, `use`, and `edit` accept a wallpaper name from `rice list` or an
+image path. Use unique image stems in your wallpaper directories. `check`
+writes a PNG preview to the Rice cache and reports any failed contrast or hue
+checks with suggested fixes. The JSON includes the preview path and the
+supported color and opacity roles.
+
+`use` loads `~/.config/rice/palettes/NAME.json` first, then looks for an
+approved profile matching the image contents, then generates a palette.
+It applies only a passing palette. `edit` opens the named JSON file using
+`VISUAL` or `EDITOR`, starting from the approved or generated colors on first
+edit. Saving a passing palette and exiting the editor applies it. Failed
+checks leave the file available for further edits. Run `rice check` for a
+preview before applying a palette edited outside the CLI.
+
+Named files use `colors` and `opacity` with `panels` and `terminal` keys.
+Missing opacity values inherit the approved profile's settings or Rice's
+82% defaults. You can track a named palette with
+`chezmoi add ~/.config/rice/palettes/NAME.json`. `rice reapply` reloads
+the active named file and keeps the previous setup available for `rice restore`.
+The Noctalia gallery and wallpaper hook use the approved profiles below.
+
 ## Choose and review
 
 **Mod+Shift+W** opens the Noctalia wallpaper gallery. Approved images apply their
@@ -82,9 +115,11 @@ restarts working applications.
   Rice theme at `helium://extensions` or reopen Helium. Browser chrome uses the
   system font. rice never edits the live browser Preferences file.
 - T3 publishes the generated **Rice** environment theme. Select it once in
-  Settings → Appearance; later color changes update that stable theme. All four
-  interface/composer/code/terminal font preferences are updated, preserving sizes.
-  Already-open clients may need reopening for font changes.
+  Settings → Appearance. Rice maps the interface colors and adds the wallpaper
+  behind the conversation, tinted at the panel opacity. T3's Zsh terminals
+  load the Rice ANSI colors at startup and refresh them on the next prompt
+  after a palette change. Rice keeps all four T3 font sizes while updating the
+  families. Already-open clients may need reopening for font changes.
 - Vesktop's enabled theme list gains `rice.theme.css`; other enabled themes and
   settings are retained. Vencord reloads generated CSS live, including interface
   and code font families, while preserving Discord's text sizes. Native window
@@ -114,6 +149,7 @@ use the rice gallery for review before any wallpaper change.
 
 | Location | Purpose |
 | --- | --- |
+| `~/.config/rice/palettes/*.json` | Editable palettes for the named CLI workflow |
 | `~/.config/rice/profiles/*.json` | Approved palette revisions; add to chezmoi |
 | `~/.config/rice/settings.json` | Central fonts and wallpaper directories |
 | `~/.local/lib/rice/` | Controller and application templates |

@@ -339,3 +339,55 @@ def correct(colors: dict[str, str], alpha: dict[str, float], bound: Bound) -> li
             alpha[name] = level
             changes.append(f"alpha.{name}: {start} -> {level} (readable over the wallpaper)")
     return changes
+
+
+MARGIN = 0.1
+MIN_HUE_SATURATION = 0.4
+
+
+def _adjusted(row: dict, colors: dict[str, str], alpha: dict[str, float], bound: Bound, name: str, value: str) -> float:
+    trial = {**colors, name: value}
+    level = _surface_alpha(alpha[row["alpha"]]) if row["alpha"] else 1.0
+    return worst_ratio(rgb(trial[row["fg"]]), rgb(trial[row["bg"]]), level, bound)
+
+
+def suggest(row: dict, colors: dict[str, str], alpha: dict[str, float], bound: Bound) -> dict:
+    if row["kind"] == "hue":
+        name = row["fg"]
+        low, high = SEMANTIC_HUES[SEMANTIC_ROLES[name]]
+        inner = (low + 5.0, high - 5.0)
+        degrees = row["hue"]
+        to_low = min((degrees - inner[0]) % 360.0, (inner[0] - degrees) % 360.0)
+        to_high = min((degrees - inner[1]) % 360.0, (inner[1] - degrees) % 360.0)
+        target = (inner[0] if to_low <= to_high else inner[1]) % 360.0
+        r, g, b = (c / 255.0 for c in rgb(colors[name]))
+        _, lightness, saturation = colorsys.rgb_to_hls(r, g, b)
+        saturation = max(saturation, MIN_HUE_SATURATION)
+        nr, ng, nb = colorsys.hls_to_rgb(target / 360.0, lightness, saturation)
+        value = hex_of((nr * 255.0, ng * 255.0, nb * 255.0))
+        if not in_hue_range(hue(value), (low, high)):
+            return {"set": {}, "result": f"no hue-only change reaches {low:g}-{high:g}; pick a new colour"}
+        return {"set": {name: value}, "result": f"hue {round(hue(value))}, inside {low:g}-{high:g}"}
+    name = row["bg"] if row["fg"] == "terminal_background" else row["fg"]
+    target = row["minimum"] + MARGIN
+    start = _lightness(colors[name])
+    best = None
+    for step in range(1, 101):
+        for direction in (1.0, -1.0):
+            value = _with_lightness(colors[name], start + direction * step / 100.0)
+            measured = _adjusted(row, colors, alpha, bound, name, value)
+            if measured >= target:
+                best = value, measured
+                break
+        if best:
+            break
+    if best:
+        return {"set": {name: best[0]}, "result": round(best[1], 2)}
+    if row["alpha"]:
+        level = alpha[row["alpha"]]
+        while level < 1.0:
+            level = min(1.0, round(level + 0.01, 2))
+            measured = _adjusted(row, colors, {**alpha, row["alpha"]: level}, bound, name, colors[name])
+            if measured >= target:
+                return {"opacity": {"panels" if row["alpha"] == "panel" else "terminal": level}, "result": round(measured, 2)}
+    return {"set": {}, "result": "no single change passes; change both colours"}

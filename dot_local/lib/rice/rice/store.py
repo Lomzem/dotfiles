@@ -139,6 +139,11 @@ def settings(paths: Paths) -> dict:
     return merged
 
 
+def state(paths: Paths) -> dict:
+    path = paths.state / "state.json"
+    return read_json(path) if path.exists() else {}
+
+
 def image_sha(image: Path) -> str:
     digest = hashlib.sha256()
     try:
@@ -435,7 +440,7 @@ def describe(row: dict) -> str:
     return f"{row['role']} {row['fg']}/{row['bg']} {row['ratio']}:1 < {row['minimum']}:1"
 
 
-def wallpapers(paths: Paths) -> list[Path]:
+def wallpapers(paths: Paths, *, keep_aliases: bool = False) -> list[Path]:
     """Images in the configured wallpaper directories plus any with a profile or draft."""
     found: dict[Path, None] = {}
     for directory in settings(paths)["wallpaper_dirs"]:
@@ -443,22 +448,47 @@ def wallpapers(paths: Paths) -> list[Path]:
         if root.is_dir():
             for path in sorted(root.rglob("*")):
                 if path.suffix.lower() in IMAGE_SUFFIXES and path.is_file():
-                    found[path.resolve()] = None
+                    found[Path(os.path.abspath(path)) if keep_aliases else path.resolve()] = None
+    scanned = {path.resolve() for path in found} if keep_aliases else set()
+
+    def add_recorded(path: Path) -> None:
+        if path.is_file() and path.resolve() not in scanned:
+            found[path.resolve()] = None
+
     for draft_file in sorted((paths.state / "drafts").glob("*/draft.json")):
-        image = Path(read_json(draft_file)["image"])
-        if image.is_file():
-            found[image] = None
+        add_recorded(Path(read_json(draft_file)["image"]))
     for profile in profiles(paths):
-        image = Path(current_revision(profile).get("image", ""))
-        if image.is_file():
-            found[image.resolve()] = None
-    state_file = paths.state / "state.json"
-    if state_file.exists():
-        for value in read_json(state_file).get("images", {}).values():
-            image = Path(value)
-            if image.is_file():
-                found[image.resolve()] = None
+        add_recorded(Path(current_revision(profile).get("image", "")))
+    for value in state(paths).get("images", {}).values():
+        add_recorded(Path(value))
     return list(found)
+
+
+def wallpaper_names(paths: Paths) -> dict[str, list[Path]]:
+    names: dict[str, list[Path]] = {}
+    for image in wallpapers(paths, keep_aliases=True):
+        names.setdefault(image.stem, []).append(image)
+    return dict(sorted(names.items(), key=lambda entry: entry[0].casefold()))
+
+
+def named_wallpaper(paths: Paths, value: str) -> tuple[str, Path]:
+    candidate = Path(value).expanduser()
+    names = wallpaper_names(paths)
+    if candidate.is_file():
+        image = Path(os.path.abspath(candidate))
+        name = image.stem
+        matches = [image, *(other for other in names.get(name, []) if other != image)]
+    elif value in names:
+        name, matches = value, names[value]
+    else:
+        name = candidate.stem
+        matches = [image for image in names.get(name, []) if image.name == value]
+    if not matches:
+        raise RiceError(f"no wallpaper named {value!r}; run `rice list` to see them")
+    if len(matches) > 1:
+        listed = ", ".join(str(image) for image in matches)
+        raise RiceError(f"{name!r} names {listed}; rename one so each wallpaper name is unique")
+    return name, matches[0]
 
 
 def remove_tree(path: Path) -> None:
