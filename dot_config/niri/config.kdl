@@ -97,7 +97,6 @@ window-rule {
 // Niri ignores it in fullscreen; Mod+Shift+O toggles it for the current window.
 window-rule {
     match app-id="^helium$"
-    match app-id="^com\\.t3tools\\.T3Code$"
     opacity 0.9
 }
 layer-rule {
