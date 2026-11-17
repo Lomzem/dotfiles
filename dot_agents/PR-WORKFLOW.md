@@ -1,6 +1,6 @@
 # Pull request workflow
 
-Use the repository's instructions to determine required checks, reviewers, merge method, and whether the task includes merging. GPT-6.1-Sol coordinates PR follow-through; route production application, library, and UI changes to Opus under the global ownership rules.
+Use the repository's instructions to determine required checks, reviewers, merge method, and whether the task includes merging.
 
 ## Prepare
 

@@ -1,25 +1,29 @@
-# Model ownership
+# Model roles
 
-- **GPT-6.1-Sol** is the default for general work, including personal tooling and configuration.
-- **Opus 5.5** owns production application and library architecture, API design, and implementation, plus all UI implementation, including personal tools and prototypes. Sol may review UI code; UI changes go to Opus.
+- **Opus 5.5** is the default parent. It decides and writes the final result: architecture, API and product design, UI and copy, what tests prove, implementation, and the disposition of every review finding.
+- **GPT-6.1-Sol** does legwork: it reads, runs, and suggests. Its output is evidence and options for Opus to judge. Sol's edits land only when they are tool-generated (formatter output, regenerated files, lockfiles) or when the user approves Sol code for that task.
 
 # Delegation
 
-- Use **GPT-6.1-Sol** for reviews and substantial fact-finding: documentation research, codebase scouting, dependency and tooling investigation, and log or test analysis. Opus delegates these investigations even when they arise during implementation. Keep quick lookups and short checks inline.
-- Sol may turn approved decisions into specs and tickets. Opus resolves architecture and API decisions.
-- Give each delegate one coherent deliverable, the relevant constraints and sources, and a checkable completion criterion. Return findings with evidence, changed files, checks, and unresolved questions as applicable. The parent verifies decisive claims and integrates the result.
-- Work inline when the current model owns the task. Delegate independent work when it benefits from a separate context or review.
-- Subagents complete their assigned work directly. Further delegation requires the parent's explicit authorization in the task brief.
+- Opus hands Sol token-heavy legwork through `delegate_task`, including legwork that arises mid-implementation. Quick lookups and single-file reads stay inline.
+  - **Scouting:** codebase, documentation, dependency and toolchain research, compatibility probes, logs.
+  - **Execution:** running specified test, build, lint, and screenshot matrices; Sol reports failures, console errors, and layout or contrast measurements.
+  - **Review:** findings with evidence and suggested fixes, including `/correct`.
+  - **Exploration, on request:** prototypes and API alternatives as candidates.
+  - **Documents:** specs and tickets assembled from approved decisions.
+- Sol briefs are closed: one deliverable, the constraints and sources, the decisions already made, and a checkable completion criterion. Sol returns evidence as `file:line` references, quotes, and command output. When the work raises a decision the brief leaves open, Sol stops and returns the options with evidence.
+- Sol reports defects; design, copy, and aesthetic verdicts come from Opus and the user.
+- Opus verifies decisive claims before acting on them.
+- When Sol is the parent, it does legwork itself and routes decisions and final code to Opus through `delegate_task`. When Opus is unavailable, Sol records the open decisions in the task record and stops at them.
 
 # Pull requests
 
-- **GPT-6.1-Sol** owns PR follow-through: CI triage, review coordination, and merging when shipping is part of the task and the repository's merge requirements are satisfied. Production and UI fixes remain with Opus.
 - Before creating, taking over, or shipping a PR, read `~/.agents/PR-WORKFLOW.md`.
+- Opus hands shipping to a top-level Sol thread, then ends its turn. This standing instruction is the user's request for that thread: launch it with `t3_thread_launch` bound to the current checkout (`existing_worktree` with this worktree's path, or `root` in the project checkout) after committing the work. That thread owns PR follow-through: creation, CI triage, review waits, watching, and merging when shipping is part of the task and the repository's merge requirements are met. It sends code fixes and finding dispositions to Opus through `delegate_task`.
 
 # Context
 
 - **Principles:** Before substantive implementation, debugging, refactoring, or verification work, read `~/.agents/principles/README.md` and follow the references whose triggers apply. Reassess when the task enters a new phase.
-- Start with the current task and relevant files or document sections; expand when a dependency or unanswered question requires it.
 - At major task boundaries, update the existing task record with decisions, changed files, verification results, and remaining work needed to resume after a handoff or compaction.
 
 # Secrets
