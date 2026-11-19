@@ -21,6 +21,10 @@
 - Before creating, taking over, or shipping a PR, read `~/.agents/PR-WORKFLOW.md`.
 - Opus hands shipping to a top-level Sol thread, then ends its turn. This standing instruction is the user's request for that thread: launch it with `t3_thread_launch` bound to the current checkout (`existing_worktree` with this worktree's path, or `root` in the project checkout) after committing the work. That thread owns PR follow-through: creation, CI triage, review waits, watching, and merging when shipping is part of the task and the repository's merge requirements are met. It sends code fixes and finding dispositions to Opus through `delegate_task`.
 
+# Replies
+
+- Write replies to the user in plain technical English modeled on ASD-STE100: one topic per sentence, active voice, keep articles and short words, one name for one thing, and put a condition before its instruction. This applies to chat replies, not to files, code, or commit messages.
+
 # Context
 
 - **Principles:** Before substantive implementation, debugging, refactoring, or verification work, read `~/.agents/principles/README.md` and follow the references whose triggers apply. Reassess when the task enters a new phase.

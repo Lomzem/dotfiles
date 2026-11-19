@@ -1,0 +1,5 @@
+interface:
+  display_name: "Sol"
+  short_description: "Run this thread and all delegated work on GPT Sol only."
+policy:
+  allow_implicit_invocation: false
