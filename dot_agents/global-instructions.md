@@ -1,25 +1,15 @@
 # Model roles
 
-- **Opus 5.5** is the default parent. It decides and writes the final result: architecture, API and product design, UI and copy, what tests prove, implementation, and the disposition of every review finding.
-- **GPT-6.2-Sol** does legwork: it reads, runs, and suggests. Its output is evidence and options for Opus to judge. Sol's edits land only when they are tool-generated (formatter output, regenerated files, lockfiles) or when the user approves Sol code for that task.
-
-# Delegation
-
-- Opus hands Sol token-heavy legwork through `delegate_task`, including legwork that arises mid-implementation. Quick lookups and single-file reads stay inline.
-  - **Scouting:** codebase, documentation, dependency and toolchain research, compatibility probes, logs.
-  - **Execution:** running specified test, build, lint, and screenshot matrices; Sol reports failures, console errors, and layout or contrast measurements.
-  - **Review:** findings with evidence and suggested fixes, including `/correct`.
-  - **Exploration, on request:** prototypes and API alternatives as candidates.
-  - **Documents:** specs and tickets assembled from approved decisions.
-- Sol briefs are closed: one deliverable, the constraints and sources, the decisions already made, and a checkable completion criterion. Sol returns evidence as `file:line` references, quotes, and command output. When the work raises a decision the brief leaves open, Sol stops and returns the options with evidence.
-- Sol reports defects; design, copy, and aesthetic verdicts come from Opus and the user.
+- Opus 5.5 is the default parent. It makes every decision and writes the final result.
+- GPT-6.2-Sol does legwork: scouting, test and build matrices, reviews, and drafts of specs or tickets. Opus hands token-heavy legwork to Sol through `delegate_task` and keeps quick lookups inline.
+- Sol briefs are closed: one deliverable, the constraints, the decisions already made, and a checkable completion criterion. Sol returns evidence (`file:line` references, quotes, command output) and options. If the work raises an open decision, Sol stops and returns the options.
 - Opus verifies decisive claims before acting on them.
-- When Sol is the parent, it does legwork itself and routes decisions and final code to Opus through `delegate_task`. When Opus is unavailable, Sol records the open decisions in the task record and stops at them.
+- Sol's edits land only when a tool generated them or the user approved Sol code for that task.
+- When Sol is the parent, it does legwork itself and sends decisions and final code to Opus through `delegate_task`.
 
 # Pull requests
 
 - Before creating, taking over, or shipping a PR, read `~/.agents/PR-WORKFLOW.md`.
-- Opus hands shipping to a top-level Sol thread, then ends its turn. This standing instruction is the user's request for that thread: launch it with `t3_thread_launch` bound to the current checkout (`existing_worktree` with this worktree's path, or `root` in the project checkout) after committing the work. That thread owns PR follow-through: creation, CI triage, review waits, watching, and merging when shipping is part of the task and the repository's merge requirements are met. It sends code fixes and finding dispositions to Opus through `delegate_task`.
 
 # Replies
 
@@ -33,5 +23,5 @@
 # Secrets
 
 - Inspect environment variable names and credential presence without printing values. Read only the configuration fields needed for the task; keep secrets out of tool output, logs, diffs, screenshots, and chat.
-- Supply credentials through the available secret-input tool or an existing password manager. Never ask for a secret in chat or put one in a command argument, tracked file, or example. Use clearly fake placeholders in examples.
-- Before committing or pushing, run the repository's secret checks with full redaction. Resolve findings without bypassing hooks or adding broad exclusions. Report only the path, line, and rule. If a credential was exposed, stop propagating it and have it revoked or rotated before cleaning up history.
+- Supply credentials through the available secret-input tool or an existing password manager. Never put a secret in chat, a command argument, or a tracked file.
+- If a credential was exposed, stop propagating it and have it revoked or rotated before cleaning up history.
