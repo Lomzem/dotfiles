@@ -6,13 +6,12 @@
 
 # Pull requests
 
-- Council members: Claude Opus at `high`, GPT Sol at `xhigh`, and Gemini Neon at `high` once `orchestrator_capabilities` lists it. Two members make a full council.
+- Council members: Claude Opus at `high`, GPT Sol at `xhigh`.
 - When a `full-send` or `full-stop` request also says "council", the review step runs `council` in place of `sol-loop`.
-- In agent-authored GitHub comments, name me by my GitHub login.
 
 # Replies
 
-- Write replies to the user in plain technical English modeled on ASD-STE100: one topic per sentence, active voice, keep articles and short words, one name for one thing, and put a condition before its instruction. This applies to chat replies, not to files, code, or commit messages.
+- Write replies to the user in plain technical English modeled on ASD-STE100 Simplified Technical English: one topic per sentence, active voice, keep articles and short words, one name for one thing, and put a condition before its instruction. This applies to chat replies, not to files, code, or commit messages.
 
 # Context
 
