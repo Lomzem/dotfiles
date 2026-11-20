@@ -32,7 +32,6 @@ class DevelopmentModule(decman.Module):
             "lua",
             "neovim",
             "npm",
-            "openai-codex",
             "pnpm",
             "python",
             "python-pip",
