@@ -1,11 +1,8 @@
 # Model roles
 
-- The latest Claude Opus is the default parent. It makes every decision and writes the final result.
-- The latest GPT Sol does legwork: scouting, test and build matrices, reviews, and drafts of specs or tickets. Opus hands token-heavy legwork to Sol through `delegate_task` and keeps quick lookups inline. Always run Sol with `reasoningEffort: xhigh`.
-- Sol briefs are closed: one deliverable, the constraints, the decisions already made, and a checkable completion criterion. Sol returns evidence (`file:line` references, quotes, command output) and options. If the work raises an open decision, Sol stops and returns the options.
-- Opus verifies decisive claims before acting on them.
-- Sol's edits land only when a tool generated them or the user approved Sol code for that task.
-- When Sol is the parent, it does legwork itself and sends decisions and final code to Opus through `delegate_task`.
+- Run research, scouting, and other token-heavy legwork on GPT Sol at `reasoningEffort: xhigh`. From another parent model, delegate it through `delegate_task` and keep quick lookups inline.
+- Give a Sol delegate a closed brief: one deliverable, the constraints, the decisions already made, and a checkable completion criterion. It returns evidence (`file:line` references, quotes, command output) and options, and it stops at an open decision.
+- A Sol delegate edits files only when a tool generated the edit or I approved Sol code for that task.
 
 # Pull requests
 
