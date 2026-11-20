@@ -6,7 +6,7 @@
 
 # Pull requests
 
-- Council members: Claude Opus at `high`, GPT Sol at `xhigh`.
+- Council members: Claude Opus at `high`, GPT Sol at `xhigh`, Neon at `high`.
 - When a `full-send` or `full-stop` request also says "council", the review step runs `council` in place of `sol-loop`.
 
 # Replies
