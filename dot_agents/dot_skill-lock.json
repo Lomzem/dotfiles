@@ -116,16 +116,6 @@
       "installedAt": "2026-10-03T06:06:57.536Z",
       "updatedAt": "2026-10-29T18:58:42.012Z"
     },
-    "pr": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/engineering/pr/SKILL.md",
-      "skillFolderHash": "00b896d811adffad747c7ca30078d909d60c7f93",
-      "pluginName": "mattpocock-skills",
-      "installedAt": "2026-10-03T06:06:57.537Z",
-      "updatedAt": "2026-10-07T21:49:10.050Z"
-    },
     "prototype": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -261,6 +251,69 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-10-03T06:06:57.544Z",
       "updatedAt": "2026-10-07T21:49:10.054Z"
+    },
+    "babysit-pr": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/babysit-pr/SKILL.md",
+      "skillFolderHash": "7b4e3e4e0f8b53a1fd049d6a27d5f998395ace52",
+      "installedAt": "2026-11-20T19:40:59.946Z",
+      "updatedAt": "2026-11-20T19:40:59.946Z"
+    },
+    "council": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/council/SKILL.md",
+      "skillFolderHash": "797e3657df1f2bf919211fce88862dafd3b5eabb",
+      "installedAt": "2026-11-20T19:40:59.947Z",
+      "updatedAt": "2026-11-20T19:40:59.947Z"
+    },
+    "file-pr": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/file-pr/SKILL.md",
+      "skillFolderHash": "04b5dff2274053132e131912257c82c4d8141dd0",
+      "installedAt": "2026-11-20T19:40:59.947Z",
+      "updatedAt": "2026-11-20T19:40:59.947Z"
+    },
+    "full-send": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/full-send/SKILL.md",
+      "skillFolderHash": "de21961fbb3f6892ab4ea1fb2b58e0f95debec87",
+      "installedAt": "2026-11-20T19:40:59.948Z",
+      "updatedAt": "2026-11-20T19:40:59.948Z"
+    },
+    "full-stop": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/full-stop/SKILL.md",
+      "skillFolderHash": "16f14dba1ab91a1f7fbcce387b6b96cdd15fc4f5",
+      "installedAt": "2026-11-20T19:40:59.948Z",
+      "updatedAt": "2026-11-20T19:40:59.948Z"
+    },
+    "leaving-pr-comments": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/leaving-pr-comments/SKILL.md",
+      "skillFolderHash": "3905d758fb70b4e660038456f86ac02343a3dedf",
+      "installedAt": "2026-11-20T19:40:59.948Z",
+      "updatedAt": "2026-11-20T19:40:59.948Z"
+    },
+    "sol-loop": {
+      "source": "t3dotgg/tstack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/t3dotgg/tstack.git",
+      "skillPath": "skills/sol-loop/SKILL.md",
+      "skillFolderHash": "9d2b1c1b00bf54e1b4e6e6243aec6d39037ce624",
+      "installedAt": "2026-11-20T19:40:59.949Z",
+      "updatedAt": "2026-11-20T19:40:59.949Z"
     }
   },
   "dismissed": {

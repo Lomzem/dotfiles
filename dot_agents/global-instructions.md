@@ -1,7 +1,7 @@
 # Model roles
 
-- Opus 5.5 is the default parent. It makes every decision and writes the final result.
-- GPT-6.2-Sol does legwork: scouting, test and build matrices, reviews, and drafts of specs or tickets. Opus hands token-heavy legwork to Sol through `delegate_task` and keeps quick lookups inline.
+- The latest Claude Opus is the default parent. It makes every decision and writes the final result.
+- The latest GPT Sol does legwork: scouting, test and build matrices, reviews, and drafts of specs or tickets. Opus hands token-heavy legwork to Sol through `delegate_task` and keeps quick lookups inline. Always run Sol with `reasoningEffort: xhigh`.
 - Sol briefs are closed: one deliverable, the constraints, the decisions already made, and a checkable completion criterion. Sol returns evidence (`file:line` references, quotes, command output) and options. If the work raises an open decision, Sol stops and returns the options.
 - Opus verifies decisive claims before acting on them.
 - Sol's edits land only when a tool generated them or the user approved Sol code for that task.
@@ -9,7 +9,9 @@
 
 # Pull requests
 
-- Before creating, taking over, or shipping a PR, read `~/.agents/PR-WORKFLOW.md`.
+- Council members: Claude Opus at `high`, GPT Sol at `xhigh`, and Gemini Neon at `high` once `orchestrator_capabilities` lists it. Two members make a full council.
+- When a `full-send` or `full-stop` request also says "council", the review step runs `council` in place of `sol-loop`.
+- In agent-authored GitHub comments, name me by my GitHub login.
 
 # Replies
 
