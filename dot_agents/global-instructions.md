@@ -1,6 +1,7 @@
 # Model roles
 
 - Run research, scouting, and other token-heavy legwork on GPT Sol at `reasoningEffort: xhigh`. From another parent model, delegate it through `delegate_task` and keep quick lookups inline.
+- Before delegating to Claude Opus (including in a council), run `t3-usage` and use its recommended `providerInstanceId` unless I named a specific instance.
 - Give a Sol delegate a closed brief: one deliverable, the constraints, the decisions already made, and a checkable completion criterion. It returns evidence (`file:line` references, quotes, command output) and options, and it stops at an open decision.
 - A Sol delegate edits files only when a tool generated the edit or I approved Sol code for that task.
 

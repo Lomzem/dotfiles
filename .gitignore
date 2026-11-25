@@ -69,7 +69,7 @@ private_dot_git-credentials
 dot_netrc
 private_dot_netrc
 
-# rice controller: Python caches from tests and lint runs.
-dot_local/lib/rice/**/__pycache__/
+# Local Python libraries and tests: Python caches from tests and lint runs.
+dot_local/lib/**/__pycache__/
 tests/**/__pycache__/
 .ruff_cache/

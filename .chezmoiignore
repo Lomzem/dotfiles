@@ -43,6 +43,6 @@ docs/research/**
 tests
 tests/**
 
-# rice: never install Python caches.
-.local/lib/rice/**/__pycache__
-.local/lib/rice/**/__pycache__/**
+# Local Python libraries: never install Python caches.
+.local/lib/**/__pycache__
+.local/lib/**/__pycache__/**
