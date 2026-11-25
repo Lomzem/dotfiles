@@ -465,7 +465,7 @@ for raw in sys.stdin:
 
             exe = REPO_ROOT / "dot_local" / "bin" / "executable_t3-usage"
             run1 = subprocess.run(
-                [sys.executable, str(exe), "--t3-dir", str(t3_dir), "--cache-dir", str(cache_dir), "--all"],
+                [sys.executable, str(exe), "--t3-dir", str(t3_dir), "--cache-dir", str(cache_dir), "--all", "--json"],
                 capture_output=True,
                 text=True,
                 check=True,
@@ -483,9 +483,9 @@ for raw in sys.stdin:
             logged = sorted(counter_file.read_text(encoding="utf-8").splitlines())
             self.assertEqual(logged, ["", str(root / ".claude_team")])
 
-            # Second run should hit tool-cache with zero new stub invocations.
+            # Second run with no format flag outputs text by default and hits tool-cache.
             run2 = subprocess.run(
-                [sys.executable, str(exe), "--t3-dir", str(t3_dir), "--cache-dir", str(cache_dir), "--text"],
+                [sys.executable, str(exe), "--t3-dir", str(t3_dir), "--cache-dir", str(cache_dir)],
                 capture_output=True,
                 text=True,
                 check=True,

@@ -301,8 +301,8 @@ def build_parser() -> argparse.ArgumentParser:
         description="Inspect T3 Code provider usage remaining and recommend the best Claude Opus instance.",
     )
     fmt = parser.add_mutually_exclusive_group()
-    fmt.add_argument("--json", action="store_true", help="Output JSON (default).")
-    fmt.add_argument("--text", action="store_true", help="Output compact human-readable text.")
+    fmt.add_argument("--text", action="store_true", help="Output compact text (default).")
+    fmt.add_argument("--json", action="store_true", help="Output structured JSON.")
     parser.add_argument("--all", action="store_true", help="Include all enabled T3 providers, not only Claude/Opus.")
     parser.add_argument("--refresh", action="store_true", help="Force a live Claude probe even within the cache TTL.")
     parser.add_argument("--no-refresh", action="store_true", help="Read cached snapshots only; never run live probes.")
@@ -339,8 +339,8 @@ def main(argv: list[str] | None = None) -> int:
         no_refresh=args.no_refresh,
         probe_timeout=args.timeout,
     )
-    if args.text:
-        print(format_text_report(report))
-    else:
+    if args.json:
         print(json.dumps(report, indent=2))
+    else:
+        print(format_text_report(report))
     return 0
