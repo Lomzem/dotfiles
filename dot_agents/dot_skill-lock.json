@@ -126,15 +126,6 @@
       "installedAt": "2026-10-03T06:06:57.537Z",
       "updatedAt": "2026-10-07T21:49:10.050Z"
     },
-    "research": {
-      "source": "mattpocock/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/engineering/research/SKILL.md",
-      "skillFolderHash": "2f8f36af48796faed5c687c75bb650071631a984",
-      "installedAt": "2026-10-03T06:06:57.538Z",
-      "updatedAt": "2026-10-29T18:58:44.020Z"
-    },
     "retro": {
       "source": "mattpocock/skills",
       "sourceType": "github",
